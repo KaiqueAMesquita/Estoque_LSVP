@@ -1,0 +1,12 @@
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    width: 90%;
+    padding: 20px;
+    color: #fff;
+    background-color: rgb(41, 105, 169);
+    margin: 20px auto 0 auto;
+    margin-top: 20px;
+    clip-path: polygon(0 0, 90% 0, 100% 100%, 0% 100%);
+}
