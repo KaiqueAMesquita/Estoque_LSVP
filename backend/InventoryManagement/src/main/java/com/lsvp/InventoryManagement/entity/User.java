@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 // Retirei por não precisarmos agora
 
 @Entity
-@Table(name = "User")
+@Table(name = "users")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,4 +27,6 @@ public class User {
 
     @Column(name = "us_role", nullable = false)
     private Integer role;
+
+
 }
