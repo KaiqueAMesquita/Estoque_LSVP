@@ -10,6 +10,9 @@ import com.lsvp.InventoryManagement.entity.User;
 // Lucas: Alterei o nome de UserMapper para IUserMapper
 // para manter o padrão de nomenclatura de interfaces
 public interface IUserMapper {
+
     User toEntity(UserCreateDTO dto);
+
     UserDTO toDTO(User user);
+
 }
