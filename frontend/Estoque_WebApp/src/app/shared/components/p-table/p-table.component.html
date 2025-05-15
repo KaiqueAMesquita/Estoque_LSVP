@@ -1,0 +1,16 @@
+<table>
+    <thead>
+        <tr>
+            <!-- Cria Colunas Dinamicamente Conforme necessário-->
+             <th *ngFor="let column of column">{{ column.label }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Cria Linhas Dinamicamente Conforme Necessário-->
+         <tr *ngFor="let row of data">
+            <td *ngFor="let column of column">
+                {{ row[column.key] }}
+            </td>
+         </tr>
+    </tbody>
+</table>
