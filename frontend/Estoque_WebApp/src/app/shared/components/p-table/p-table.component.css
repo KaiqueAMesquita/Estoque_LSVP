@@ -1,3 +1,9 @@
+p {
+    font-weight: bold;
+    color: rgb(237, 249, 74);
+    font-size: 2.2rem;
+    text-align: center;
+}
 table {
     width: 88%;
     border-collapse: collapse;
