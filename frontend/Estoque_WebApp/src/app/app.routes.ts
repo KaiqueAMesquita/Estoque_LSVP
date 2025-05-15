@@ -4,6 +4,7 @@ import { ManageLayoutComponent } from './shared/layouts/manage-layout/manage-lay
 import { UTableComponent } from './shared/components/u-table/u-table.component';
 export const routes: Routes = [
     {path: 'user', component: UTableComponent},
+    /*Pode Chamar Mais Tabelas, como de Produtos*/
     {path: 'manage', component: ManageLayoutComponent},
     {path: 'login', component: LoginComponent },
 ];
