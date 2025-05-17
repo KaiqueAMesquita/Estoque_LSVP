@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { NavBarComponent } from './shared/components/nav-bar/nav-bar.component';
-import { LoginComponent } from './pages/login/login.component';
+import { FormComponent } from './shared/components/form/form.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [CommonModule, RouterOutlet, NavBarComponent, FormComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Estoque_WebApp';
+  title = 'Sistema de Estoque LSVP';
 }

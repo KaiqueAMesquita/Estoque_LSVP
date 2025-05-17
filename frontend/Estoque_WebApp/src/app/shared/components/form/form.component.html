@@ -1,0 +1,100 @@
+<div class="form-container">
+  <h2>Cadastro de Usuário</h2>
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
+    <!-- Nome -->
+    <div class="form-group" [class.invalid]="isFieldInvalid('nome')">
+      <label for="nome">
+        <span class="emoji">👤</span> Nome *
+      </label>
+      <input
+        type="text"
+        id="nome"
+        formControlName="nome"
+        placeholder="Digite seu nome completo"
+        [class.error-border]="isFieldInvalid('nome')"
+      >
+      <div class="error-message" *ngIf="isFieldInvalid('nome')">
+        <span *ngIf="userForm.get('nome')?.hasError('required')">Nome é obrigatório</span>
+        <span *ngIf="userForm.get('nome')?.hasError('maxlength')">Máximo de 100 caracteres</span>
+      </div>
+    </div>
+
+    <!-- Cargo -->
+    <div class="form-group" [class.invalid]="isFieldInvalid('cargo')">
+      <label for="cargo">
+        <span class="emoji">💼</span> Cargo *
+      </label>
+      <input
+        type="text"
+        id="cargo"
+        formControlName="cargo"
+        placeholder="Digite seu cargo"
+        [class.error-border]="isFieldInvalid('cargo')"
+      >
+      <div class="error-message" *ngIf="isFieldInvalid('cargo')">
+        <span *ngIf="userForm.get('cargo')?.hasError('required')">Cargo é obrigatório</span>
+        <span *ngIf="userForm.get('cargo')?.hasError('maxlength')">Máximo de 100 caracteres</span>
+      </div>
+    </div>
+
+    <!-- Senha -->
+    <div class="form-group" [class.invalid]="isFieldInvalid('senha')">
+      <label for="senha">
+        <span class="emoji">🔑</span> Senha *
+      </label>
+      <div class="password-input">
+        <input
+          [type]="hidePassword ? 'password' : 'text'"
+          id="senha"
+          formControlName="senha"
+          placeholder="Crie uma senha forte"
+          [class.error-border]="isFieldInvalid('senha')"
+        >
+        <button type="button" class="toggle-password" (click)="hidePassword = !hidePassword">
+          <span class="material-icons">
+            {{ hidePassword ? 'visibility' : 'visibility_off' }}
+          </span>
+        </button>
+      </div>
+      <div class="error-message" *ngIf="isFieldInvalid('senha')">
+        <span *ngIf="userForm.get('senha')?.hasError('required')">Senha é obrigatória</span>
+        <span *ngIf="userForm.get('senha')?.hasError('minlength')">Mínimo de 6 caracteres</span>
+        <span *ngIf="userForm.get('senha')?.hasError('passwordStrength')">
+          A senha deve conter letras e números
+        </span>
+      </div>
+    </div>
+
+    <!-- Confirmar Senha -->
+    <div class="form-group" [class.invalid]="isFieldInvalid('confirmarSenha')">
+      <label for="confirmarSenha">
+        <span class="emoji">🔒</span> Confirmar Senha *
+      </label>
+      <div class="password-input">
+        <input
+          [type]="hideConfirmPassword ? 'password' : 'text'"
+          id="confirmarSenha"
+          formControlName="confirmarSenha"
+          placeholder="Confirme sua senha"
+          [class.error-border]="isFieldInvalid('confirmarSenha')"
+        >
+        <button type="button" class="toggle-password" (click)="hideConfirmPassword = !hideConfirmPassword">
+          <span class="material-icons">
+            {{ hideConfirmPassword ? 'visibility' : 'visibility_off' }}
+          </span>
+        </button>
+      </div>
+      <div class="error-message" *ngIf="isFieldInvalid('confirmarSenha') || userForm.hasError('passwordMismatch')">
+        <span *ngIf="userForm.get('confirmarSenha')?.hasError('required')">Confirmação de senha é obrigatória</span>
+        <span *ngIf="userForm.hasError('passwordMismatch') && userForm.get('confirmarSenha')?.dirty">
+          As senhas não conferem
+        </span>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn-cancel" (click)="userForm.reset()">Cancelar</button>
+      <button type="submit" class="btn-submit" [disabled]="userForm.invalid">Salvar</button>
+    </div>
+  </form>
+</div>

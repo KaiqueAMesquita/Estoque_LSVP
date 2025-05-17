@@ -1,13 +1,40 @@
 import { Component } from '@angular/core';
-import { IconModule } from '../../modules/icon/icon.module';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { 
+  faHome, 
+  faBuilding, 
+  faBox, 
+  faList, 
+  faChartLine 
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-nav-bar',
-  imports: [IconModule],
+  standalone: true,
+  imports: [CommonModule, RouterModule, FontAwesomeModule],
   templateUrl: './nav-bar.component.html',
-  styleUrl: './nav-bar.component.css'
+  styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent {
-  icons = IconModule.icon;
-
+  // Icons
+  faHome = faHome;
+  faBuilding = faBuilding;
+  faBox = faBox;
+  faList = faList;
+  faChartLine = faChartLine;
+  
+  // Active menu item
+  activeMenu: string = 'produtos';
+  
+  // Set active menu
+  setActive(menu: string) {
+    this.activeMenu = menu;
+  }
+  
+  // Check if menu is active
+  isActive(menu: string): boolean {
+    return this.activeMenu === menu;
+  }
 }

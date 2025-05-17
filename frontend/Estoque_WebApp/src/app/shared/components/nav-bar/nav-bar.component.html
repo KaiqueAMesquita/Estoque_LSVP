@@ -1,10 +1,39 @@
-<nav>
-    <ul>
-        <li><a href=""><fa-icon [icon]="icons[0]"></fa-icon>Home</a></li>
-        <li><a href=""><fa-icon [icon]="icons[2]"></fa-icon>Unidades</a></li>
-        <li><a href=""><fa-icon [icon]="icons[3]"></fa-icon>Produtos</a></li>
-        <li><a href=""><fa-icon [icon]="icons[1]"></fa-icon>Categorias</a></li>
-        <li><a href=""><fa-icon [icon]="icons[4]"></fa-icon>Relatórios</a></li>
-    </ul>
-
+<nav class="navbar">
+  <div class="navbar-brand">
+    <span class="logo">LSVP</span>
+    <span class="divider"></span>
+    <span class="app-name">Sistema de Estoque</span>
+  </div>
+  <ul class="nav-menu">
+    <li class="nav-item" [class.active]="isActive('home')">
+      <a href="#" (click)="setActive('home')" class="nav-link">
+        <fa-icon [icon]="faHome" class="nav-icon"></fa-icon>
+        <span>Home</span>
+      </a>
+    </li>
+    <li class="nav-item" [class.active]="isActive('unidades')">
+      <a href="#" (click)="setActive('unidades')" class="nav-link">
+        <fa-icon [icon]="faBuilding" class="nav-icon"></fa-icon>
+        <span>Unidades</span>
+      </a>
+    </li>
+    <li class="nav-item active" [class.active]="isActive('produtos')">
+      <a href="#" (click)="setActive('produtos')" class="nav-link">
+        <fa-icon [icon]="faBox" class="nav-icon"></fa-icon>
+        <span>Produtos</span>
+      </a>
+    </li>
+    <li class="nav-item" [class.active]="isActive('categorias')">
+      <a href="#" (click)="setActive('categorias')" class="nav-link">
+        <fa-icon [icon]="faList" class="nav-icon"></fa-icon>
+        <span>Categorias</span>
+      </a>
+    </li>
+    <li class="nav-item" [class.active]="isActive('relatorios')">
+      <a href="#" (click)="setActive('relatorios')" class="nav-link">
+        <fa-icon [icon]="faChartLine" class="nav-icon"></fa-icon>
+        <span>Relatórios</span>
+      </a>
+    </li>
+  </ul>
 </nav>

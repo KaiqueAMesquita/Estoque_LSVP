@@ -1,42 +1,141 @@
-nav{
-    background-color: rgb(51, 129, 207);
+/* Navbar container */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+  padding: 0 24px;
+  background-color: #1a365d;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-ul{
-    list-style: none;
-    left: 0;
-    height: 50px;
-    text-align: center;
-    align-items: center;
+
+/* Brand section */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  font-family: "Poppins", sans-serif;
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.app-name {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: "Poppins", sans-serif;
+}
+
+/* Navigation menu */
+.nav-menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  position: relative;
+  margin: 0 4px;
+  font-family: "Poppins", sans-serif;
+}
+
+.nav-item.active {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-bottom: 3px solid #63b3ed;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  text-decoration: none;
+  padding: 0 20px;
+  height: 100%;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-icon {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-right: 8px;
+}
+
+.nav-item.active .nav-icon {
+  color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .navbar {
+    padding: 0 16px;
+  }
+  
+  .nav-link {
+    padding: 0 12px;
+  }
+  
+  .app-name {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 12px;
+  }
+  
+  .navbar-brand {
+    width: 100%;
+    margin-bottom: 12px;
     justify-content: center;
-
-}
-li{
-    font-family: "Poppins", sans-serif;
-    display: inline-block;
-    text-align: center;
-    align-items: center;
-    padding: 15px;
-
-
-}
-a{
-    text-decoration: none;
-    color: white;
-
-
-}
-li:hover{
-    background-color: rgb(27, 110, 192);
-
-
-
-}
-li:hover fa-icon{
-    color: rgb(199, 199, 199);
-
-
-
-}
-fa-icon{
-    margin-right: 10px;
+  }
+  
+  .nav-menu {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .nav-item {
+    margin: 4px;
+    height: auto;
+  }
+  
+  .nav-link {
+    padding: 8px 12px;
+    border-radius: 4px;
+  }
+  
+  .nav-item.active {
+    border-bottom: none;
+    background-color: transparent;
+  }
+  
+  .nav-item.active .nav-link {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
 }
