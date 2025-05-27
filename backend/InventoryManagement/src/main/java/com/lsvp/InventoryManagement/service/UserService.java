@@ -10,6 +10,9 @@ import com.lsvp.InventoryManagement.entity.User;
 import com.lsvp.InventoryManagement.mapper.IUserMapper;
 import com.lsvp.InventoryManagement.repository.IUserRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class UserService {
     @Autowired
@@ -24,14 +27,14 @@ public class UserService {
     }
 
     public UserDTO updateUser(Long id, UserUpdateDTO dto){
-        //findById retorna Optionl<User>, sendo obrigatório a tratar caso o usuario não seja encontrado.
+        //Gustavo: findById retorna Optionl<User>, sendo obrigatório a tratar caso o usuario não seja encontrado.
 
         User userUpdated = repository.findById(id).orElseThrow(() -> new RuntimeException("Usuário nao encontrado!!"));
 
         userUpdated.setName(dto.getName());
         userUpdated.setRole(dto.getRole());
 
-        //Se senha estiver preenchida atualiza-la, caso contrario mantém a mesma
+        //Gustavo: Se senha estiver preenchida atualiza-la, caso contrario mantém a mesma
         if(dto.getPassword() != null){
             userUpdated.setPassword(dto.getPassword());
         }
@@ -45,8 +48,24 @@ public class UserService {
         repository.deleteById(id);
     }
 
-    //Para controle de Status 404
+    //Gustavo: Para controle de Status 404
     public boolean existsById(Long id) {
         return repository.existsById(id);
     }
+
+
+    //Gustavo: Get User por Id
+    public UserDTO getUserById(Long id){
+        User user = repository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado!!!"));
+
+        return mapper.toDTO(user);
+    }
+
+    //Gustavo: Get todos os Users
+    //Gustavo: https://www.youtube.com/watch?v=3vYLwPzxJ2E
+    public List<UserDTO> getAllUsers(){
+        return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
+    }
+
+
 }

@@ -1,24 +1,18 @@
 package com.lsvp.InventoryManagement.controller;
 
 import com.lsvp.InventoryManagement.dto.UserUpdateDTO;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 //Estava importando o RequestBody errado ); Eu odeio minha vida
 
-import io.swagger.v3.oas.annotations.media.Content;
-
-
 import com.lsvp.InventoryManagement.service.UserService;
 import com.lsvp.InventoryManagement.dto.UserCreateDTO;
 import com.lsvp.InventoryManagement.dto.UserDTO;
+
+import java.util.List;
 
 @RestController
 // Lucas: Alterei o final da rota de users para user
@@ -54,4 +48,15 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id){
+        return ResponseEntity.ok(userService.getUserById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserDTO>> getAllUsers(){
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
+
 }

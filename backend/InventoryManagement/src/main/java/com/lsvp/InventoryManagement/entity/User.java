@@ -1,5 +1,6 @@
 package com.lsvp.InventoryManagement.entity;
 
+import com.lsvp.InventoryManagement.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,8 +26,10 @@ public class User {
     @Column(name = "us_password", length = 15, nullable = false)
     private String password;
 
+    //https://stackoverflow.com/questions/67825729/using-enums-in-a-spring-entity
+    @Enumerated(EnumType.STRING)
     @Column(name = "us_role", nullable = false)
-    private Integer role;
+    private Role role;
 
 
 }

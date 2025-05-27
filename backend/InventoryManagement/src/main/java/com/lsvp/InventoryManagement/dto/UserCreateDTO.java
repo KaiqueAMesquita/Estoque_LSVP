@@ -1,5 +1,6 @@
 package com.lsvp.InventoryManagement.dto;
 
+import com.lsvp.InventoryManagement.enums.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -25,9 +26,9 @@ public class UserCreateDTO {
     @Schema(description = "Senha do usuario", example = "jose123")
     private String password;
 
-    @Schema(description = "Papel do usuário", example = "1")
+    @Schema(description = "Papel do usuário", example = "ADMINISTRATOR")
     @NotNull(message = "Role is required")
-    private Integer role;
+    private Role role;
 
 
 }

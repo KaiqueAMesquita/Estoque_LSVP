@@ -1,5 +1,6 @@
 package com.lsvp.InventoryManagement.dto;
 
+import com.lsvp.InventoryManagement.enums.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -16,7 +17,6 @@ public class UserUpdateDTO {
     @Schema(description = "Senha opcional")
     private String password;
 
-
-    private int role;
+    private Role role;
 
 }
