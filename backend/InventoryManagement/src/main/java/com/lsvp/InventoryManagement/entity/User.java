@@ -31,5 +31,4 @@ public class User {
     @Column(name = "us_role", nullable = false)
     private Role role;
 
-
 }

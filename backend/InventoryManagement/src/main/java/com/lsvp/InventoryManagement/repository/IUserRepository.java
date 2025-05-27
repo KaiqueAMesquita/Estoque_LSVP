@@ -7,5 +7,5 @@ import com.lsvp.InventoryManagement.entity.User;
 // Lucas: Alterei o nome de UserRepository para IUserRepository
 // para manter o padrão de nomenclatura de interfaces
 public interface IUserRepository extends JpaRepository<User, Long> {
-    public void deleteById(Long id);
+    void deleteById(Long id);
 }
