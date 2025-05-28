@@ -54,3 +54,5 @@ export class IconModule {
     return Object.values(icons);
   }
 }
+// Talvez seja tirado, talvez seja deixado, tem que ver com o Kaique ainda... 
+// Por enquanto só chama pelo icons e pronto.
