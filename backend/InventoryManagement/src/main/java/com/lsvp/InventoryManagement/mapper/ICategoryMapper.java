@@ -1,7 +1,7 @@
 package com.lsvp.InventoryManagement.mapper;
 
-import com.lsvp.InventoryManagement.dto.CategoryCreateDTO;
-import com.lsvp.InventoryManagement.dto.CategoryDTO;
+import com.lsvp.InventoryManagement.dto.Category.CategoryCreateDTO;
+import com.lsvp.InventoryManagement.dto.Category.CategoryDTO;
 import com.lsvp.InventoryManagement.entity.Category;
 import org.mapstruct.Mapper;
 

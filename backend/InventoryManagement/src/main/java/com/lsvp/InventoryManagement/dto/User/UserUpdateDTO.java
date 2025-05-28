@@ -1,4 +1,4 @@
-package com.lsvp.InventoryManagement.dto;
+package com.lsvp.InventoryManagement.dto.User;
 
 import com.lsvp.InventoryManagement.enums.Role;
 import io.swagger.v3.oas.annotations.media.Schema;

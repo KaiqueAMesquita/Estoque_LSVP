@@ -2,8 +2,8 @@ package com.lsvp.InventoryManagement.mapper;
 
 import org.mapstruct.Mapper;
 
-import com.lsvp.InventoryManagement.dto.UserCreateDTO;
-import com.lsvp.InventoryManagement.dto.UserDTO;
+import com.lsvp.InventoryManagement.dto.User.UserCreateDTO;
+import com.lsvp.InventoryManagement.dto.User.UserDTO;
 import com.lsvp.InventoryManagement.entity.User;
 
 @Mapper(componentModel = "spring")

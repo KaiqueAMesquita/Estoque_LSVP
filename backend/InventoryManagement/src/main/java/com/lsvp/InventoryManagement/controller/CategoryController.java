@@ -1,9 +1,8 @@
 package com.lsvp.InventoryManagement.controller;
 
-import com.lsvp.InventoryManagement.dto.CategoryCreateDTO;
-import com.lsvp.InventoryManagement.dto.CategoryDTO;
+import com.lsvp.InventoryManagement.dto.Category.CategoryCreateDTO;
+import com.lsvp.InventoryManagement.dto.Category.CategoryDTO;
 import com.lsvp.InventoryManagement.service.CategoryService;
-import com.lsvp.InventoryManagement.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
