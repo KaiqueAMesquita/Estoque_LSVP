@@ -1,37 +1,43 @@
 <nav class="navbar">
   <div class="navbar-brand">
     <span class="logo">LSVP</span>
+    <!-- Aquela linha branca muito maneira -->
     <span class="divider"></span>
     <span class="app-name">Sistema de Estoque</span>
   </div>
+  <!-- Aquela barra de menu -->
   <ul class="nav-menu">
+    <!-- Basicamente é assim, [class.active] vai aplicar a classe 'active' 
+      se a expressão (isActive('condição_especificada')) for verdadeira -->
     <li class="nav-item" [class.active]="isActive('home')">
-      <a href="#" (click)="setActive('home')" class="nav-link">
-        <fa-icon [icon]="faHome" class="nav-icon"></fa-icon>
+      <!-- o (Click) é um evento que é acionado quando o usuário clica no link-->
+      <a href="manage" (click)="setActive('home')" class="nav-link">
+        <!-- Chama o ícone que quiser de dentro do "icons" no nav-bar.component.ts -->
+        <fa-icon [icon]="icons.faHome" class="nav-icon"></fa-icon>
         <span>Home</span>
       </a>
     </li>
-    <li class="nav-item" [class.active]="isActive('unidades')">
-      <a href="#" (click)="setActive('unidades')" class="nav-link">
-        <fa-icon [icon]="faBuilding" class="nav-icon"></fa-icon>
-        <span>Unidades</span>
+    <li class="nav-item" [class.active]="isActive('gestao')">
+      <a href="manage" (click)="setActive('gestao')" class="nav-link">
+        <fa-icon [icon]="icons.faBuilding" class="nav-icon"></fa-icon>
+        <span>Gestão</span>
       </a>
     </li>
-    <li class="nav-item active" [class.active]="isActive('produtos')">
-      <a href="#" (click)="setActive('produtos')" class="nav-link">
-        <fa-icon [icon]="faBox" class="nav-icon"></fa-icon>
+    <li class="nav-item" [class.active]="isActive('produtos')">
+      <a href="manage" (click)="setActive('produtos')" class="nav-link">
+        <fa-icon [icon]="icons.faBox" class="nav-icon"></fa-icon>
         <span>Produtos</span>
       </a>
     </li>
     <li class="nav-item" [class.active]="isActive('categorias')">
-      <a href="#" (click)="setActive('categorias')" class="nav-link">
-        <fa-icon [icon]="faList" class="nav-icon"></fa-icon>
+      <a href="manage" (click)="setActive('categorias')" class="nav-link">
+        <fa-icon [icon]="icons.faList" class="nav-icon"></fa-icon>
         <span>Categorias</span>
       </a>
     </li>
     <li class="nav-item" [class.active]="isActive('relatorios')">
-      <a href="#" (click)="setActive('relatorios')" class="nav-link">
-        <fa-icon [icon]="faChartLine" class="nav-icon"></fa-icon>
+      <a href="manage" (click)="setActive('relatorios')" class="nav-link">
+        <fa-icon [icon]="icons.faChartLine" class="nav-icon"></fa-icon>
         <span>Relatórios</span>
       </a>
     </li>
