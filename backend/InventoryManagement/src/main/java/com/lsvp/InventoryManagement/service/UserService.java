@@ -1,11 +1,11 @@
 package com.lsvp.InventoryManagement.service;
 
-import com.lsvp.InventoryManagement.dto.UserUpdateDTO;
+import com.lsvp.InventoryManagement.dto.User.UserUpdateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lsvp.InventoryManagement.dto.UserCreateDTO;
-import com.lsvp.InventoryManagement.dto.UserDTO;
+import com.lsvp.InventoryManagement.dto.User.UserCreateDTO;
+import com.lsvp.InventoryManagement.dto.User.UserDTO;
 import com.lsvp.InventoryManagement.entity.User;
 import com.lsvp.InventoryManagement.mapper.IUserMapper;
 import com.lsvp.InventoryManagement.repository.IUserRepository;

@@ -1,4 +1,4 @@
-package com.lsvp.InventoryManagement.dto;
+package com.lsvp.InventoryManagement.dto.Category;
 
 import com.lsvp.InventoryManagement.enums.FoodType;
 import io.swagger.v3.oas.annotations.media.Schema;

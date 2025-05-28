@@ -1,6 +1,6 @@
 package com.lsvp.InventoryManagement.controller;
 
-import com.lsvp.InventoryManagement.dto.UserUpdateDTO;
+import com.lsvp.InventoryManagement.dto.User.UserUpdateDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 //Estava importando o RequestBody errado ); Eu odeio minha vida
 
 import com.lsvp.InventoryManagement.service.UserService;
-import com.lsvp.InventoryManagement.dto.UserCreateDTO;
-import com.lsvp.InventoryManagement.dto.UserDTO;
+import com.lsvp.InventoryManagement.dto.User.UserCreateDTO;
+import com.lsvp.InventoryManagement.dto.User.UserDTO;
 
 import java.util.List;
 

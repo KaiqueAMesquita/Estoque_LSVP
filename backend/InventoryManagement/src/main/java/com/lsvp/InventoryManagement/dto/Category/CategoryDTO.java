@@ -1,4 +1,4 @@
-package com.lsvp.InventoryManagement.dto;
+package com.lsvp.InventoryManagement.dto.Category;
 
 import java.time.LocalDateTime;
 
