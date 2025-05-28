@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class UserService {
   userLink: string = '';
   constructor(private http: HttpClient) { 
-    this.userLink = environment.API_URL+"/users"
+    this.userLink = environment.API_URL+"/user"
   }
   
   //Método para registrar um usuário
