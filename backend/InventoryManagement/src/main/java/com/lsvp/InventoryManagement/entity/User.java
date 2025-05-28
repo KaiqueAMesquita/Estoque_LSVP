@@ -25,7 +25,8 @@ public class User implements UserDetails {
     @Column(name = "us_id")
     private Long id;
 
-    @Column(name = "us_name", length = 50, nullable = false)
+    //Gustavo: Adicionado parametro unique no nome.
+    @Column(name = "us_name", length = 50, nullable = false, unique = true)
     private String name;
 
     @Column(name = "us_password", length = 15, nullable = false)
