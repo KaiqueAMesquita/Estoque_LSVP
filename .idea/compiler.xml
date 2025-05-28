@@ -14,13 +14,10 @@
         </processorPath>
         <module name="InventoryManagement" />
       </profile>
-      <profile name="Maven default annotation processors profile" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <module name="InventoryManagement (1)" />
-      </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="InventoryManagement (1)" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
