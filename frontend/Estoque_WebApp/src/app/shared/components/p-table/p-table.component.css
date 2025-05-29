@@ -1,15 +1,8 @@
-p {
-    font-weight: bold;
-    color: rgb(237, 249, 74);
-    font-size: 2.2rem;
-    text-align: center;
-}
 table {
     width: 88%;
     border-collapse: collapse;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     margin: 0 auto;
-    font-family: Arial, sans-serif;
     justify-content: center;
     text-align:center;
     margin-top: 20px;
@@ -52,6 +45,8 @@ button {
     background-color: #de6767;
     color: white;
 }
+
+
 .view-btn {
     background-color: #241e7e;
     color: white;
@@ -68,3 +63,35 @@ button {
     cursor: pointer;
 
 }
+
+.modal-btn{
+    padding: 8px;
+    font-weight: 12pt;
+    margin: 10px;
+    border-radius: 4px;
+    background-color: #d1d1d1;
+
+}
+.modal-btn:hover{
+    
+    background-color: #a7a7a7;
+
+}
+.exclude-btn{
+    background-color: #ca2d2d;
+    color: white;
+}
+.exclude-btn:hover{
+    background-color: #a71f1f;
+}
+.ok-btn{
+    width: 50px;
+    background-color: #2aa42a;
+    color: white;
+}
+.ok-btn:hover{
+    background-color: #1f7a1f;
+}
+
+
+

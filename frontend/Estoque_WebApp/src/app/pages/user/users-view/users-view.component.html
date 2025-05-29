@@ -1,1 +1,1 @@
-<app-p-table *ngIf="users.length > 0" (onDelete)="DeleteUser($event.id)" [data]="users" [delete]="true" [edit]="true" [view]="true"></app-p-table>
+<app-p-table (onDelete)="DeleteUser($event.id)" [data]="users" [delete]="true" [edit]="true" [view]="true"></app-p-table>

@@ -2,10 +2,10 @@ import { Component, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EventEmitter } from '@angular/core';
 import { IconModule, icons } from '../../modules/icon/icon.module';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ModalModule } from '../../modules/modal/modal.module';
 @Component({
   selector: 'app-p-table',
-  imports: [CommonModule, IconModule],
+  imports: [CommonModule, IconModule, ModalModule],
   standalone: true, 
   templateUrl: './p-table.component.html',
   styleUrl: './p-table.component.css'

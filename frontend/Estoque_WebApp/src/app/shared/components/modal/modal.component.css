@@ -1,7 +1,7 @@
 .modal {
   background: #fff;
   border-radius: 8px;
-  box-shadow: 0 2px 8px #333;
+  box-shadow: 0 2px 8px #5c5c5c;
   min-width: 320px;
   position: fixed;
   left: 50%;
@@ -9,6 +9,7 @@
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: 11;
+  align-items: center;
 }
 
 .overlay {

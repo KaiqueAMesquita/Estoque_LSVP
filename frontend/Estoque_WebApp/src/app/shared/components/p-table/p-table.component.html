@@ -1,5 +1,6 @@
 
 <table>
+  
   <thead>
     <tr>
       <th *ngFor="let column of columns">{{ column }}</th>
@@ -12,10 +13,34 @@
       <td *ngFor="let column of columns">{{ row[column] }}</td>
       <td *ngIf="edit">
         <button class="edit-btn" (click)="onEdit.emit(row)"><fa-icon [icon]="icons.faPenToSquare" class="table-icon"></fa-icon></button>
+      
       </td>
       <td *ngIf="delete">
-        <button class="delete-btn" (click)="onDelete.emit(row)"><fa-icon [icon]="icons.faTrash" class="table-icon"></fa-icon></button>
+        <button class="delete-btn" (click)="modal.toggle()"><fa-icon [icon]="icons.faTrash" class="table-icon"></fa-icon></button>
+        <app-modal #modal>
+          <h2>Excluir {{ row[columns[1]] }} ?</h2>
+          <p>
+            Isso não poderá ser desfeito. Você tem certeza de que deseja excluir este item?
+          </p>
+          <button
+          (click)="onDelete.emit(row); modal.toggle(); excluido.toggle()"
+          class="modal-btn exclude-btn">Excluir</button>
+          <button
+            (click)="modal.toggle()"
+            class="modal-btn cancel-btn">Cancelar</button>
+        </app-modal>
       </td>
     </tr>
   </tbody>
 </table>
+<app-modal #excluido>
+  <h1>Excluído com sucesso!</h1>
+  <p>
+    O item foi excluído com sucesso.
+  </p>
+  <button
+    (click)="excluido.toggle()"
+    class="modal-btn ok-btn">OK
+  </button>
+
+</app-modal>
