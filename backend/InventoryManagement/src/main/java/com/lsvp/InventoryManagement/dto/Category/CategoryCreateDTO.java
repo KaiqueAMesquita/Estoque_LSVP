@@ -26,7 +26,7 @@ public class CategoryCreateDTO {
     @NotNull(message = "'Created At' field is required")
     private LocalDateTime created_at;
 
-    @NotBlank(message = "Category type is required")
-    @Schema(description = "Tipo da categoria", example = "Perecível")
+    @NotNull(message = "Category type is required")
+    @Schema(description = "Tipo da categoria", example = "NAO_PERECIVEL")
     private FoodType food_type;
 }
