@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EventEmitter } from '@angular/core';
 import { IconModule, icons } from '../../modules/icon/icon.module';
@@ -6,11 +6,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @Component({
   selector: 'app-p-table',
   imports: [CommonModule, IconModule],
+  standalone: true, 
   templateUrl: './p-table.component.html',
   styleUrl: './p-table.component.css'
 })
 
-export class PTableComponent<T>  implements OnInit {
+export class PTableComponent<T>  implements OnInit, OnChanges {
   icons = icons
  /*Estrutura de Uma Tabela Utilizando any*/
   @Input() data: any[] = []; //Array da tabela de tipo any
@@ -25,8 +26,16 @@ export class PTableComponent<T>  implements OnInit {
   constructor(private icon: IconModule) { }
 
   ngOnInit(): void {
+    this.updateColumns();
+  }
+
+  ngOnChanges(): void {
+    this.updateColumns();
+  }
+
+  private updateColumns(): void {
     if (this.data.length > 0) {
-      this.columns = Object.keys(this.data[0] as object);
+      this.columns = Object.keys(this.data[0]);
     } else {
       this.columns = [];
     }

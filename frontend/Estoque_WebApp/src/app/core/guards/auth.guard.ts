@@ -5,6 +5,8 @@ import { AuthenticationService } from '../authentication/authentication.service'
 export const authGuard: CanActivateFn = (route, state) => {
     const auth = inject(AuthenticationService);
 
+    //redirect To login 
+    
     return auth.isAuthenticated();
     
 };

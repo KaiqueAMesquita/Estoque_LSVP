@@ -46,7 +46,7 @@ export class UserService {
   }
     //Método para deletar um usuário
   public deleteUser(userId: number): void {	
-    this.http.delete<User>(this.userLink+"/delete/"+userId).subscribe(
+    this.http.delete<User>(this.userLink+"/"+userId).subscribe(
       (response) => {
         console.log('Usuário deletado com sucesso:', response);
       },
