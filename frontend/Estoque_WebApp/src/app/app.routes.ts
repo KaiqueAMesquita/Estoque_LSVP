@@ -5,7 +5,7 @@ import { authGuard } from './core/guards/auth.guard';
 import { UserTableComponent } from './shared/components/user-table/user-table.component';
 
 export const routes: Routes = [
-
+    /*Adicionar novas rotas aqui*/
     { path: 'user', component: UserTableComponent},    
     { path: 'login', component: LoginComponent },
     { path: 'manage', component: ManageLayoutComponent, canActivate: [authGuard] },
