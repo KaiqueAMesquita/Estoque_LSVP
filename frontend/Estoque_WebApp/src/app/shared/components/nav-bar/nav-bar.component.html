@@ -41,5 +41,13 @@
         <span>Relatórios</span>
       </a>
     </li>
+    <li class="nav-item" [class.active]="isActive('usuarios')">
+      <!-- o (Click) é um evento que é acionado quando o usuário clica no link-->
+      <a href="user" (click)="setActive('usuarios')" class="nav-link">
+        <!-- Chama o ícone que quiser de dentro do "icons" no nav-bar.component.ts -->
+        <fa-icon [icon]="icons.faUsers" class="nav-icon"></fa-icon>
+        <span>Usuários</span>
+      </a>
+    </li>
   </ul>
 </nav>

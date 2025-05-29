@@ -12,5 +12,5 @@ import { FormComponent } from './shared/components/form/form.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Sistema de Estoque LSVP';
+  title = 'Sistema de Estoque LSVP Lar São Vicente de Paulo';
 }
