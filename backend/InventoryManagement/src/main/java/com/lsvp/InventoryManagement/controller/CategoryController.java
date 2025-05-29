@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Tag(name = "Categorias", description = "Gerenciamento de categorias")
 
@@ -22,5 +24,17 @@ public class CategoryController {
     {
         System.out.println(dto);
         return ResponseEntity.ok(categoryService.createCategory(dto));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable Long id)
+    {
+        return ResponseEntity.ok(categoryService.getCategoryById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CategoryDTO>> getAllcategories()
+    {
+        return ResponseEntity.ok(categoryService.getAllCategories());
     }
 }

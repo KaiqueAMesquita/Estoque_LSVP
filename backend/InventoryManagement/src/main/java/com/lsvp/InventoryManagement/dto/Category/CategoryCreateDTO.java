@@ -27,6 +27,6 @@ public class CategoryCreateDTO {
     private LocalDateTime created_at;
 
     @NotNull(message = "Category type is required")
-    @Schema(description = "Tipo da categoria", example = "PERECIVEL")
+    @Schema(description = "Tipo da categoria", example = "NAO_PERECIVEL")
     private FoodType food_type;
 }
