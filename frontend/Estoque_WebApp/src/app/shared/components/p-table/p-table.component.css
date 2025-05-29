@@ -12,21 +12,22 @@ table {
     font-family: Arial, sans-serif;
     justify-content: center;
     text-align:center;
+    margin-top: 20px;
 }
  
 th, td {
     padding: 12px 15px;
     text-align: center;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #d6d6d6;
 }
  
 th {
-    background-color: #f5f5f5;
+    background-color: #e6e6e6;
     font-weight: bold;
 }
  
 tr:hover {
-    background-color: #f1f1f1;
+    background-color: #d9d9d9;
 }
  
 button {
@@ -38,21 +39,32 @@ button {
     align-items: center;
     justify-content: center;
 }
+.table-icon{
+    font-size: 14pt;
+}
  
 .edit-btn {
-    background-color: #4dd0e1;
+    background-color: #40c5d6;
     color: white;
 }
  
 .delete-btn {
-    background-color: #e57373;
+    background-color: #de6767;
+    color: white;
+}
+.view-btn {
+    background-color: #241e7e;
     color: white;
 }
  
 .edit-btn:hover {
-    background-color: #26c6da;
+    background-color: #2697a6;
 }
  
 .delete-btn:hover {
-    background-color: #ef5350;
+    background-color: #da4f4d;
+}
+.view:hover{
+    cursor: pointer;
+
 }

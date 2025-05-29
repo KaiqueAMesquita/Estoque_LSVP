@@ -1,25 +1,21 @@
-<p>Usuários, Tabela Estilizada, Quarta Versão</p>
+
 <table>
-    <thead>
-        <tr>
-            <!-- Cria Colunas Dinamicamente Conforme necessário-->
-             <th *ngFor="let column of column">{{ column.label }}</th>
-            <th *ngIf="edit">Ações</th>
-            <th *ngIf="delete">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- Cria Linhas Dinamicamente Conforme Necessário-->
-         <tr *ngFor="let row of data">
-            <td *ngFor="let column of column">
-                {{ row[column.key] }}
-            </td>
-            <td *ngIf="edit">
-                <button class="edit-btn" (click)="onEdit.emit(row)">Editar</button>
-            </td>
-            <td *ngIf="delete">
-                <button class="delete-btn" (click)="onDelete.emit(row)">Excluir</button>
-            </td>
-         </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th *ngFor="let column of columns">{{ column }}</th>
+      <th *ngIf="edit">Editar</th>
+      <th *ngIf="delete">Deletar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of data" [ngClass]="{'view': view}" (click)="view ? onView.emit(row) : null">
+      <td *ngFor="let column of columns">{{ row[column] }}</td>
+      <td *ngIf="edit">
+        <button class="edit-btn" (click)="onEdit.emit(row)"><fa-icon [icon]="icons.faPenToSquare" class="table-icon"></fa-icon></button>
+      </td>
+      <td *ngIf="delete">
+        <button class="delete-btn" (click)="onDelete.emit(row)"><fa-icon [icon]="icons.faTrash" class="table-icon"></fa-icon></button>
+      </td>
+    </tr>
+  </tbody>
 </table>
