@@ -1,3 +1,13 @@
+/* Desconsiderar esse Arquivo, ele é apenas um exemplo de commit */
+// Esse arquivo é um exemplo de commit que pode ser utilizado para testar o funcionamento do Git
+// Ele não deve ser levado em consideração para o desenvolvimento do projeto
+// O objetivo é demonstrar como criar um commit com várias alterações em diferentes arquivos
+// O commit inclui alterações em arquivos de configuração, CSS e HTML do Angular
+// Além disso, ele também inclui alterações em componentes do Angular
+// As alterações são feitas para melhorar a estrutura do projeto e a responsividade da aplicação
+// As mudanças incluem a adição de um componente de formulário, ajustes no CSS e melhorias na estrutura do HTML
+// O commit também inclui a desativação da coleta de dados de análise do Angular CLI
+
 warning: in the working copy of 'frontend/Estoque_WebApp/src/app/app.component.css', LF will be replaced by CRLF the next time Git touches it
 warning: in the working copy of 'frontend/Estoque_WebApp/src/app/app.component.html', LF will be replaced by CRLF the next time Git touches it
 [1mdiff --git a/frontend/Estoque_WebApp/angular.json b/frontend/Estoque_WebApp/angular.json[m
