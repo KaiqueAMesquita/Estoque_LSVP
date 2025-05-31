@@ -1,20 +1,48 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterOutlet,ActivatedRoute } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core'; 
+import { RouterOutlet, ActivatedRoute, NavigationEnd, Router } from '@angular/router'; 
 import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
+import { Subscription } from 'rxjs'; 
+import { filter } from 'rxjs/operators';
+
 @Component({
   selector: 'app-manage-layout',
-  imports: [RouterOutlet,CommonModule, NavBarComponent],
+  standalone: true, 
+  imports: [RouterOutlet, CommonModule, NavBarComponent],
   templateUrl: './manage-layout.component.html',
   styleUrl: './manage-layout.component.css'
 })
-export class ManageLayoutComponent {
+export class ManageLayoutComponent implements OnInit, OnDestroy {
   paths: string[] = [];
   breadcrumb: string = '';
-    
-  constructor(private route: ActivatedRoute) {}
+  private routerSubscription: Subscription | undefined; // Propriedade para armazenar a inscrição
+
+  constructor(private route: ActivatedRoute, private router: Router) {
+  }
 
   ngOnInit(): void {
+
+    // Inicializa o breadcrumb ao carregar o componente
+    this.generateBreadcrumb();
+
+    // Inscreve-se nos eventos do Router para detectar mudanças de rota
+    this.routerSubscription = this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd) // Filtra o NavigationEnd
+    ).subscribe(() => {
+      this.generateBreadcrumb(); // Regenera o breadcrumb a cada navegação
+    });
+  }
+
+  ngOnDestroy(): void {
+    // Garante que a inscrição seja desfeita para evitar vazamentos de memória
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
+    }
+  }
+
+  generateBreadcrumb(): void {
+    this.breadcrumb = '';
+    this.paths = [];
     let currentRoute: ActivatedRoute | null = this.route;
 
     // Percorre todos os filhos da rota ativada
@@ -27,5 +55,4 @@ export class ManageLayoutComponent {
     }
     this.breadcrumb = this.paths.join(' > ');
   }
-    
 }
