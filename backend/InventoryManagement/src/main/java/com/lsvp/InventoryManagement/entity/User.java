@@ -5,6 +5,11 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 // Lucas:
 // No código antigo, se importava o jakarta.validation.constraints.NotBlank
 // Retirei por não precisarmos agora
@@ -14,16 +19,17 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "us_id")
     private Long id;
 
-    @Column(name = "us_name", length = 50, nullable = false)
+    //Gustavo: Adicionado parametro unique no nome.
+    @Column(name = "us_name", length = 50, nullable = false, unique = true)
     private String name;
 
-    @Column(name = "us_password", length = 15, nullable = false)
+    @Column(name = "us_password", length = 100, nullable = false)
     private String password;
 
     //https://stackoverflow.com/questions/67825729/using-enums-in-a-spring-entity
@@ -31,4 +37,34 @@ public class User {
     @Column(name = "us_role", nullable = false)
     private Role role;
 
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public String getUsername() {
+        return "";
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
+    }
 }

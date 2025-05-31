@@ -2,6 +2,7 @@ package com.lsvp.InventoryManagement.service;
 
 import com.lsvp.InventoryManagement.dto.User.UserUpdateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.lsvp.InventoryManagement.dto.User.UserCreateDTO;
@@ -21,8 +22,14 @@ public class UserService {
     @Autowired
     private IUserMapper mapper;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public UserDTO createUser(UserCreateDTO dto){
         User user = mapper.toEntity(dto);
+
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+
         return mapper.toDTO(repository.save(user));
     }
 
