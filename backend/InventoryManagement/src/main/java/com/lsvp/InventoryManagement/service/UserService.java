@@ -2,12 +2,15 @@ package com.lsvp.InventoryManagement.service;
 
 import com.lsvp.InventoryManagement.dto.User.UserUpdateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.lsvp.InventoryManagement.config.PasswordConfig;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.lsvp.InventoryManagement.dto.User.UserCreateDTO;
 import com.lsvp.InventoryManagement.dto.User.UserDTO;
 import com.lsvp.InventoryManagement.entity.User;
+import com.lsvp.InventoryManagement.exceptions.ResourceNotFoundException;
 import com.lsvp.InventoryManagement.mapper.IUserMapper;
 import com.lsvp.InventoryManagement.repository.IUserRepository;
 
@@ -36,7 +39,7 @@ public class UserService {
     public UserDTO updateUser(Long id, UserUpdateDTO dto){
         //Gustavo: findById retorna Optionl<User>, sendo obrigatório a tratar caso o usuario não seja encontrado.
 
-        User userUpdated = repository.findById(id).orElseThrow(() -> new RuntimeException("Usuário nao encontrado!!"));
+        User userUpdated = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuário nao encontrado!!"));
 
         userUpdated.setName(dto.getName());
         userUpdated.setRole(dto.getRole());
@@ -50,7 +53,7 @@ public class UserService {
     }
 
     public void deleteUser(Long id){
-        repository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado!!!"));
+        repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado!!!"));
 
         repository.deleteById(id);
     }
@@ -63,7 +66,7 @@ public class UserService {
 
     //Gustavo: Get User por Id
     public UserDTO getUserById(Long id){
-        User user = repository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado!!!"));
+        User user = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado!!!"));
 
         return mapper.toDTO(user);
     }
