@@ -9,7 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.lsvp.InventoryManagement.entity.User;
+import com.lsvp.InventoryManagement.exceptions.InvalidCredentialsException;
+import com.lsvp.InventoryManagement.exceptions.ResourceNotFoundException;
 
 @Service
 public class AuthService {
@@ -23,14 +27,24 @@ public class AuthService {
     @Autowired
     private IUserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public TokenDTO login(LoginDTO dto) {
+
+        try{
         Authentication authentication = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(dto.getName(), dto.getPassword())
         );
-        UserDetails user = (UserDetails) authentication.getPrincipal();
-        String token = jwtTokenUtil.generateToken(user.getUsername());
+        UserDetails userD = (UserDetails) authentication.getPrincipal();
+        String token = jwtTokenUtil.generateToken(userD.getUsername());
 
         return new TokenDTO(token);
+        }
+        // Exception para personalizar mensagem de erro.
+        catch(BadCredentialsException e){
+            throw new InvalidCredentialsException("Usuário ou senha inválidos!!");
+        }
     }
 
     public void logout(String token) {
