@@ -44,6 +44,10 @@ export class UsersViewComponent implements OnInit {
     console.error('Erro ao deletar usuário:', error);
    }
   }
+  logout(): void {
+    this.auth.logout();
+    console.log('Usuário deslogado com sucesso');
+  }
   
 
 }

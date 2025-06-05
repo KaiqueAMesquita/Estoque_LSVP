@@ -7,13 +7,12 @@ import { ManageViewComponent } from './pages/manage-view/manage-view.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 export const routes: Routes = [
-    /*Adicionar novas rotas aqui*/
-    { path: 'login', component: LoginComponent },
+   { path: 'login', component: LoginComponent },
     {path: '', component: DashboardComponent, pathMatch: 'full'},
     { path: 'manage', component: ManageLayoutComponent,
         children: [
             {path: '', redirectTo: 'view', pathMatch: 'full'},
-            {path: 'view', component: ManageViewComponent, pathMatch: 'full'},
+            {path: 'view', component: ManageViewComponent, pathMatch: 'full', canActivate: [authGuard] },
             {path: 'view/users', component: UsersViewComponent, pathMatch: 'full', canActivate: [authGuard] },
         ],
      },

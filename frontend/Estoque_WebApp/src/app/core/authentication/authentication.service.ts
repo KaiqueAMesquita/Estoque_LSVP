@@ -24,8 +24,9 @@ export class AuthenticationService {
 
   //ve se o usuário está autenticado
   isAuthenticated(): boolean {
-    return !!this.getToken;; //retorno do resultado
-  }
+  const token = this.getToken();
+  return !!token && token.trim() !== '';
+}
   //funcao login
    login(form: FormGroup): void {
     this.http.post(this.url, form.value, { withCredentials: true })
@@ -43,7 +44,7 @@ export class AuthenticationService {
   //função para logout
   logout(): void{
     localStorage.removeItem('acessToken');  // remove item do storage da navegação
-
+    this.router.navigate(['/login']);
     this.http.post(environment.API_URL+'/auth/logout', {}, {withCredentials: true})
     .subscribe(() =>{
       this.router.navigate(['/login']); // navega para a tela de login
