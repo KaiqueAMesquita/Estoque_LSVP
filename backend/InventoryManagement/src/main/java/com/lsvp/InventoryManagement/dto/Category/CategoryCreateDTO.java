@@ -23,6 +23,7 @@ public class CategoryCreateDTO {
 
     // Faz sentido deixar um campo mensagem para o created_at?
     // Porque ele é criado pelo próprio sistema
+    // Resposta Gustavo: Acredito que não.
     @NotNull(message = "'Created At' field is required")
     private LocalDateTime created_at;
 

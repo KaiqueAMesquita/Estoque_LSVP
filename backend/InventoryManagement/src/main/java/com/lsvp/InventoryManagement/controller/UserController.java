@@ -18,6 +18,7 @@ import java.util.List;
 @RestController
 // Lucas: Alterei o final da rota de users para user
 // para usá-la como padrão em tudo que seja relativo ao usuário
+//Gustavo: Faz sentido 😆
 @Tag(name = "Usuários", description = "Gerenciamento de usuários")
 
 @RequestMapping("/api/user")
