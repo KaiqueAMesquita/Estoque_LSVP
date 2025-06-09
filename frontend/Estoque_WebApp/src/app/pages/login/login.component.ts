@@ -1,29 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild,AfterViewInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms'
-import { environment } from '../../../environments/environment.development';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Validators } from '@angular/forms';
+import { ModalModule } from '../../shared/modules/modal/modal.module';
+import { ModalComponent } from '../../shared/components/modal/modal.component';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, ReactiveFormsModule],
-templateUrl: './login.component.html',
+  imports: [FormsModule, ReactiveFormsModule, ModalModule],
+  templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit, AfterViewInit {
   //definição do formulário de login
   loginForm!: FormGroup;
-  
+  errorMessage: any;
+
+  @ViewChild('exceptionLogin') exceptionLogin!: ModalComponent;
   
   constructor(private auth: AuthenticationService, 
-    private http: HttpClient, 
     private formBuilder: FormBuilder,
     private router: Router){}
 
- 
 
+  ngAfterViewInit(): void {}
 
   ngOnInit(): void {
     //inicialização do formulário
@@ -34,10 +36,32 @@ export class LoginComponent implements OnInit{
     });
   }
 
+  //enviar o formulário
   submitForm(event: Event): void {
-    this.auth.login(this.loginForm); //chamada do serviço de autenticação
-    event.preventDefault(); //previne o comportamento padrão do formulário
-  }
+    event.preventDefault();//previne o comportamento padrão do formulário
+    //verifica se o formulário é válido
+    if (this.loginForm.invalid) return;
+
+    //chama o serviço de autenticação para fazer o login
+    this.auth.login(this.loginForm.value).subscribe({
+      //se o login for bem-sucedido, armazena o token e redireciona para a página inicial
+      next: (res: any) => {
+        this.auth.setToken(res.token);
+        this.router.navigate(['/']);
+      },
+      //se o login falhar, exibe a mensagem de erro
+      error: (error) => {
+        if(this.exceptionLogin){
+        this.exceptionLogin.toggle();
+        //retorna erro da response
+          this.errorMessage = error?.error;
+       
+        
+        this.loginForm.reset();
+      }
+    }
+  });
+}
   
   
 }

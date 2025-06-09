@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { Router } from '@angular/router';
-import { throwError } from 'rxjs'; 
+import { throwError, Observable } from 'rxjs'; 
 import { FormGroup } from '@angular/forms';
 @Injectable({
   providedIn: 'root'
@@ -30,17 +30,8 @@ export class AuthenticationService {
   return !!token && token.trim() !== '';//verifica se o token existe e não está vazio
 }
   //funcao login
-   login(form: FormGroup): void {
-    this.http.post(this.url, form.value, { withCredentials: true })
-      .subscribe((res: any) => {
-        try{
-        this.setToken(res.token);
-        this.router.navigate(['/']);//navega para a tela principal após o login
-        }catch (error) {
-          console.error('Erro ao processar o token:', error);
-          throwError(() => new Error('Erro ao processar o token'));
-        }
-      });
+   login(credentials: { name: string; password: string }): Observable<any> {
+  return this.http.post(this.url, credentials, { withCredentials: true });
   }
   
   //função para logout

@@ -56,7 +56,7 @@ input:focus{
 }
 
 /* Estilização do botão */
-button{
+.submit-btn{
     display: block;
     color: rgb(255, 255, 255);
     background-color: rgb(51, 129, 207);
@@ -70,7 +70,7 @@ button{
 }
 
 /* Efeito hover no botão */
-button:hover{
+.submit-btn:hover{
     color: rgb(238, 238, 238);
     background-color: rgb(39, 95, 151);
     cursor: pointer;
@@ -82,4 +82,29 @@ h3{
     display: block;
     color: rgb(51, 129, 207);
     margin-bottom: 20px;
+}
+
+/*Configuração do modal*/
+app-modal{
+    text-align: center;
+}
+/* Estilização do botão de modal */
+.modal-btn{
+    padding: 5px;
+    display: block;
+    color: white;
+    background-color: rgb(187, 84, 61);
+    font-size: 11pt;
+    text-decoration: none;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    margin: 20px auto 0 auto;
+    width: 40%; 
+}
+/* Efeito hover no botão de modal */
+.modal-btn:hover{
+    background-color: rgb(132, 54, 36);
+    color: rgb(238, 238, 238);
+    cursor: pointer;
 }
