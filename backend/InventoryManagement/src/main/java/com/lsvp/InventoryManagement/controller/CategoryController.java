@@ -2,6 +2,7 @@ package com.lsvp.InventoryManagement.controller;
 
 import com.lsvp.InventoryManagement.dto.Category.CategoryCreateDTO;
 import com.lsvp.InventoryManagement.dto.Category.CategoryDTO;
+import com.lsvp.InventoryManagement.dto.Category.CategoryUpdateDTO;
 import com.lsvp.InventoryManagement.service.CategoryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -36,5 +37,11 @@ public class CategoryController {
     public ResponseEntity<List<CategoryDTO>> getAllcategories()
     {
         return ResponseEntity.ok(categoryService.getAllCategories());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id, CategoryUpdateDTO dto)
+    {
+        return ResponseEntity.ok(categoryService.updateCategory(id, dto));
     }
 }

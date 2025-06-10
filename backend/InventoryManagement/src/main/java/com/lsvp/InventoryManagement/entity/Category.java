@@ -24,7 +24,7 @@ public class Category {
 
     @Column(name = "cat_created_at", nullable = false)
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
-    private  LocalDateTime created_at;
+    private LocalDateTime created_at;
 
     @Column(name = "cat_updated_at", nullable = true)
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
