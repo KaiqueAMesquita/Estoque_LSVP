@@ -3,7 +3,9 @@ package com.lsvp.InventoryManagement.controller;
 
 import com.lsvp.InventoryManagement.dto.Product.ProductCreateDTO;
 import com.lsvp.InventoryManagement.dto.Product.ProductDTO;
+import com.lsvp.InventoryManagement.dto.Product.ProductUpdateDTO;
 import com.lsvp.InventoryManagement.dto.User.UserDTO;
+import com.lsvp.InventoryManagement.dto.User.UserUpdateDTO;
 import com.lsvp.InventoryManagement.service.ProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -37,6 +39,12 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id){
         return ResponseEntity.ok(productService.getProductById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductUpdateDTO dto){
+
+        return ResponseEntity.ok(productService.updateProduct(id, dto));
     }
     
 }

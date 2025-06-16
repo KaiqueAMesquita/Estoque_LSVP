@@ -3,7 +3,9 @@ package com.lsvp.InventoryManagement.service;
 
 import com.lsvp.InventoryManagement.dto.Product.ProductCreateDTO;
 import com.lsvp.InventoryManagement.dto.Product.ProductDTO;
+import com.lsvp.InventoryManagement.dto.Product.ProductUpdateDTO;
 import com.lsvp.InventoryManagement.dto.User.UserDTO;
+import com.lsvp.InventoryManagement.dto.User.UserUpdateDTO;
 import com.lsvp.InventoryManagement.entity.Category;
 import com.lsvp.InventoryManagement.entity.Product;
 import com.lsvp.InventoryManagement.entity.User;
@@ -55,6 +57,22 @@ public class ProductService {
 
     public List<ProductDTO> getAllProducts(){
         return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
+    }
+
+    public ProductDTO updateProduct(Long id, ProductUpdateDTO dto){
+        //Gustavo: findById retorna Optionl<User>, sendo obrigatório a tratar caso o usuario não seja encontrado.
+        Product productUpdated = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Produto nao encontrado!!"));
+
+        productUpdated.setGtin(dto.getGtin());
+        productUpdated.setMeasure(dto.getMeasure());
+        productUpdated.setMeasureType(dto.getMeasureType());
+        productUpdated.setUpdatedAt(LocalDateTime.now());
+
+        Category category = categoryRepository.findById(dto.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada!!"));
+        
+        productUpdated.setCategory(category);
+
+        return mapper.toDTO(repository.save(productUpdated));
     }
 
 }
