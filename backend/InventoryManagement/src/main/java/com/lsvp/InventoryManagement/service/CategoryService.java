@@ -54,4 +54,11 @@ public class CategoryService {
 
         return mapper.toDTO(repository.save(categoryUpdated));
     }
+
+    public void deleteCategory(Long id)
+    {
+        Category category = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada!!!"));
+
+        repository.delete(category);
+    }
 }
