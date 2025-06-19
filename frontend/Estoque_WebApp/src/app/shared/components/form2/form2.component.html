@@ -1,5 +1,5 @@
 <app-form-template
-  formTitle="Cadastro de Usuário"
+  formTitle="Cadastro de Produto"
   [formGroup]="formulario"
   submitText="Salvar"
   cancelText="Cancelar"
@@ -10,21 +10,22 @@
     type="text"
     label="Nome"
     [control]="nomeControl"
-    placeholder="Digite seu nome">
+    placeholder="Digite o nome">
   </app-input>
 
   <app-input
-    type="email"
-    label="Email"
-    [control]="emailControl"
-    placeholder="Digite seu email">
+    type="number"
+    label="Preço"
+    [control]="precoControl"
+    placeholder="Digite o preço">
   </app-input>
 
   <app-input
-    type="password"
-    label="Senha"
-    [control]="senhaControl"
-    placeholder="Digite sua senha">
+    type="select"
+    label="Categoria"
+    [control]="categoriaControl"
+    placeholder="Selecione a categoria"
+    [options]="categorias">
   </app-input>
   
 </app-form-template>

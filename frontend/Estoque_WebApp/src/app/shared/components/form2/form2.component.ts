@@ -4,21 +4,32 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } 
 import { InputComponent } from '../input/input.component';
 import { FormTemplateComponent } from '../form-template/form-template.component';
 
+interface Categoria {
+  label: string;
+  value: string;
+}
+
 @Component({
-  selector: 'app-form',
+  selector: 'app-form2',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, InputComponent, FormTemplateComponent],
-  templateUrl: './form.component.html',
-  styleUrls: ['./form.component.css']
+  templateUrl: './form2.component.html',
+  styleUrls: ['./form2.component.css']
 })
-export class FormComponent {
+export class Form2Component {
   formulario: FormGroup;
+
+  categorias: Categoria[] = [
+    { label: 'Alimentos', value: 'alimentos' },
+    { label: 'Bebidas', value: 'bebidas' },
+    { label: 'Outros', value: 'outros' },
+  ];
 
   constructor(private fb: FormBuilder, private location: Location) {
     this.formulario = this.fb.group({
-      nome: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.email]],
-      senha: ['', [Validators.required, Validators.minLength(6)]],
+      nome: ['', Validators.required],
+      preco: ['', Validators.required],
+      categoria: ['', Validators.required],
     });
   }
 
@@ -26,12 +37,12 @@ export class FormComponent {
       return this.formulario.get('nome') as FormControl;
     }
 
-    get emailControl(): FormControl {
-      return this.formulario.get('email') as FormControl;
+    get precoControl(): FormControl {
+      return this.formulario.get('preco') as FormControl;
     }
 
-    get senhaControl(): FormControl {
-      return this.formulario.get('senha') as FormControl;
+    get categoriaControl(): FormControl {
+      return this.formulario.get('categoria') as FormControl;
     }
 
   enviarFormulario() {
