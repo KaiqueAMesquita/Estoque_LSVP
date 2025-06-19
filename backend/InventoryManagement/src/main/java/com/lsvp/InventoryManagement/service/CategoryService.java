@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,10 @@ public class CategoryService {
     public CategoryDTO createCategory(CategoryCreateDTO dto)
     {
         Category category = mapper.toEntity(dto);
-        
+
+        ZoneId zone_id = ZoneId.of("America/Sao_Paulo");
+        category.setCreated_at(LocalDateTime.now(zone_id));
+
         return mapper.toDTO(repository.save(category));
     }
 
@@ -50,7 +54,8 @@ public class CategoryService {
         if(dto.getFood_type() != null)
             categoryUpdated.setFood_type(dto.getFood_type());
 
-        categoryUpdated.setUpdated_at(LocalDateTime.now());
+        ZoneId zone_id = ZoneId.of("America/Sao_Paulo");
+        categoryUpdated.setUpdated_at(LocalDateTime.now(zone_id));
 
         return mapper.toDTO(repository.save(categoryUpdated));
     }

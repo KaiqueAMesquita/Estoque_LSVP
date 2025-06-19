@@ -22,12 +22,12 @@ public class Category {
     @Column(name = "cat_description", length = 50, nullable = false)
     private String description;
 
-    @Column(name = "cat_created_at", nullable = false)
-    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
+    @Column(name = "cat_createdAt", nullable = false)
+    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime created_at;
 
-    @Column(name = "cat_updated_at", nullable = true)
-    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
+    @Column(name = "cat_updatedAt", nullable = true)
+    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime updated_at;
 
     @Column(name = "cat_type", length = 30, nullable = false)
