@@ -1,0 +1,32 @@
+<div class="form-group" [class.has-error]="control?.invalid && (control?.touched || control?.dirty)">
+      <label *ngIf="label">{{ label }}</label>
+
+      <!-- Input normal -->
+      <input 
+        *ngIf="type !== 'select'"
+        [type]="type"
+        [formControl]="control"
+        [placeholder]="placeholder || ''"
+      >
+
+      <!-- Select -->
+      <select 
+        *ngIf="type === 'select'"
+        [formControl]="control"
+        [class.is-invalid]="control?.invalid && (control?.touched || control?.dirty)"
+      >
+        <option [value]="''" disabled>{{ placeholder || 'Selecione...' }}</option>
+        <option *ngFor="let option of options" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+
+      <!-- Validação -->
+      <div class="error-message" *ngIf="control?.invalid && (control?.touched || control?.dirty)">
+        <div *ngIf="control?.hasError('required')">Campo obrigatório</div>
+        <div *ngIf="control?.hasError('email')">Email inválido</div>
+        <div *ngIf="control?.hasError('minlength')">
+          Mínimo de {{ control?.getError('minlength')?.requiredLength }} caracteres
+        </div>
+      </div>
+    </div>

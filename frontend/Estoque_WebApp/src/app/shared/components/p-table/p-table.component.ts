@@ -1,14 +1,16 @@
-import { Component, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy,SimpleChanges, Component, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EventEmitter } from '@angular/core';
 import { IconModule, icons } from '../../modules/icon/icon.module';
 import { ModalModule } from '../../modules/modal/modal.module';
+
 @Component({
   selector: 'app-p-table',
   imports: [CommonModule, IconModule, ModalModule],
   standalone: true, 
   templateUrl: './p-table.component.html',
-  styleUrl: './p-table.component.css'
+  styleUrl: './p-table.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class PTableComponent<T>  implements OnInit, OnChanges {
@@ -34,9 +36,11 @@ export class PTableComponent<T>  implements OnInit, OnChanges {
   }
 
   //Detecta mudanças nas propriedades de entrada
-  ngOnChanges(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+   if (changes['data']) {
     this.updateColumns();
   }
+}
 
   //Método para editar um item
   private updateColumns(): void {
