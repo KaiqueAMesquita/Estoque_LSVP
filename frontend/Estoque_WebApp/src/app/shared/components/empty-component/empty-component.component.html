@@ -1,0 +1,13 @@
+<div class="empty-stationary">
+    <div class="empty-content">
+        <!--<i class="fas fa-plus"></i>-->
+        <fa-icon [icon]="icon" class="empty-icon" size="3x"></fa-icon>
+        <p class="empty-message">{{ message }}</p>
+    </div>
+    
+
+    <button *ngIf="showButton" (click)="onButtonClick()" class="empty-button">
+        <p>{{ Elbutton }}</p>
+    </button>
+</div>
+<!--<p>empty-component works!</p>-->
