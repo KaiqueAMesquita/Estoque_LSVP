@@ -1,15 +1,18 @@
 package com.lsvp.InventoryManagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lsvp.InventoryManagement.enums.FoodType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
+import java.util.Set;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "categories")
+@Table(name = "tbl_category")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,4 +35,8 @@ public class Category {
 
     @Column(name = "cat_type", length = 30, nullable = false)
     private FoodType food_type;
+
+    @OneToMany(mappedBy = "category")
+    @JsonIgnore
+    private Set<Product> products;
 }

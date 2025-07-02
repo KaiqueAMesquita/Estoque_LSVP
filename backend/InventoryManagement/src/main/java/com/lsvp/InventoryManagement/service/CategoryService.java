@@ -3,9 +3,13 @@ package com.lsvp.InventoryManagement.service;
 import com.lsvp.InventoryManagement.dto.Category.CategoryCreateDTO;
 import com.lsvp.InventoryManagement.dto.Category.CategoryDTO;
 import com.lsvp.InventoryManagement.dto.Category.CategoryUpdateDTO;
+import com.lsvp.InventoryManagement.dto.Product.ProductDTO;
 import com.lsvp.InventoryManagement.entity.Category;
+import com.lsvp.InventoryManagement.entity.Product;
+import com.lsvp.InventoryManagement.enums.FoodType;
 import com.lsvp.InventoryManagement.exceptions.ResourceNotFoundException;
 import com.lsvp.InventoryManagement.mapper.ICategoryMapper;
+import com.lsvp.InventoryManagement.mapper.IProductMapper;
 import com.lsvp.InventoryManagement.repository.ICategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +27,7 @@ public class CategoryService {
 
     @Autowired
     private ICategoryMapper mapper;
+    private IProductMapper product_mapper;
 
     public CategoryDTO createCategory(CategoryCreateDTO dto)
     {
@@ -36,12 +42,24 @@ public class CategoryService {
     public CategoryDTO getCategoryById(Long id)
     {
         Category category = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada!!!"));
-        return mapper.toDTO(category);
+
+         return mapper.toDTO(category);
     }
 
     public List<CategoryDTO> getAllCategories()
     {
         return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
+    }
+
+    public List<ProductDTO> getProductsFromCategory(Long id)
+    {
+        Category category = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada!!!"));
+        Set<Product> products = category.getProducts();
+
+        Set<ProductDTO> productsDTO = new java.util.HashSet<>(Set.of());
+        products.forEach(product -> productsDTO.add(product_mapper.toDTO(product)));
+
+        return productsDTO.stream().toList();
     }
 
     public CategoryDTO updateCategory(Long id, CategoryUpdateDTO dto)

@@ -1,7 +1,9 @@
 package com.lsvp.InventoryManagement.dto.Category;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
+import com.lsvp.InventoryManagement.entity.Product;
 import com.lsvp.InventoryManagement.enums.FoodType;
 import lombok.Data;
 
@@ -12,4 +14,5 @@ public class CategoryDTO {
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
     private FoodType food_type;
+    private Set<Product> products;
 }
