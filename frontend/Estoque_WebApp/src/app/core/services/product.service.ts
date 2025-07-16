@@ -16,7 +16,7 @@ export class ProductService {
     // que será utilizada nos métodos do serviço.
     productLink: string = '';
     constructor(private http: HttpClient) {
-      this.productLink = environment.API_URL + "/product";  
+      this.productLink = environment.API_URL + "/products";  
     }
 
     // Método para registrar um produto
