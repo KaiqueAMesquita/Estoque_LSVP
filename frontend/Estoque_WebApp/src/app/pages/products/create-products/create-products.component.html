@@ -1,0 +1,50 @@
+<p>create products works!</p>
+<app-form-template
+    [formTitle]="'Criar Produto'"
+    [formGroup]="form"
+    [submitText]="'Confirmar'"
+    [cancelText]="'Cancelar'"
+    (formSubmit)="onSubmit()"
+>
+    <app-input
+        [control]="getControl('name')"
+        type="text"
+        label="Nome do Produto"
+        placeholder="Digite o nome do produto"
+    ></app-input>
+
+    <app-input
+        [control]="getControl('price')"
+        type="number"
+        label="Preço"
+        placeholder="Digite o preço do produto"
+    ></app-input>
+
+    <app-input
+        [control]="getControl('quantity')"
+        type="number"
+        label="Quantidade em Estoque"
+        placeholder="Digite a quantidade em estoque"
+    ></app-input>
+    <app-input
+        [control]="getControl('category')"
+        type="select"
+        label="Categoria"
+        placeholder="Selecione a categoria"
+        [options]="categoryOptions"
+    ></app-input>
+    <app-input
+        [control]="getControl('description')"
+        type="textarea"
+        label="Descrição"
+        placeholder="Digite a descrição do produto"
+    ></app-input>
+    <app-input
+        [control]="getControl('image')"
+        type="file"
+        label="Imagem do Produto"
+        placeholder="Selecione uma imagem"
+        (fileSelected)="onFileSelected($event)"
+    ></app-input>
+</app-form-template>
+<!-- <app-form-template> -->
