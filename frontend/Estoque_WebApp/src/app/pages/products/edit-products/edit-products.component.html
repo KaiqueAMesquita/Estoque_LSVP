@@ -1,1 +1,46 @@
-<p>edit-products works!</p>
+<p>edit products works!</p>
+<app-template-form
+    [formTitle]="'Editar Produto'"
+    [formGroup]="form"
+    [submitText]="'Confirmar'"
+    [cancelText]="'Cancelar'"
+    (formSubmit)="onSubmit()"
+>
+    <app-input
+        [control]="getControl('name')"
+        type="text"
+        label="Nome"
+        placeholder="Digite o nome do produto"
+    ></app-input>
+
+    <app-input
+        [control]="getControl('description')"
+        type="text"
+        label="Descrição"
+        placeholder="Digite a descrição do produto"
+    ></app-input>
+
+    <app-input
+        [control]="getControl('price')"
+        type="number"
+        label="Preço"
+        placeholder="Digite o preço do produto"
+    ></app-input>
+
+    <app-input
+        [control]="getControl('quantity')"
+        type="number"
+        label="Quantidade"
+        placeholder="Digite a quantidade do produto"
+    ></app-input>
+
+    <app-input
+        [control]="getControl('category')"
+        type="select"
+        label="Categoria"
+        placeholder="Selecione a categoria"
+        [options]="categoryOptions"
+    ></app-input>
+</app-template-form>
+<!-- <app-input -->
+ 
