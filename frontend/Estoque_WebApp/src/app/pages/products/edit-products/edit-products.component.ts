@@ -5,10 +5,10 @@ import { InputComponent } from '../../../shared/components/input/input.component
 import { ProductService } from '../../../core/services/product.service';
 import { Product } from './../../../shared/models/product';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { JsonPipe } from '@angular/common';
 @Component({
   selector: 'app-edit-products',
-  imports: [FormBuilder, FormTemplateComponent, ReactiveFormsModule, InputComponent],
+  imports: [FormTemplateComponent, ReactiveFormsModule, InputComponent],
   templateUrl: './edit-products.component.html',
   styleUrl: './edit-products.component.css'
 })

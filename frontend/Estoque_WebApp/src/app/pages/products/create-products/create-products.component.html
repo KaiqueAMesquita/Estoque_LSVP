@@ -1,4 +1,4 @@
-<p>create products works!</p>
+<!--<p>create products works!</p>-->
 <app-form-template
     [formTitle]="'Criar Produto'"
     [formGroup]="form"
@@ -26,25 +26,27 @@
         label="Quantidade em Estoque"
         placeholder="Digite a quantidade em estoque"
     ></app-input>
+    <!--Acessível Depois de Criar o CRUD de Categorias
     <app-input
         [control]="getControl('category')"
         type="select"
         label="Categoria"
         placeholder="Selecione a categoria"
         [options]="categoryOptions"
-    ></app-input>
+    ></app-input>-->
     <app-input
         [control]="getControl('description')"
         type="textarea"
         label="Descrição"
         placeholder="Digite a descrição do produto"
     ></app-input>
+    <!-- Acessível Depois de Criar o CRUD de Unidades
     <app-input
         [control]="getControl('image')"
         type="file"
         label="Imagem do Produto"
         placeholder="Selecione uma imagem"
         (fileSelected)="onFileSelected($event)"
-    ></app-input>
+    ></app-input>-->
 </app-form-template>
 <!-- <app-form-template> -->

@@ -9,24 +9,31 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { EmptyComponentComponent } from './shared/components/empty-component/empty-component.component';
 import { CreateUserComponent } from './pages/user/create-user/create-user.component';
 import { EditUserComponent } from './pages/user/edit-user/edit-user.component';
+import { EditProductsComponent } from './pages/products/edit-products/edit-products.component';
+import { ViewProductsComponent } from './pages/products/view-products/view-products.component';
+import { CreateProductsComponent } from './pages/products/create-products/create-products.component';
 
 export const routes: Routes = [
     //[authGuard] protege as rotas que precisam de autenticação
     //[loginGuard] protege as rotas que não devem ser acessadas se o usuário já estiver logado
 
     
-   { path: 'login', component: LoginComponent, canActivate: [loginGuard] }, //rota de login
+   { path: 'login', component: LoginComponent, /*canActivate: [loginGuard]*/ }, //rota de login
    {path: '', redirectTo: 'dashboard', pathMatch: 'full' }, //rota padrão redireciona para o dashboard
-   {path: 'dashboard', component: DashboardComponent, pathMatch: 'full', canActivate: [authGuard] }, //rota do dashboard
+   {path: 'dashboard', component: DashboardComponent, pathMatch: 'full', /*canActivate: [authGuard]*/ }, //rota do dashboard
    //rotas de gerenciamento 
    { path: 'manage', component: ManageLayoutComponent,
     //filhos da rota de gerenciamento
         children: [
             {path: '', redirectTo: 'view', pathMatch: 'full'},
-            {path: 'view', component: ManageViewComponent, pathMatch: 'full', canActivate: [authGuard] },
-            {path: 'view/users', component: UsersViewComponent, pathMatch: 'full', canActivate: [authGuard] },
-            {path: 'create/user', component: CreateUserComponent, pathMatch: 'full', canActivate: [authGuard]},
-            {path: 'edit/user/:id', component: EditUserComponent, pathMatch: 'full', canActivate: [authGuard]}
+            {path: 'view', component: ManageViewComponent, pathMatch: 'full', /*canActivate: [authGuard]*/ },
+            {path: 'view/users', component: UsersViewComponent, pathMatch: 'full', /*canActivate: [authGuard]*/ },
+            {path: 'create/user', component: CreateUserComponent, pathMatch: 'full', /*canActivate: [authGuard]*/ },
+            {path: 'edit/user/:id', component: EditUserComponent, pathMatch: 'full', /*canActivate: [authGuard]*/ },
+            {path: 'view/products', component: ViewProductsComponent, pathMatch: 'full', /*canActivate: [authGuard]*/ },
+            {path: 'create/products', component: CreateProductsComponent, pathMatch: 'full', /*canActivate: [authGuard]*/ },
+            {path: 'edit/products/:id', component: EditProductsComponent, pathMatch: 'full', /*canActivate: [authGuard]*/ },
+
         ],
      },
     

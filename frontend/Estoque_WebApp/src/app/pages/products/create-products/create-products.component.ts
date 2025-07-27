@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-products',
-  imports: [FormBuilder, FormTemplateComponent, ReactiveFormsModule, InputComponent, JsonPipe],
+  imports: [FormTemplateComponent, ReactiveFormsModule, InputComponent, JsonPipe],
   templateUrl: './create-products.component.html',
   styleUrl: './create-products.component.css'
 })
@@ -17,7 +17,7 @@ export class CreateProductsComponent {
   // Este componente é responsável por criar novos produtos.
   // Ele pode conter um formulário para entrada de dados do produto
   // e métodos para enviar esses dados ao serviço de produtos.
-  // A lógica de criação de produtos será implementada aqui.
+  // A lógica de criação de produtos é implementada aqui...
   form: FormGroup;
   constructor(private fb: FormBuilder, private productService: ProductService, private router: Router) {
     // Inicialização do componente
