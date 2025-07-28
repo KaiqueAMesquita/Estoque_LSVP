@@ -1,0 +1,18 @@
+<!-- debug -->
+<!-- <pre>{{ form.value | json }}</pre> -->
+
+<app-form-template
+    [formTitle]="'Criar Container'"
+    [formGroup]="form"
+    [submitText]="'Confirmar'"
+    [cancelText]="'Cancelar'"
+    (formSubmit)="onSubmit()"
+>
+    <app-input
+        [control]="getControl('code')"
+        type="text"
+        label="Código"
+        placeholder="Digite o código do container"
+    ></app-input>
+
+</app-form-template>
