@@ -39,6 +39,8 @@ export const routes: Routes = [
 
             {path: 'create/container', component: CreateContainerComponent, pathMatch: 'full', canActivate: [authGuard] },
             {path: 'view/container', component: ViewContainersComponent, pathMatch: 'full', canActivate: [authGuard] },
+            {path: 'edit/container', component: ViewContainersComponent, pathMatch: 'full', canActivate: [authGuard] },
+
 
 
         ],
