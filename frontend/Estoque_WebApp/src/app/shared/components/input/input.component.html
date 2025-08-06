@@ -1,32 +1,43 @@
 <div class="form-group" [class.has-error]="control?.invalid && (control?.touched || control?.dirty)">
-      <label *ngIf="label">{{ label }}</label>
+  <label *ngIf="label">{{ label }}</label>
 
-      <!-- Input normal -->
-      <input 
-        *ngIf="type !== 'select'"
-        [type]="type"
-        [formControl]="control"
-        [placeholder]="placeholder || ''"
-      >
+  <!-- Input normal -->
+  <input 
+    *ngIf="type !== 'select' && type !== 'date'"
+    [type]="type"
+    [formControl]="control"
+    [placeholder]="placeholder || ''"
+    [disabled]="disable"
+  >
 
-      <!-- Select -->
-      <select 
-        *ngIf="type === 'select'"
-        [formControl]="control"
-        [class.is-invalid]="control?.invalid && (control?.touched || control?.dirty)"
-      >
-        <option [value]="''" disabled>{{ placeholder || 'Selecione...' }}</option>
-        <option *ngFor="let option of options" [value]="option.value">
-          {{ option.label }}
-        </option>
-      </select>
+  <!-- Input date -->
+  <input 
+    *ngIf="type === 'date'"
+    [type]="type"
+    [formControl]="control"
+    [placeholder]="placeholder || ''"
+    [disabled]="disable"
+  >
 
-      <!-- Validação -->
-      <div class="error-message" *ngIf="control?.invalid && (control?.touched || control?.dirty)">
-        <div *ngIf="control?.hasError('required')">Campo obrigatório</div>
-        <div *ngIf="control?.hasError('email')">Email inválido</div>
-        <div *ngIf="control?.hasError('minlength')">
-          Mínimo de {{ control?.getError('minlength')?.requiredLength }} caracteres
-        </div>
-      </div>
+  <!-- Select -->
+  <select 
+    *ngIf="type === 'select'"
+    [formControl]="control"
+    [class.is-invalid]="control?.invalid && (control?.touched || control?.dirty)"
+    [disabled]="disable"
+  >
+    <option [value]="''" disabled>{{ placeholder || 'Selecione...' }}</option>
+    <option *ngFor="let option of options" [value]="option.value">
+      {{ option.label }}
+    </option>
+  </select>
+
+  <!-- Validação -->
+  <div class="error-message" *ngIf="control?.invalid && (control?.touched || control?.dirty)">
+    <div *ngIf="control?.hasError('required')">Campo obrigatório</div>
+    <div *ngIf="control?.hasError('email')">Email inválido</div>
+    <div *ngIf="control?.hasError('minlength')">
+      Mínimo de {{ control?.getError('minlength')?.requiredLength }} caracteres
     </div>
+  </div>
+</div>

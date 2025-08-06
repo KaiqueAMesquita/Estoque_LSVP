@@ -26,7 +26,9 @@ import {
   faBoxesStacked,
   faCoins,
   faMinus,
-  faRightFromBracket
+  faRightFromBracket,
+  faBarcode,
+  faB
 
   
 } from '@fortawesome/free-solid-svg-icons';
@@ -62,7 +64,8 @@ export const icons = {
   faClock,
   faFileArchive,
   faMinus,
-  faRightFromBracket
+  faRightFromBracket,
+  faBarcode
 
 };
 

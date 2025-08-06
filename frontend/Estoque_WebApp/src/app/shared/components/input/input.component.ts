@@ -15,4 +15,5 @@ export class InputComponent {
   @Input() label: string = '';
   @Input() placeholder: string = '';
   @Input() options: { label: string; value: any }[] = [];
+  @Input() disable: boolean = false;
 }

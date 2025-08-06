@@ -14,11 +14,12 @@ import { CreateProductsComponent } from './pages/products/create-products/create
 import { CreateContainerComponent } from './pages/container/create-container/create-container.component';
 import { ViewContainersComponent } from './pages/container/view-containers/view-containers.component';
 import { TesteComponent } from './teste/teste.component';
+import { UnitInputComponent } from './pages/unit/unit-input/unit-input.component';
 
 export const routes: Routes = [
     //[authGuard] protege as rotas que precisam de autenticação
     //[loginGuard] protege as rotas que não devem ser acessadas se o usuário já estiver logado
-   { path: 'teste', component: TesteComponent, canActivate: [authGuard] }, //rota de login
+   { path: 'teste', component: UnitInputComponent, canActivate: [authGuard] }, //rota de login
    { path: 'login', component: LoginComponent, canActivate: [loginGuard] }, //rota de login
    {path: '', redirectTo: 'dashboard', pathMatch: 'full' }, //rota padrão redireciona para o dashboard
    {path: 'dashboard', component: DashboardComponent, pathMatch: 'full', canActivate: [authGuard] }, //rota do dashboard
