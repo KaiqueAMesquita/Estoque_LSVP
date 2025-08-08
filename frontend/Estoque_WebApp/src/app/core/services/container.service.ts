@@ -31,15 +31,8 @@ export class ContainerService {
   }
 
   // Método para atualizar um container
-  public updateContainer(containerId: number, container: Partial<Container>): void {
-    this.http.put<Container>(`${this.containerLink}/${containerId}`, container).subscribe(
-      (response) => {
-        console.log('Container atualizado com sucesso:', response);
-      },
-      (error) => {
-        console.error('Erro ao atualizar container:', error);
-      }
-    );
+  public updateContainer(containerId: number, container: Partial<Container>): Observable<Container> {
+    return this.http.put<Container>(`${this.containerLink}/${containerId}`, container);
   }
 
   // Método para deletar um container

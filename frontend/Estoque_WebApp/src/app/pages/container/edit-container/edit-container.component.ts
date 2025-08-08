@@ -28,10 +28,16 @@ export class EditContainerComponent {
     });
 
     if (this.id !== '') {
-      this.containerService.getContainerById(Number(this.id)).subscribe(container => {
-        this.form.patchValue({
-          code: container.code
-        });
+      this.containerService.getContainerById(Number(this.id)).subscribe({
+        next: container => {
+          this.form.patchValue({
+            code: container.code
+          });
+        },
+        error: () => {
+          location.href = '/manage/view/container';
+          console.error('Erro ao carregar container para edição');
+        }
       });
     }
   }
@@ -47,10 +53,17 @@ export class EditContainerComponent {
       id: idN,
       code: this.form.value.code
     };
-    this.containerService.updateContainer(idN, container);
-    this.form.reset();
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['manage/view/container']);
+    this.containerService.updateContainer(idN, container).subscribe({
+      next: () => {
+        this.form.reset();
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['manage/view/container']);
+        });
+      },
+      error: (error) => {
+        // Trate o erro se necessário
+        console.error('Erro ao editar container:', error);
+      }
     });
   }
 }

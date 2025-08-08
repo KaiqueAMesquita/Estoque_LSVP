@@ -15,6 +15,7 @@ import { CreateContainerComponent } from './pages/container/create-container/cre
 import { ViewContainersComponent } from './pages/container/view-containers/view-containers.component';
 import { TesteComponent } from './teste/teste.component';
 import { UnitInputComponent } from './pages/unit/unit-input/unit-input.component';
+import { EditContainerComponent } from './pages/container/edit-container/edit-container.component';
 
 export const routes: Routes = [
     //[authGuard] protege as rotas que precisam de autenticação
@@ -39,7 +40,7 @@ export const routes: Routes = [
 
             {path: 'create/container', component: CreateContainerComponent, pathMatch: 'full', canActivate: [authGuard] },
             {path: 'view/container', component: ViewContainersComponent, pathMatch: 'full', canActivate: [authGuard] },
-            {path: 'edit/container', component: ViewContainersComponent, pathMatch: 'full', canActivate: [authGuard] },
+            {path: 'edit/container/:id', component: EditContainerComponent, pathMatch: 'full', canActivate: [authGuard] },
 
 
 

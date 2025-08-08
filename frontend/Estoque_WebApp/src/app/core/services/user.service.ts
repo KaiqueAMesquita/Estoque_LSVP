@@ -29,15 +29,8 @@ export class UserService {
   }
 
   //Método para atualizar um usuário
-  public updateUser(userId: number, user: Partial<User>): void {
-     this.http.put<User>(this.userLink + "/" + userId, user).subscribe(
-      (response) => {
-        console.log('Usuário atualizado com sucesso:', response);
-      },
-      (error) => {
-        console.error('Erro ao atualizar usuário:', error);
-      }
-    );
+  public updateUser(userId: number, user: Partial<User>): Observable<User> {
+     return this.http.put<User>(this.userLink + "/" + userId, user);
   }
     //Método para deletar um usuário
   public deleteUser(userId: number): void {	

@@ -29,11 +29,17 @@ export class EditUserComponent {
       role: this.fb.control('', Validators.required)
     });
     if (this.id !== '') {
-      this.userService.getUserById(Number(this.id)).subscribe(user => {
-        this.form.patchValue({
-          name: user.name,
-          role: user.role
-        });
+      this.userService.getUserById(Number(this.id)).subscribe({
+        next: user => {
+          this.form.patchValue({
+        name: user.name,
+        role: user.role
+          });
+        },
+        error: () => {
+          location.href = '/manage/view/users';
+          console.error('Erro ao carregar usuário para edição');
+        }
       });
     }
   
@@ -52,10 +58,18 @@ export class EditUserComponent {
     name: this.form.value.name,
     role: this.form.value.role
   };
-    this.userService.updateUser(idN, user);
-    this.form.reset();
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+    this.userService.updateUser(idN, user).subscribe({
+    next: () => {
+      this.form.reset();
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate(['manage/view/users'])
-    });
-  }
+      });
+    },
+    error: (error) => {
+      // Trate o erro se necessário
+      console.error('Erro ao editar usuário:', error);
+    }
+  });
+};
 }
+ 
