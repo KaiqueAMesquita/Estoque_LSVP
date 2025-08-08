@@ -72,4 +72,34 @@ onSearch(event: Event): void {
     )
   );
 }
+
+sortDirection: { [key: string]: 'asc' | 'desc' } = {};
+
+public orderBy(column: string): void {
+  // Alterna a direção da ordenação para a coluna selecionada
+  this.sortDirection[column] = this.sortDirection[column] === 'asc' ? 'desc' : 'asc';
+  const direction = this.sortDirection[column];
+
+  this.data.sort((a, b) => {
+    const valueA = a[column];
+    const valueB = b[column];
+
+    // Lida com valores nulos/indefinidos
+    if (valueA == null && valueB == null) return 0;
+    if (valueA == null) return direction === 'asc' ? -1 : 1;
+    if (valueB == null) return direction === 'asc' ? 1 : -1;
+
+    // Ordenação para números e strings
+    if (typeof valueA === 'number' && typeof valueB === 'number') {
+      return direction === 'asc' ? valueA - valueB : valueB - valueA;
+    }
+
+    // Ordenação para strings (alfabética)
+    const strA = valueA.toString().toLowerCase();
+    const strB = valueB.toString().toLowerCase();
+    if (strA < strB) return direction === 'asc' ? -1 : 1;
+    if (strA > strB) return direction === 'asc' ? 1 : -1;
+    return 0;
+  });
+}
 }

@@ -16,7 +16,13 @@
       <!--geração de colunas dinãmicas-->
       <tr>
         <!--ngFor - para cada coluna dentro de columns gerar uma célula na tabela-->
-        <th *ngFor="let column of columns">{{ column }}</th>
+        <th *ngFor="let column of columns" (click)="orderBy(column)">{{ column }} 
+          <span class="triangle" [ngClass]="{
+      'triangle-up': sortDirection[column] === 'asc',
+      'triangle-down': sortDirection[column] === 'desc'
+    }"
+  ></span>
+</th>
         <!--se edit for true, exibe coluna de editar-->
         <th *ngIf="edit">Editar</th>
         <!--se delete for true, exibe coluna de deletar-->
