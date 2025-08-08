@@ -39,5 +39,8 @@
     <div *ngIf="control?.hasError('minlength')">
       Mínimo de {{ control?.getError('minlength')?.requiredLength }} caracteres
     </div>
+    <div *ngIf="control?.hasError('maxlength')">
+      Máximo de {{ control?.getError('maxlength')?.requiredLength }} caracteres
   </div>
+    
 </div>

@@ -3,9 +3,10 @@ import { PTableComponent } from '../../../shared/components/p-table/p-table.comp
 import { UserService } from './../../../core/services/user.service';
 import { User } from './../../../shared/models/user';
 import { CommonModule } from '@angular/common';
-import { Router, NavigationEnd } from '@angular/router';
-import { filter, Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthenticationService } from './../../../core/authentication/authentication.service';
+import { NavigationWatcherService } from '../../../core/services/navigation-watcher.service';
 
 @Component({
   selector: 'app-users-view',
@@ -16,10 +17,11 @@ templateUrl: './users-view.component.html',
 })
 export class UsersViewComponent implements OnInit, OnDestroy {
   users: User[] = []; // Array para armazenar os usuários
-  private routerSubscription!: Subscription; // Assinatura para monitorar eventos de navegação do roteador
-  
+    private navigationSub?: Subscription;
 
-  constructor(private userService :UserService, private auth: AuthenticationService, private router: Router) {}
+
+  constructor(private userService :UserService, private auth: AuthenticationService, 
+    private router: Router, private navigationWatcher: NavigationWatcherService) {}
 
   /**
    * Método chamado quando o componente é inicializado.
@@ -29,12 +31,15 @@ export class UsersViewComponent implements OnInit, OnDestroy {
      // Atualiza ao iniciar
     this.loadUsers();
 
-    // Ouve eventos de navegação e recarrega se a rota atual for a deste componente
-    this.routerSubscription = this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => {
+     this.navigationSub = this.navigationWatcher.navigation$.subscribe(() => {
+      // 3. Verifique se está na rota deste componente
+      if (this.router.url.startsWith('/users')) { // ajuste conforme sua rota
         this.loadUsers();
-      });
+      }
+    });
+
+    // Ouve eventos de navegação e recarrega se a rota atual for a deste componente
+  
   }
   /**
     Método para obter o token de autenticação do usuário.
@@ -46,10 +51,9 @@ export class UsersViewComponent implements OnInit, OnDestroy {
   
 
     ngOnDestroy(): void {
-    // limpar subscription para evitar memory leak
-    if (this.routerSubscription) {
-      this.routerSubscription.unsubscribe();
-    }
+    // Limpa a assinatura para evitar vazamentos de memória
+       this.navigationSub?.unsubscribe();
+
   }
 
   //Método que carrega usuário

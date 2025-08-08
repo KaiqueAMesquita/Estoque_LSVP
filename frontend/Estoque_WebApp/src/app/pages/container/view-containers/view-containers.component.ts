@@ -3,8 +3,9 @@ import { PTableComponent } from '../../../shared/components/p-table/p-table.comp
 import { ContainerService } from '../../../core/services/container.service';
 import { Container } from '../../../shared/models/container';
 import { CommonModule } from '@angular/common';
-import { Router, NavigationEnd } from '@angular/router';
-import { filter, Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { NavigationWatcherService } from '../../../core/services/navigation-watcher.service';
 
 @Component({
   selector: 'app-view-containers',
@@ -14,35 +15,29 @@ import { filter, Subscription } from 'rxjs';
   styleUrl: './view-containers.component.css'
 })
 export class ViewContainersComponent implements OnInit, OnDestroy {
-  containers: Container[] = []; // Array para armazenar os containers
-  private routerSubscription!: Subscription; // Assinatura para monitorar eventos de navegação do roteador
+  containers: Container[] = [];
+  private navigationSub?: Subscription;
 
-  constructor(private containerService: ContainerService, private router: Router) {}
+  constructor(
+    private containerService: ContainerService,
+    private router: Router,
+    private navigationWatcher: NavigationWatcherService
+  ) {}
 
-  /**
-   * Método chamado quando o componente é inicializado.
-   * Busca todos os containers e os armazena no array `containers`.
-   */
   ngOnInit(): void {
-    // Atualiza ao iniciar
     this.loadContainers();
 
-    // Ouve eventos de navegação e recarrega se a rota atual for a deste componente
-    this.routerSubscription = this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => {
+    this.navigationSub = this.navigationWatcher.navigation$.subscribe(() => {
+      if (this.router.url.startsWith('/containers')) { // ajuste conforme sua rota
         this.loadContainers();
-      });
+      }
+    });
   }
 
   ngOnDestroy(): void {
-    // limpar subscription para evitar memory leak
-    if (this.routerSubscription) {
-      this.routerSubscription.unsubscribe();
-    }
+    this.navigationSub?.unsubscribe();
   }
 
-  //Método que carrega containers
   private loadContainers(): void {
     this.containerService.getAllContainers().subscribe({
       next: (data: Container[]) => {
@@ -54,19 +49,16 @@ export class ViewContainersComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Método para deletar um container
   DeleteContainer(containerId: number): void {
     try {
-      this.containerService.deleteContainer(containerId); // Chama o serviço para deletar o container
-      this.containers = this.containers.filter(container => container.id !== containerId); // Atualiza a lista de containers removendo o container deletado
+      this.containerService.deleteContainer(containerId);
+      this.containers = this.containers.filter(container => container.id !== containerId);
     } catch (error) {
       console.error('Erro ao deletar container:', error);
     }
   }
 
-  // Método para redirecionar para a página de edição de container
   EditContainer(id: number): void {
-    // Redireciona para a rota de edição de container
     this.router.navigate(['manage/edit/container', id]);
   }
 }

@@ -40,10 +40,18 @@ export class CreateContainerComponent {
     code: this.form.value.code,
  
   };
-    this.containerService.registerContainer(container);
-    this.form.reset();
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+    this.containerService.registerContainer(container).subscribe({
+      next: () => {
+      this.form.reset();
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate(['manage/view/container'])
+      
+    });
+  },
+  error: (error) => {
+    // Trate o erro se necessário
+    console.error('Erro ao criar container:', error);
+  }
     });
   }
 }

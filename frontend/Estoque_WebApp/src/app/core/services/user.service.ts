@@ -13,15 +13,9 @@ export class UserService {
   }
   
   //Método para registrar um usuário
-  public registerUser(user: User): void {
-  this.http.post<User>(this.userLink, user).subscribe(
-    (response) => {
-      console.log('Usuário registrado com sucesso:', response);
-    },
-    (error) => {
-      console.error('Erro ao registrar usuário:', error);
-    }
-  );
+  public registerUser(user: User): Observable<User> {
+    return this.http.post<User>(this.userLink, user);
+
 }
 
     //Método para pegar todos usuários

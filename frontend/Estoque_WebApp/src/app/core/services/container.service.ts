@@ -15,15 +15,9 @@ export class ContainerService {
   }
 
   // Método para registrar um container
-  public registerContainer(container: Container): void {
-    this.http.post<Container>(this.containerLink, container).subscribe(
-      (response) => {
-        console.log('Container registrado com sucesso:', response);
-      },
-      (error) => {
-        console.error('Erro ao registrar container:', error);
-      }
-    );
+  public registerContainer(container: Container): Observable<Container> {
+    return this.http.post<Container>(this.containerLink, container);
+    
   }
 
   // Método para pegar todos containers

@@ -36,17 +36,24 @@ export class CreateUserComponent {
     return this.form.get(field) as FormControl;
   }
 
-  onSubmit(): void {
-    const user: User = {
+ onSubmit(): void {
+  const user: User = {
     id: 0,
     name: this.form.value.name,
     password: this.form.value.password,
     role: this.form.value.role
   };
-    this.userService.registerUser(user)
-    this.form.reset();
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['manage/view/users'])
-    });
-  }
+  this.userService.registerUser(user).subscribe({
+    next: () => {
+      this.form.reset();
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['manage/view/users']);
+      });
+    },
+    error: (error) => {
+      // Trate o erro se necessário
+      console.error('Erro ao criar usuário:', error);
+    }
+  });
+}
 }
