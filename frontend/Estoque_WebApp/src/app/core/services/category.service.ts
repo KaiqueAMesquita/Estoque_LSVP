@@ -30,8 +30,7 @@ export class CategoryService {
 
   // Método para atualizar uma categoria
   public updateCategory(categoryId: number, category: Partial<Category>): Observable<Category> {
-    return this.http.put<Category>(`${this.categoryLink}/${categoryId}`, category
-    );
+    return this.http.put<Category>(`${this.categoryLink}/${categoryId}`, category);
   }
 
   // Método para deletar uma categoria
