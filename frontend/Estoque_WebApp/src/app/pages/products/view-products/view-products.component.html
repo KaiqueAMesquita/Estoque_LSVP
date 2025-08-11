@@ -1,5 +1,5 @@
 <!--<p>view products works!</p>-->
-<app-p-table (onDelete)="DeleteProduct($event.id)" (onEdit)="EditProduct($event.id)" [data]="products" [delete]="true" [edit]="true" [view]="true"></app-p-table>
+<app-p-table [showSearch]="true" (onDelete)="DeleteProduct($event.id)" (onEdit)="EditProduct($event.id)" [data]="products" [delete]="true" [edit]="true" [view]="true"></app-p-table>
 <!-- Exemplo de tabela com PrimeNG 
 <p-table [value]="products" [paginator]="true" [rows]="10" [responsiveLayout]="'scroll'">
   <ng-template pTemplate="header">
@@ -22,3 +22,4 @@
     </tr>
   </ng-template>
 -->
+

@@ -20,15 +20,8 @@ export class ProductService {
     }
 
     // Método para registrar um produto
-    public registerProduct(product: Product): void {
-      this.http.post<Product>(this.productLink, product).subscribe(
-        (response) => {
-          console.log('Produto registrado com sucesso:', response);
-        },
-        (error) => {
-          console.error('Erro ao registrar produto:', error);
-        }
-      );
+    public registerProduct(product: Product): Observable<Product> {
+      return this.http.post<Product>(this.productLink, product);
     }
     // Método para pegar todos os produtos
     public getAllProducts(): Observable<Product[]> {
@@ -36,22 +29,17 @@ export class ProductService {
     }
     // Método para pegar um produto pelo id
     public getProductById(productId: number): Observable<Product> {
-      return this.http.get<Product>(this.productLink + "/" + productId);
+      return this.http.get<Product>(`${this.productLink}/${productId}`);
+      //<Product>(this.productLink + "/" + productId);
     }
     // Método para atualizar um produto
-    public updateProduct(productId: number, product: Partial<Product>): void {   
-      this.http.put<Product>(this.productLink + "/" + productId, product).subscribe(
-        (response) => {
-          console.log('Produto atualizado com sucesso:', response);
-        },
-        (error) => {
-          console.error('Erro ao atualizar produto:', error);
-        }
-      );
+    public updateProduct(productId: number, product: Partial<Product>): Observable<Product> {   
+      return this.http.put<Product>(`${this.productLink}/${productId}`, product);    
     }
+    // Métodos para serem utilizados mais tarde
     // Método para deletar um produto
     public deleteProduct(productId: number): void {
-      this.http.delete<Product>(this.productLink + "/" + productId).subscribe(
+      this.http.delete<Product>(`${this.productLink}/${productId}`).subscribe(
         (response) => {
           console.log('Produto deletado com sucesso:', response);
         },
@@ -60,6 +48,7 @@ export class ProductService {
         }
       );
     }
+    //Métodos Adicionais para buscar produtos com base em diferentes critérios, Garantia Extendida
     // Método para buscar produtos por nome
     public searchProductsByName(name: string): Observable<Product[]> {
       return this.http.get<Product[]>(`${this.productLink}/search?name=${name}`);

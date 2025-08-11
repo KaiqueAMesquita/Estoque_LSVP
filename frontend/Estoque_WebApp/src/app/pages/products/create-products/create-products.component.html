@@ -2,7 +2,7 @@
 <app-form-template
     [formTitle]="'Criar Produto'"
     [formGroup]="form"
-    [submitText]="'Criar'"
+    [submitText]="'Confirmar'"
     [cancelText]="'Cancelar'"
     (formSubmit)="onSubmit()"
 >
@@ -40,7 +40,7 @@
         label="Descrição"
         placeholder="Digite a descrição do produto"
     ></app-input>
-    <!-- Acessível Depois de Criar o CRUD de Unidades
+    <!-- Acessível se os Produtos Forem do Tipo Imagem
     <app-input
         [control]="getControl('image')"
         type="file"
@@ -49,4 +49,4 @@
         (fileSelected)="onFileSelected($event)"
     ></app-input>-->
 </app-form-template>
-<!-- <app-form-template> -->
+

@@ -5,7 +5,7 @@ import { InputComponent } from '../../../shared/components/input/input.component
 import { ProductService } from '../../../core/services/product.service';
 import { Product } from '../../../shared/models/product';
 import { ActivatedRoute, Router } from '@angular/router';
-
+//Componente em Período de Testes, Garantia Extendida
 @Component({
   selector: 'app-delete-product-by-id',
   imports: [FormBuilder, ReactiveFormsModule],

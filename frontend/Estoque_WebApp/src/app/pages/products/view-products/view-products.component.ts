@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { AuthenticationService } from './../../../core/authentication/authentication.service';
+import { NavigationWatcherService } from '../../../core/services/navigation-watcher.service';
 @Component({
   selector: 'app-view-products',
   imports: [PTableComponent, CommonModule],
@@ -15,33 +16,31 @@ import { AuthenticationService } from './../../../core/authentication/authentica
 })
 export class ViewProductsComponent implements OnInit, OnDestroy {
   products: Product[] = []; // Array para armazenar os produtos
-  private routerSubscription!: Subscription; // Assinatura para monitorar eventos de navegação do roteador
-  constructor(private productService: ProductService, private auth: AuthenticationService, private router: Router) {}
+  private navigationSub?: Subscription; // Assinatura para monitorar eventos de navegação do roteador
+  constructor(private productService: ProductService, private auth: AuthenticationService, private router: Router, private navigationWatcher: NavigationWatcherService) {}
   ngOnInit(): void {
     // Atualiza ao iniciar
     this.loadProducts();
 
     // Ouve eventos de navegação e recarrega se a rota atual for a deste componente
-    this.routerSubscription = this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => {
+    this.navigationSub = this.navigationWatcher.navigation$.subscribe(() => {
+      // Verificando se é a rota correta deste componente
+      if (this.router.url.startsWith('/products')) {
         this.loadProducts();
-      });
-  }
-
-  /**
+      }
+    });
+  }   
+   /**
    * Método para obter o token de autenticação do usuário.
-   * @returns O token de autenticação ou null se não estiver autenticado.
+   * Retorna O token de autenticação ou null se não estiver autenticado.
   **/
   public getToken(): string | null {
     return this.auth.getToken();
   }
 
   ngOnDestroy(): void {
-    // limpar subscription para evitar memory leak
-    if (this.routerSubscription) {
-      this.routerSubscription.unsubscribe();
-    } 
+    // limpa subscription (inscrição) para evitar vazamento de memória (memory leak)
+    this.navigationSub?.unsubscribe();
   }
   // Método que carrega produtos
   private loadProducts(): void {
@@ -70,19 +69,14 @@ DeleteProduct(productId: number): void {
 
 EditProduct(productId: number): void {
   // Redireciona para a página de edição do produto com o ID do produto
-  this.router.navigate(['/products/edit', productId]);
+  this.router.navigate(['manage/products/edit', productId]);
 }
 
 // Método para adicionar um novo produto e redirecionar para a página de adição
 AddProduct(): void { 
   // Redireciona para a página de adição de produto
-  this.router.navigate(['/products/add']);
+  this.router.navigate(['manage/products/add']);
 }
-// Método para visualizar os detalhes de um produto
-ViewProduct(productId: number): void {
-  // Redireciona para a página de visualização do produto com o ID do produto
-  this.router.navigate(['/products/view', productId]);
 }
 
 
-}

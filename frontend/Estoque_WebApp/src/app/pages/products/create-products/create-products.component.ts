@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
   templateUrl: './create-products.component.html',
   styleUrl: './create-products.component.css'
 })
+
 export class CreateProductsComponent {
   // Este componente é responsável por criar novos produtos.
   // Ele pode conter um formulário para entrada de dados do produto
@@ -23,8 +24,8 @@ export class CreateProductsComponent {
     // Inicialização do componente
     this.form = this.fb.group({
       name: this.fb.control('', Validators.required),
-      price: this.fb.control('', [Validators.required, Validators.min(0)]),
-      quantity: this.fb.control('', [Validators.required, Validators.min(1)])
+      price: this.fb.control('', [Validators.required, Validators.minLength(6)]),
+      quantity: this.fb.control(null, [Validators.required])
     });
   }
   getControl(field: string): FormControl {
@@ -45,12 +46,19 @@ export class CreateProductsComponent {
       quantity: this.form.value.quantity
     };
     // Chamada ao serviço para registrar o produto
-    this.productService.registerProduct(product);
-    // Resetando o formulário após o envio
-    this.form.reset();
-    // Redirecionando para a página de visualização de produtos
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['manage/view/products']);
+    this.productService.registerProduct(product).subscribe({
+      next: () => {
+        // Resetando o formulário após o envio
+        this.form.reset();
+        // Redirecionando para a página de visualização de produtos
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['manage/view/products']);
+      });
+      },
+      error: (error) => {
+        // Tratamento de erro, se necessário
+        console.error('Erro ao criar produto:', error);
+      }
     });
   }
 }

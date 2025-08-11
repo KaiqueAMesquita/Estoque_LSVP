@@ -1,12 +1,9 @@
 <!--<p>edit products works!</p>-->
-<!--Descobrir porque o Form-Template não aceita esses campos:
+<app-form-template
     [formTitle]="'Editar Produto'"
+    [formGroup]="form"
     [submitText]="'Confirmar'"
     [cancelText]="'Cancelar'"
--->
-<app-template-form
-    [formGroup]="form"
-    
     (formSubmit)="onSubmit()"
 >
     <app-input
@@ -36,7 +33,7 @@
         label="Quantidade"
         placeholder="Digite a quantidade do produto"
     ></app-input>
-    <!--Acessível Depois de Criar o CRUD de Categorias
+    <!--Acessível Depois de Agregar o CRUD de Categorias
     <app-input
         [control]="getControl('category')"
         type="select"
@@ -44,6 +41,6 @@
         placeholder="Selecione a categoria"
         [options]="categoryOptions"
     ></app-input>-->
-</app-template-form>
-<!-- <app-input -->
+</app-form-template>
+
  
