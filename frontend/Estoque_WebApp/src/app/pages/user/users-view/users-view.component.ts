@@ -13,9 +13,15 @@ import { ModalComponent } from '../../../shared/components/modal/modal.component
 
 @Component({
   selector: 'app-users-view',
+<<<<<<< HEAD
   imports: [PTableComponent, CommonModule, ModalModule],
  standalone: true,
 templateUrl: './users-view.component.html',
+=======
+  imports: [PTableComponent, CommonModule],
+  standalone: true,
+  templateUrl: './users-view.component.html',
+>>>>>>> feature/category_crud
   styleUrl: './users-view.component.css'
 })
 export class UsersViewComponent implements OnInit, OnDestroy, AfterViewInit {

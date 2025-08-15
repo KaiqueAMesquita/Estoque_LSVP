@@ -16,7 +16,6 @@ import { ViewContainersComponent } from './pages/container/view-containers/view-
 import { TesteComponent } from './teste/teste.component';
 import { UnitInputComponent } from './pages/unit/unit-input/unit-input.component';
 import { EditContainerComponent } from './pages/container/edit-container/edit-container.component';
-import { adminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
     //[authGuard] protege as rotas que precisam de autenticação
@@ -30,22 +29,22 @@ export const routes: Routes = [
     //filhos da rota de gerenciamento
         children: [
             {path: '', redirectTo: 'view', pathMatch: 'full'},
-            {path: 'view', component: ManageViewComponent, pathMatch: 'full'},
-            {path: 'view/users', component: UsersViewComponent, pathMatch: 'full', canActivate: [adminGuard] },
-            {path: 'create/user', component: CreateUserComponent, pathMatch: 'full', canActivate: [adminGuard] },
-            {path: 'edit/user/:id', component: EditUserComponent, pathMatch: 'full', canActivate: [adminGuard] },
+            {path: 'view', component: ManageViewComponent, pathMatch: 'full', canActivate: [authGuard] },
+            {path: 'view/users', component: UsersViewComponent, pathMatch: 'full', canActivate: [authGuard] },
+            {path: 'create/user', component: CreateUserComponent, pathMatch: 'full', canActivate: [authGuard] },
+            {path: 'edit/user/:id', component: EditUserComponent, pathMatch: 'full', canActivate: [authGuard] },
 
-            {path: 'view/products', component: ViewProductsComponent, pathMatch: 'full' },
-            {path: 'create/products', component: CreateProductsComponent, pathMatch: 'full' },
-            {path: 'edit/products/:id', component: EditProductsComponent, pathMatch: 'full' },
+            {path: 'view/products', component: ViewProductsComponent, pathMatch: 'full', canActivate: [authGuard] },
+            {path: 'create/products', component: CreateProductsComponent, pathMatch: 'full', canActivate: [authGuard] },
+            {path: 'edit/products/:id', component: EditProductsComponent, pathMatch: 'full', canActivate: [authGuard] },
 
-            {path: 'create/container', component: CreateContainerComponent, pathMatch: 'full' },
-            {path: 'view/container', component: ViewContainersComponent, pathMatch: 'full' },
-            {path: 'edit/container/:id', component: EditContainerComponent, pathMatch: 'full' },
+            {path: 'create/container', component: CreateContainerComponent, pathMatch: 'full', canActivate: [authGuard] },
+            {path: 'view/container', component: ViewContainersComponent, pathMatch: 'full', canActivate: [authGuard] },
+            {path: 'edit/container/:id', component: EditContainerComponent, pathMatch: 'full', canActivate: [authGuard] },
 
 
 
-        ], canActivate: [authGuard]
+        ],
      },
     
 ];

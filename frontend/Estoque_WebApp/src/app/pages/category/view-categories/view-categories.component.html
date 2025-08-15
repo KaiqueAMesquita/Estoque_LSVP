@@ -1,0 +1,8 @@
+<app-p-table 
+    [showSearch]="true" 
+    (onDelete)="DeleteCategory($event.id)" 
+    (onEdit)="EditCategory($event.id)" 
+    [data]="categories" [delete]="true" 
+    [edit]="true" 
+    [view]="true">
+</app-p-table>

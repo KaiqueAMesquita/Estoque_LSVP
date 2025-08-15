@@ -1,5 +1,4 @@
-<app-p-table (isDeleted)="isDeleted" [showSearch]="true" (onDelete)="DeleteUser($event.id)" (onEdit)="EditUser($event.id)" [data]="users" [delete]="true" [edit]="true" [view]="true"></app-p-table>
-<a href="">Criar usuário</a>
+<app-p-table [showSearch]="true" (onDelete)="DeleteUser($event.id)" (onEdit)="EditUser($event.id)" [data]="users" [delete]="true" [edit]="true" [view]="true"></app-p-table>
 
 <app-modal #exceptionUser>
         <h4 class="modal-title">Erro de operação</h4>
