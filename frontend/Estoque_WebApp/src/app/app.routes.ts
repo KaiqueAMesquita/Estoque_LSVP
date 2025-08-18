@@ -13,9 +13,11 @@ import { ViewProductsComponent } from './pages/products/view-products/view-produ
 import { CreateProductsComponent } from './pages/products/create-products/create-products.component';
 import { CreateContainerComponent } from './pages/container/create-container/create-container.component';
 import { ViewContainersComponent } from './pages/container/view-containers/view-containers.component';
-import { TesteComponent } from './teste/teste.component';
 import { UnitInputComponent } from './pages/unit/unit-input/unit-input.component';
 import { EditContainerComponent } from './pages/container/edit-container/edit-container.component';
+import { CreateCategoryComponent } from './pages/category/create-category/create-category.component';
+import { ViewCategoriesComponent } from './pages/category/view-categories/view-categories.component';
+import { EditCategoryComponent } from './pages/category/edit-category/edit-category.component';
 
 export const routes: Routes = [
     //[authGuard] protege as rotas que precisam de autenticação
@@ -41,6 +43,10 @@ export const routes: Routes = [
             {path: 'create/container', component: CreateContainerComponent, pathMatch: 'full', canActivate: [authGuard] },
             {path: 'view/container', component: ViewContainersComponent, pathMatch: 'full', canActivate: [authGuard] },
             {path: 'edit/container/:id', component: EditContainerComponent, pathMatch: 'full', canActivate: [authGuard] },
+
+            {path: 'create/category', component: CreateCategoryComponent, pathMatch: 'full', canActivate: [authGuard] },
+            {path: 'view/categories', component: ViewCategoriesComponent, pathMatch: 'full', canActivate: [authGuard] },
+            {path: 'edit/category/:id', component: EditCategoryComponent, pathMatch: 'full', canActivate: [authGuard] },
 
 
 
