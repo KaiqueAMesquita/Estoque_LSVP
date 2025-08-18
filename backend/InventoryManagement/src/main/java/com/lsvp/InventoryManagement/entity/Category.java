@@ -3,9 +3,8 @@ package com.lsvp.InventoryManagement.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lsvp.InventoryManagement.enums.FoodType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -36,6 +35,9 @@ public class Category {
     @Column(name = "cat_type", length = 30, nullable = false)
     private FoodType food_type;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    // Lucas: NÃO MEXA nessas duas linhas abaixo se valoriza sua vida e sanidade
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Product> products;
 }
