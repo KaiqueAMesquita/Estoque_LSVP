@@ -45,7 +45,7 @@ public class ProductService {
         Category category = categoryRepository.findById(dto.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada!!"));
 
         product.setCategory(category);
-
+//        category.getProducts().add(product);
         
         return mapper.toDTO(repository.save(product));
     }

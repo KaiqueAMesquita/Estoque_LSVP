@@ -2,6 +2,8 @@ package com.lsvp.InventoryManagement.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.GeneratedColumn;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -42,6 +44,9 @@ public class Product {
     //https://www.baeldung.com/hibernate-one-to-many
     @ManyToOne
     @JoinColumn(name = "fk_tbl_category_cat_id")
+    // Lucas: NÃO MEXA nessas duas linhas abaixo se valoriza sua vida e sanidade
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Category category;
 
     @OneToMany(mappedBy = "product")
