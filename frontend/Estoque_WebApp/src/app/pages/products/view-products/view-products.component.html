@@ -1,25 +1,3 @@
-<!--<p>view products works!</p>-->
+
 <app-p-table [showSearch]="true" (onDelete)="DeleteProduct($event.id)" (onEdit)="EditProduct($event.id)" [data]="products" [delete]="true" [edit]="true" [view]="true"></app-p-table>
-<!-- Exemplo de tabela com PrimeNG 
-<p-table [value]="products" [paginator]="true" [rows]="10" [responsiveLayout]="'scroll'">
-  <ng-template pTemplate="header">
-    <tr>
-      <th>Product ID</th>
-      <th>Name</th>
-      <th>Price</th>
-      <th>Actions</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-product>
-    <tr>
-      <td>{{ product.id }}</td>
-      <td>{{ product.name }}</td>
-      <td>{{ product.price | currency }}</td>
-      <td>
-        <button (click)="EditProduct(product.id)">Edit</button>
-        <button (click)="DeleteProduct(product.id)">Delete</button>
-      </td>
-    </tr>
-  </ng-template>
--->
 

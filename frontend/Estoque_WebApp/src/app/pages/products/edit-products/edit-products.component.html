@@ -1,46 +1,50 @@
-<!--<p>edit products works!</p>-->
 <app-form-template
-    [formTitle]="'Editar Produto'"
-    [formGroup]="form"
-    [submitText]="'Confirmar'"
-    [cancelText]="'Cancelar'"
-    (formSubmit)="onSubmit()"
+  [formTitle]="'Editar Produto'"
+  [formGroup]="form"
+  [submitText]="'Confirmar'"
+  [cancelText]="'Cancelar'"
+  (formSubmit)="onSubmit()"
 >
-    <app-input
-        [control]="getControl('name')"
-        type="text"
-        label="Nome"
-        placeholder="Digite o nome do produto"
-    ></app-input>
+  <!-- GTIN -->
+  <app-input
+    [control]="getControl('gtin')"
+    type="text"
+    label="GTIN"
+    placeholder="Digite o GTIN do produto"
+  ></app-input>
 
-    <app-input
-        [control]="getControl('description')"
-        type="text"
-        label="Descrição"
-        placeholder="Digite a descrição do produto"
-    ></app-input>
+  <!-- Medida -->
+  <app-input
+    [control]="getControl('measure')"
+    type="number"
+    label="Medida"
+    placeholder="Digite a medida do produto"
+  ></app-input>
 
-    <app-input
-        [control]="getControl('price')"
-        type="number"
-        label="Preço"
-        placeholder="Digite o preço do produto"
-    ></app-input>
+  <!-- Tipo de Medida -->
+  <app-input
+    [control]="getControl('measureType')"
+    type="text"
+    label="Tipo de Medida"
+    placeholder="Ex: g, kg, ml"
+  ></app-input>
 
-    <app-input
-        [control]="getControl('quantity')"
-        type="number"
-        label="Quantidade"
-        placeholder="Digite a quantidade do produto"
-    ></app-input>
-    <!--Acessível Depois de Agregar o CRUD de Categorias
-    <app-input
-        [control]="getControl('category')"
-        type="select"
-        label="Categoria"
-        placeholder="Selecione a categoria"
-        [options]="categoryOptions"
-    ></app-input>-->
+  <!-- Categoria -->
+  <app-input
+    [control]="getControl('categoryId')"
+    type="number"
+    label="Categoria"
+    placeholder="Digite o ID da categoria"
+  ></app-input>
+
+  <!-- Caso queira usar select futuramente -->
+  <!--
+  <app-input
+    [control]="getControl('categoryId')"
+    type="select"
+    label="Categoria"
+    placeholder="Selecione a categoria"
+    [options]="categoryOptions"
+  ></app-input>
+  -->
 </app-form-template>
-
- 
