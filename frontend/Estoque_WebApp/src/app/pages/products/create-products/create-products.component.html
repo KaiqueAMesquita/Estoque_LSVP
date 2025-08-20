@@ -22,12 +22,13 @@
   ></app-input>
 
   <!-- Tipo de Medida -->
-  <app-input
-    [control]="getControl('measureType')"
-    type="text"
-    label="Tipo de Medida"
-    placeholder="Ex: g, kg, ml"
-  ></app-input>
+   <app-input
+        [control]="getControl('measureType')"
+        type="select"
+        label="Tipo de Medida"
+        placeholder="Selecione o tipo de medida"
+        [options]="measureOption"
+    ></app-input>
 
   <!-- Categoria -->
   <app-input

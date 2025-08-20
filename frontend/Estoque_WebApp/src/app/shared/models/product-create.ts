@@ -1,8 +1,7 @@
-export interface Product {
+export interface ProductCreate {
     gtin: string;
     measure: number;
     measureType: string;
-    description: string;
     categoryId: number;
   
 }

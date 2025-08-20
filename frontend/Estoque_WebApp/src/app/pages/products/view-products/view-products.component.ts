@@ -49,7 +49,7 @@ export class ViewProductsComponent implements OnInit, OnDestroy {
     });
   }
 
-  DeleteProduct(gtin: number): void {
+  DeleteProduct(gtin: string): void {
     try {
       this.productService.deleteProduct(gtin);
       this.products = this.products.filter(product => product.gtin !== gtin);

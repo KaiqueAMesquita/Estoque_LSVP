@@ -6,6 +6,7 @@ import { JsonPipe } from '@angular/common';
 import { ProductService } from '../../../core/services/product.service';
 import { Router } from '@angular/router';
 import { Product } from '../../../shared/models/product';
+import { ProductCreate } from '../../../shared/models/product-create';
 
 @Component({
   selector: 'app-create-products',
@@ -15,7 +16,14 @@ import { Product } from '../../../shared/models/product';
 })
 export class CreateProductsComponent {
   form: FormGroup;
+ measureOption = [
+    { label: 'Quilo(s)', value: 0 },
+    { label: 'Grama(s)', value: 1 },
+    { label: 'Litro(s)', value: 2 },
+    { label: 'Mililitro(s)', value: 3 }
+  ];
 
+   
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
@@ -25,7 +33,7 @@ export class CreateProductsComponent {
     this.form = this.fb.group({
       gtin: this.fb.control('', Validators.required),
       measure: this.fb.control('', Validators.required),
-      measureType: this.fb.control('', Validators.required),
+      measureType: this.fb.control(null, Validators.required),
       categoryId: this.fb.control('', Validators.required)
     });
   }
@@ -35,7 +43,7 @@ export class CreateProductsComponent {
   }
 
   onSubmit(): void {
-    const product: Partial<Product> = {
+    const product: ProductCreate = {
       gtin: this.form.value.gtin,
       measure: this.form.value.measure,
       measureType: this.form.value.measureType,

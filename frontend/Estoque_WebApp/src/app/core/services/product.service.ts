@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../../shared/models/product';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { Observable } from 'rxjs';
+import { ProductCreate } from '../../shared/models/product-create';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +14,7 @@ export class ProductService {
   }
   
   //Método para registrar um usuário
-  public registerProduct(product: Partial<Product>): Observable<Partial<Product>> {
+  public registerProduct(product: ProductCreate): Observable<ProductCreate> {
     return this.http.post<Product>(this.productLink, product);
 
 }
@@ -33,7 +34,7 @@ export class ProductService {
      return this.http.put<Product>(this.productLink + "/" + productId, product);
   }
     //Método para deletar um usuário
-  public deleteProduct(productId: number): void {	
+  public deleteProduct(productId: string): void {	
     this.http.delete<Product>(this.productLink+"/"+productId).subscribe(
       (response) => {
         console.log('Usuário deletado com sucesso:', response);
