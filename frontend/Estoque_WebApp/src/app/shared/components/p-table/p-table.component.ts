@@ -5,10 +5,11 @@ import { IconModule, icons } from '../../modules/icon/icon.module';
 import { ModalModule } from '../../modules/modal/modal.module';
 import { ModalComponent } from '../modal/modal.component';
 import { EmptyComponentComponent } from '../empty-component/empty-component.component';
+import { TranslationPipe } from './../../../core/pipes/translation.pipe';
 @Component({
   selector: 'app-p-table',
-  imports: [CommonModule, IconModule, ModalModule, EmptyComponentComponent],
-  standalone: true, 
+  imports: [CommonModule, IconModule, ModalModule, EmptyComponentComponent, TranslationPipe],
+standalone: true, 
   templateUrl: './p-table.component.html',
   styleUrl: './p-table.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush

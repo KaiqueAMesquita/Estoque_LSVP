@@ -4,11 +4,11 @@ import { RouterOutlet, ActivatedRoute, NavigationEnd, Router } from '@angular/ro
 import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
 import { Subscription } from 'rxjs'; 
 import { filter } from 'rxjs/operators';
-
+import { TranslationPipe } from '../../../core/pipes/translation.pipe';
 @Component({
   selector: 'app-manage-layout',
   standalone: true, 
-  imports: [RouterOutlet, CommonModule, NavBarComponent],
+  imports: [RouterOutlet, CommonModule, NavBarComponent, TranslationPipe],
   templateUrl: './manage-layout.component.html',
   styleUrl: './manage-layout.component.css'
 })

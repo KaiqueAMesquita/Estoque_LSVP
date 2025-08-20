@@ -16,7 +16,7 @@
       <!--geração de colunas dinãmicas-->
       <tr>
         <!--ngFor - para cada coluna dentro de columns gerar uma célula na tabela-->
-        <th *ngFor="let column of columns" (click)="orderBy(column)">{{ column }} 
+        <th *ngFor="let column of columns" (click)="orderBy(column)">{{ column | translation }} 
           <span class="triangle" [ngClass]="{
       'triangle-up': sortDirection[column] === 'asc',
       'triangle-down': sortDirection[column] === 'desc'
