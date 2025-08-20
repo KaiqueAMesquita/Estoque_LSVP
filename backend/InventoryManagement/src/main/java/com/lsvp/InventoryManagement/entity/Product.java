@@ -42,7 +42,7 @@ public class Product {
     private LocalDateTime updatedAt;
 
     //https://www.baeldung.com/hibernate-one-to-many
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_tbl_category_cat_id")
     // Lucas: NÃO MEXA nessas duas linhas abaixo se valoriza sua vida e sanidade
     @ToString.Exclude

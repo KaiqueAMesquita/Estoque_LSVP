@@ -3,6 +3,8 @@ package com.lsvp.InventoryManagement.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.Set;
 
@@ -20,5 +22,7 @@ public class Container {
     private String code;
 
     @OneToMany(mappedBy = "container")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Unit> units;
 }

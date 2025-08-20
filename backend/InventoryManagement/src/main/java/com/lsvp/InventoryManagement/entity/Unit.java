@@ -28,11 +28,11 @@ public class Unit {
     @Column(name = "unt_price", nullable = false)
     private int price;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_tbl_container_con_id")
     private Container container;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_tbl_product_pdt_id")
     private Product product;
 }

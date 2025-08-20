@@ -45,7 +45,7 @@ public class CategoryService {
 
     public CategoryDTO getCategoryById(Long id)
     {
-        Category category = repository.findByIdWithProducts(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada!!!"));
+        Category category = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada!!!"));
 
         return mapper.toDTO(category);
     }
@@ -53,22 +53,20 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public List<CategoryDTO> getAllCategories()
     {
-        return repository.findAllWithProducts().stream().map(mapper::toDTO).collect(Collectors.toList());
+        return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
     }
 
     public List<ProductDTO> getProductsFromCategory(Long id)
     {
-        Category category = repository.findByIdWithProducts(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada!!!"));
+        Category category = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada!!!"));
         Set<Product> products = category.getProducts();
 
-        Set<ProductDTO> productsDTO = new HashSet<>();
-
-
+        Set<ProductDTO> productsDTO = new java.util.HashSet<>(Set.of());
         products.forEach(product -> productsDTO.add(product_mapper.toDTO(product)));
 
         return productsDTO.stream().toList();
     }
-
+    
     public CategoryDTO updateCategory(Long id, CategoryUpdateDTO dto)
     {
         Category categoryUpdated = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada!!!"));

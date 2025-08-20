@@ -12,9 +12,9 @@ public interface ICategoryRepository extends JpaRepository <Category, Long> {
     void deleteById(Long id);
 
     // Esses dois métodos evitam ConcurrentModificationError
-    @Query("SELECT DISTINCT c FROM Category c LEFT JOIN FETCH c.products")
-    List<Category> findAllWithProducts();
+    // @Query("SELECT DISTINCT c FROM Category c LEFT JOIN FETCH c.products")
+    // List<Category> findAllWithProducts();
 
-    @Query("SELECT c FROM Category c LEFT JOIN FETCH c.products WHERE c.id = :id")
-    Optional<Category> findByIdWithProducts(@Param("id") Long id);
+    // @Query("SELECT c FROM Category c LEFT JOIN FETCH c.products WHERE c.id = :id")
+    // Optional<Category> findByIdWithProducts(@Param("id") Long id);
 }
