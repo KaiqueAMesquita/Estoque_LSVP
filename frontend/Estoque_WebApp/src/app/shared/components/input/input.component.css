@@ -48,7 +48,7 @@ input.ng-invalid.ng-touched {
 }
 /* Estilo para o select */
 select {
-    width: 100%;
+    width: 104%;
     padding: 0.625rem 0.75rem;
     font-size: 1rem;
     border: 1px solid #ccc;

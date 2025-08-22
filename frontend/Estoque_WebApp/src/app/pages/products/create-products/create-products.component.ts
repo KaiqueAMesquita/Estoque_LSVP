@@ -7,7 +7,7 @@ import { ProductService } from '../../../core/services/product.service';
 import { Router } from '@angular/router';
 import { Product } from '../../../shared/models/product';
 import { ProductCreate } from '../../../shared/models/product-create';
-
+import { onlyNumbersValidator, exactLengthValidator } from '../../../core/validators/custom-validators';
 @Component({
   selector: 'app-create-products',
   imports: [FormTemplateComponent, ReactiveFormsModule, InputComponent, JsonPipe],
@@ -31,9 +31,9 @@ export class CreateProductsComponent {
   ) {
     // Agora baseado no ProductCreateDTO
     this.form = this.fb.group({
-      gtin: this.fb.control('', Validators.required),
-      measure: this.fb.control('', Validators.required),
-      measureType: this.fb.control(null, Validators.required),
+      gtin: this.fb.control('', [Validators.required, onlyNumbersValidator(), exactLengthValidator(11)]),
+      measure: this.fb.control('', [Validators.required, onlyNumbersValidator() ]),
+      measureType: this.fb.control('', Validators.required),
       categoryId: this.fb.control('', Validators.required)
     });
   }

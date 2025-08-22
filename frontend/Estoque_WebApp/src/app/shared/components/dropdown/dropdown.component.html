@@ -1,8 +1,0 @@
-<div class="dropdown" (mouseenter)="show = true" (mouseleave)="show = false">
-  <button class="dropdown-btn">{{ label }}</button>
-  <ul class="dropdown-menu" *ngIf="show">
-    <li *ngFor="let option of options">
-      <a [routerLink]="option.route">{{ option.label }}</a>
-    </li>
-  </ul>
-</div>

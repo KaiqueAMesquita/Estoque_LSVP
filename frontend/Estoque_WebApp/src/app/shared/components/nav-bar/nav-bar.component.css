@@ -1,146 +1,168 @@
-/* Navbar container */
-.navbar {
+/* --- Nova Navbar --- */
+.new-navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 64px;
-  padding: 0 24px;
-  background-color: #1a365d;
-  color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 56px;
+  padding: 0 32px;
+  background-color: #f8f9fa; /* Fundo muito claro */
+  border-bottom: 1px solid #e9ecef; /* Linha sutil */
+  font-family: 'Inter', sans-serif; /* Nova fonte */
 }
 
-/* Brand section */
-.navbar-brand {
+/* --- Seção de Branding --- */
+.navbar-brand-new {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
-.logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: white;
-  font-family: "Poppins", sans-serif;
+.logo-new {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #3b82f6; /* Azul vibrante */
 }
 
-.divider {
+.divider-new {
   width: 1px;
-  height: 24px;
-  background-color: rgba(255, 255, 255, 0.3);
+  height: 20px;
+  background-color: #dee2e6;
 }
 
-.app-name {
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.9);
-  font-family: "Poppins", sans-serif;
+.app-name-new {
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-weight: 500;
 }
 
-/* Navigation menu */
-.nav-menu {
+/* --- Menu de Navegação --- */
+.nav-menu-new {
   display: flex;
   list-style: none;
   margin: 0;
   padding: 0;
   height: 100%;
+  align-items: center;
 }
 
-.nav-item {
+.nav-item-new {
+  height: 100%;
   display: flex;
   align-items: center;
-  height: 100%;
   position: relative;
-  margin: 0 4px;
-  font-family: "Poppins", sans-serif;
-}
-
-.nav-item.active {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-bottom: 3px solid #63b3ed;
-}
-
-.nav-link {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: white;
-  text-decoration: none;
-  padding: 0 20px;
-  height: 100%;
-  font-size: 0.875rem;
-  font-weight: 500;
   transition: background-color 0.2s;
 }
 
-.nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+.nav-link-new {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  height: 100%;
+  color: #495057;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.2s;
 }
 
-.nav-icon {
+.nav-link-new:hover,
+.nav-link-new.active-new {
+  color: #3b82f6;
+  background-color: #e3f2fd;
+}
+
+.nav-item-new.active-new {
+  box-shadow: inset 0 -3px 0 0 #3b82f6; /* Efeito de linha embaixo */
+}
+
+.nav-icon-new {
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.8);
-  margin-right: 8px;
+  color: #6c757d;
+  transition: color 0.2s;
 }
 
-.nav-item.active .nav-icon {
-  color: white;
+.nav-link-new:hover .nav-icon-new,
+.nav-link-new.active-new .nav-icon-new {
+  color: #3b82f6;
 }
 
-/* Responsive adjustments */
+/* --- Perfil de Usuário --- */
+.user-profile-new {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-greeting-new {
+  font-size: 0.875rem;
+  color: #495057;
+  font-weight: 500;
+}
+
+.profile-icon-new {
+  font-size: 1.75rem;
+  color: #3b82f6;
+  cursor: pointer;
+}
+
+/* --- Dropdown (Precisa ser ajustado no componente) --- */
+/* Seu componente app-dropdown-new deve seguir um estilo similar */
+/* Aqui estão algumas sugestões para o estilo do dropdown-new */
+app-dropdown-new .dropdown-menu {
+  border: 1px solid #e9ecef;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+app-dropdown-new .dropdown-item a {
+  padding: 10px 20px;
+  font-size: 0.875rem;
+  color: #495057;
+}
+
+app-dropdown-new .dropdown-item a:hover {
+  background-color: #f0f2f5;
+}
+
+/* --- Responsividade --- */
 @media (max-width: 992px) {
-  .navbar {
+  .app-name-new, .user-greeting-new {
+    display: none;
+  }
+  .new-navbar {
     padding: 0 16px;
   }
-  
-  .nav-link {
+  .nav-link-new {
     padding: 0 12px;
-  }
-  
-  .app-name {
-    display: none;
   }
 }
 
 @media (max-width: 768px) {
-  .navbar {
+  .new-navbar {
     flex-direction: column;
     height: auto;
     padding: 12px;
   }
-  
-  .navbar-brand {
+  .navbar-brand-new, .user-profile-new {
     width: 100%;
-    margin-bottom: 12px;
     justify-content: center;
+    margin-bottom: 12px;
   }
-  
-  .nav-menu {
+  .nav-menu-new {
     width: 100%;
     justify-content: center;
     flex-wrap: wrap;
   }
-  
-  .nav-item {
+  .nav-item-new {
     margin: 4px;
     height: auto;
   }
-  
-  .nav-link {
+  .nav-link-new {
     padding: 8px 12px;
     border-radius: 4px;
   }
-  
-  .nav-item.active {
-    border-bottom: none;
-    background-color: transparent;
+  .nav-item-new.active-new {
+    box-shadow: none;
+    background-color: #e3f2fd;
   }
-  
-  .nav-item.active .nav-link {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-}
-.user-name {
-  margin-left: 8px;
-  font-weight: bold;
-  color: #007bff;
 }

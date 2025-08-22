@@ -26,7 +26,7 @@
     [class.is-invalid]="control?.invalid && (control?.touched || control?.dirty)"
     [disabled]="disable"
   >
-    <option [value]="''" disabled>{{ placeholder || 'Selecione...' }}</option>
+    <option [ngValue]="" disabled>{{ placeholder || 'Selecione...' }}</option>
     <option *ngFor="let option of options" [value]="option.value">
       {{ option.label }}
     </option>
@@ -42,5 +42,11 @@
     <div *ngIf="control?.hasError('maxlength')">
       Máximo de {{ control?.getError('maxlength')?.requiredLength }} caracteres
   </div>
+    <div *ngIf="control?.hasError('pattern')">Formato inválido</div>
+    <div *ngIf="control?.hasError('onlyNumbers')">Apenas números são permitidos</div>
+    <div *ngIf="control?.hasError('exactLength')">
+      O campo deve ter exatamente {{ control?.getError('exactLength')?.requiredLength }} dígitos
+      </div>
+      
     
 </div>

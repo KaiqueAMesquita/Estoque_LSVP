@@ -5,7 +5,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconModule, icons } from '../../modules/icon/icon.module';
 import { AuthenticationService } from '../../../core/authentication/authentication.service';
 import { filter } from 'rxjs';
-import { DropdownComponent } from '../dropdown/dropdown.component';
 
 @Component({
   // 'selector' só nomeia o componente pra ficar mais fácil de saber quem é o que
@@ -13,7 +12,7 @@ import { DropdownComponent } from '../dropdown/dropdown.component';
   // 'standalone' fala que o componente é independente e não precisa de um módulo
   standalone: true,
   // 'imports' importa as coisas que o componente precisa
-  imports: [CommonModule, RouterModule, FontAwesomeModule, IconModule, DropdownComponent],
+  imports: [CommonModule, RouterModule, FontAwesomeModule, IconModule],
   // Link do template
   templateUrl: './nav-bar.component.html',
   // Link do css
@@ -66,6 +65,7 @@ export class NavBarComponent {
   isActive(menu: string): boolean {
     return this.activeMenu === menu;
   }
+
 
   logout(){
     // Chama o serviço de autenticação para fazer o logout
