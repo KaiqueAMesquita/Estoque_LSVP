@@ -66,10 +66,16 @@
   transition: color 0.2s;
 }
 
-.nav-link-new:hover,
+.nav-item-new:hover .nav-link-new,
 .nav-link-new.active-new {
   color: #3b82f6;
   background-color: #e3f2fd;
+}
+/* Ao passar o mouse sobre o item, o dropdown filho direto se torna visível.
+   Lembre-se de esconder o app-dropdown por padrão (ex: display: none) e posicioná-lo. */
+.nav-item-new:hover > app-dropdown.dropdown-trigger {
+    background-color: #e3f2fd;
+
 }
 
 .nav-item-new.active-new {
@@ -82,16 +88,15 @@
   transition: color 0.2s;
 }
 
-.nav-link-new:hover .nav-icon-new,
+.nav-item-new:hover .nav-icon-new,
 .nav-link-new.active-new .nav-icon-new {
   color: #3b82f6;
 }
 
 /* --- Perfil de Usuário --- */
 .user-profile-new {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+   font-size: 0.775rem;
+
 }
 
 .user-greeting-new {
@@ -106,23 +111,6 @@
   cursor: pointer;
 }
 
-/* --- Dropdown (Precisa ser ajustado no componente) --- */
-/* Seu componente app-dropdown-new deve seguir um estilo similar */
-/* Aqui estão algumas sugestões para o estilo do dropdown-new */
-app-dropdown-new .dropdown-menu {
-  border: 1px solid #e9ecef;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-}
-
-app-dropdown-new .dropdown-item a {
-  padding: 10px 20px;
-  font-size: 0.875rem;
-  color: #495057;
-}
-
-app-dropdown-new .dropdown-item a:hover {
-  background-color: #f0f2f5;
-}
 
 /* --- Responsividade --- */
 @media (max-width: 992px) {

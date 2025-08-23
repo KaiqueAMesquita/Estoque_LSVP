@@ -1,0 +1,66 @@
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-trigger {
+  cursor: pointer;
+  padding: 8px 16px;
+
+}
+
+.dropdown-trigger:focus {
+  outline: 2px solid #0074d9;
+  outline-offset: 2px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  /* Posiciona o menu logo abaixo do gatilho */
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  min-width: 160px;
+  width: 100%; /* Faz o menu ter a mesma largura do gatilho */
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1000;
+  list-style: none;
+  padding: 4px 0;
+  margin: 5px 0 0 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.dropdown-item a,
+.dropdown-item button {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-item a:hover,
+.dropdown-item button:hover {
+  background-color: #f1f1f1;
+}
+.triangle{
+  position: absolute;
+  top: 35%;
+  width: 0;
+  margin-left: 4px;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #747474;
+  pointer-events: none;
+  transition: border-top-color 0.2s ease;
+}
+
+.dropdown:hover .triangle {
+  border-top-color: #0074d9;
+}

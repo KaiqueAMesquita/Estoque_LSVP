@@ -14,10 +14,19 @@
     </li>
     
     <li class="nav-item-new" [class.active-new]="isActive('gestao')">
-      <a href="#" class="nav-link-new">
+      <div class="nav-link-new" style="cursor: pointer;">
         <fa-icon [icon]="icons.faBuilding" class="nav-icon-new"></fa-icon>
-        <span>Gestão</span>
-        </a>
+        <app-dropdown 
+          [label]="'Gestão'" 
+          [option]="[
+            { label: 'Containêres', route: 'manage/view/containers' },
+            { label: 'Produtos', route: 'manage/view/products' },
+            { label: 'Categorias', route: 'manage/view/categories' }
+          ]">
+          
+          
+        </app-dropdown>
+      </div>
     </li>
     
     <li class="nav-item-new" [class.active-new]="isActive('movimentacoes')">
@@ -27,10 +36,10 @@
         </a>
     </li>
     
-    <li class="nav-item-new" [class.active-new]="isActive('categorias')">
-      <a href="manage/view/category" (click)="setActiveByRoute('categorias')" class="nav-link-new">
+    <li class="nav-item-new" [class.active-new]="isActive('usuarios')">
+      <a href="manage/view/users" (click)="setActiveByRoute('usuarios')" class="nav-link-new">
         <fa-icon [icon]="icons.faList" class="nav-icon-new"></fa-icon>
-        <span>Categorias</span>
+        <span>Usuários</span>
       </a>
     </li>
     
@@ -47,11 +56,17 @@
         <span>Relatórios</span>
       </a>
     </li>
+    
   </ul>
-  <li class="nav-item-new">
-    <a onclick="logout()">
-      <span>Bem Vindo, João!</span>
+  <ul class="nav-menu-new">
+    <li class="nav-item-new user-profile-new">
       <fa-icon [icon]="icons.faUserCircle" class="profile-icon-new"></fa-icon>
-      </a>
-  </li>
+      <app-dropdown
+        [label]="userName"
+        [option]="[
+          { label: 'Sair', action: logout }
+        ]"></app-dropdown>
+    </li>
+  </ul>
+
 </nav>

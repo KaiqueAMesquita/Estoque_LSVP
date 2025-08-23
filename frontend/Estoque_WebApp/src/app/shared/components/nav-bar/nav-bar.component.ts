@@ -5,14 +5,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconModule, icons } from '../../modules/icon/icon.module';
 import { AuthenticationService } from '../../../core/authentication/authentication.service';
 import { filter } from 'rxjs';
-
+import { DropdownComponent } from '../dropdown/dropdown.component';
 @Component({
   // 'selector' só nomeia o componente pra ficar mais fácil de saber quem é o que
   selector: 'app-nav-bar',
   // 'standalone' fala que o componente é independente e não precisa de um módulo
   standalone: true,
   // 'imports' importa as coisas que o componente precisa
-  imports: [CommonModule, RouterModule, FontAwesomeModule, IconModule],
+  imports: [CommonModule, RouterModule, FontAwesomeModule, IconModule, DropdownComponent],
   // Link do template
   templateUrl: './nav-bar.component.html',
   // Link do css
@@ -20,7 +20,7 @@ import { filter } from 'rxjs';
 })
 export class NavBarComponent {
 
-  userName: string = '';
+  userName: string = 'Bem vindo, ';
   
   constructor(private auth: AuthenticationService, private router: Router) {
     this.router.events
@@ -28,7 +28,7 @@ export class NavBarComponent {
       .subscribe((event: NavigationEnd) => {
         this.setActiveByRoute(event.urlAfterRedirects);
       });
-    this.userName = this.auth.getUserName();
+    this.userName += this.auth.getUserName();
   }
   // 'icons' é o objeto que contém todos os ícones importados do módulo
   icons = icons;
@@ -50,11 +50,9 @@ export class NavBarComponent {
   setActiveByRoute(url: string) {
     if (url.includes('dashboard')) {
       this.activeMenu = 'home';
-    } else if (url.includes('manage/view/products')) {
-      this.activeMenu = 'produtos';
-    } else if (url.includes('manage/view/category')) {
-      this.activeMenu = 'categorias';
-    } else if (url.includes('manage')) {
+    }else if(url.includes('users')){
+      this.activeMenu = 'usuarios'
+    }else if (url.includes('manage')) {
       this.activeMenu = 'gestao';
     } else if (url.includes('relatorios')) {
       this.activeMenu = 'relatorios';
@@ -67,7 +65,7 @@ export class NavBarComponent {
   }
 
 
-  logout(){
+  public logout = (): void => {
     // Chama o serviço de autenticação para fazer o logout
     this.auth.logout();
     window.location.href = '/login';

@@ -75,7 +75,7 @@ export class AuthenticationService {
     const token = this.getToken();
       if (!token) return '';
     const payload = JSON.parse(atob(token.split('.')[1]));
-    return payload.name || '';
+    return payload.sub || '';
     // não sei se existe uma maneira melhor de fazer isso.
   }
 }
