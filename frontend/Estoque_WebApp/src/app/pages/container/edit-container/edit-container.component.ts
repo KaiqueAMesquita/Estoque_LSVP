@@ -35,7 +35,7 @@ export class EditContainerComponent {
           });
         },
         error: () => {
-          location.href = '/manage/view/container';
+          location.href = '/manage/view/containers';
           console.error('Erro ao carregar container para edição');
         }
       });
