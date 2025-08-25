@@ -1,90 +1,59 @@
-.cards-row {
-    display: flex;
-    flex-direction: row;
-    width: 70%;
-
+:host {
+    display: flex; /* Permite que o card preencha o host */
+    flex: 1 1 250px; /* Propriedades flex para um grid responsivo */
+    margin: 5px;
+    cursor: pointer;
+    /* Valores padrão para as propriedades customizadas */
+    --main-color: #333;
+    --main-bg: #fff;
+    --hover-color: #fff;
+    --hover-bg: #007bff;
 }
 
-.card{
-    width: 60%;
-    min-width: 300px;
-    height: 170px;
+.card {
+    width: 100%;
+    background-color: var(--main-bg);
+    color: var(--main-color);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
-    margin: 5px;
-    padding: 10px;
-    color: white;
-    border-radius: 5px;
-    margin-right: 10px;
-    margin-top: 0;
+    justify-content: space-between;
 }
-.products{
-    background-color: #3e3862;
-}
-.validity{
-    background-color: #d75e5e;
-}
-.expenses{
-    color: #302b52;
-    background-color: #e5e0ff;
-}
-.card-header fa-icon{
-    font-size: 22pt;
-    margin-right: 15px;
-    margin-right: 10px;
-    margin-left: 10px;
 
+:host(:hover) .card {
+    background-color: var(--hover-bg);
+    color: var(--hover-color);
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
-.products fa-icon{
-    color: #cccfec;
-}
-.expenses fa-icon{
-    color: #695fa6;
-}
-.validity fa-icon{
-    color: #ffffff;
-}
-.card-header{
-    font-size: 22pt;
+
+.card-header {
+    font-size: 2.5em;
     font-weight: bold;
-    padding: 1px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
 }
 
-.card-body{
-    font-size: 14pt;
-    margin-top: 18px;
-    margin-left: 8px;
-}
-.card:hover{
-    cursor: pointer;
-    transform: scale(1.02);
-    transition: transform 0.2s ease-in-out;
-
-}
-.products:hover{
-    background-color: #675caa;
-}
-.validity:hover{
-    background-color: #ac3636;
-}
-.expenses:hover{
-    background-color: #877eb6;
-    color: #ffffff;
+.card-icon {
+    margin-right: 15px;
+    font-size: 0.9em;
 }
 
-@media (max-width: 1000px) {
-    .card-header fa-icon {
-        font-size: 15pt;
-      
-    }
-    .cards-row {
-        flex-direction: column;
-    }
-    .card-header{
-        font-size: 15pt;
-    }
-    .card-body{
-        font-size: 13pt;
-    }
+.card-body {
+    font-size: 1em;
+    line-height: 1.4;
 }
 
+@media (max-width: 768px) {
+    :host {
+        flex-basis: calc(100% - 20px); /* Largura total em telas menores, considerando a margem */
+    }
+
+    .card-header {
+        font-size: 2em;
+    }
+}

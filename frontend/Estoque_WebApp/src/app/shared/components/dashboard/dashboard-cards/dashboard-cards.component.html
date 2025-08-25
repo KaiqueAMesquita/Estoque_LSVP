@@ -1,26 +1,8 @@
-<div class="cards-row">
-    <div class="card products">
-        <div class="card-header">
-            <fa-icon [icon]="icons.faBox" class="nav-icon"></fa-icon> {{2200 | number}}
-        </div>
-        <div class="card-body">
-            Total de produtos em estoque
-        </div>
+<div class="card">
+    <div class="card-header">
+        <fa-icon [icon]="icon" class="card-icon"></fa-icon> {{ headerValue }}
     </div>
-    <div class="card validity">
-        <div class="card-header">
-            <fa-icon [icon]="icons.faClock" class="nav-icon"></fa-icon>18
-        </div>
-        <div class="card-body">
-            Produtos com validade abaixo de &lt; 7 dias
-        </div>
-    </div>
-    <div class="card expenses">
-        <div class="card-header">
-            <fa-icon [icon]="icons.faCoins" class="nav-icon"></fa-icon>{{1220 | currency:'BRL'}}
-        </div>
-        <div class="card-body">
-            Estimativa de Gasto mensal até o momento
-        </div>
+    <div class="card-body">
+        {{ bodyText }}
     </div>
 </div>

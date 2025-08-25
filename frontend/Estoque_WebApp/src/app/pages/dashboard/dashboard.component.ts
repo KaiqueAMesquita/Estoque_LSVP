@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
 import { NavBarComponent } from '../../shared/components/nav-bar/nav-bar.component';
 import { DashboardCardsComponent } from '../../shared/components/dashboard/dashboard-cards/dashboard-cards.component';
-import { DashboardActionsComponent } from '../../shared/components/dashboard/dashboard-actions/dashboard-actions.component';
 import { PTableComponent } from '../../shared/components/p-table/p-table.component';
 import { ExpirationBatches } from '../../shared/models/expiration-batches';
 import { LastMovements } from '../../shared/models/last-movements';
-
+import { IconModule, icons } from '../../shared/modules/icon/icon.module';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [NavBarComponent, DashboardCardsComponent, DashboardActionsComponent, PTableComponent],
+  imports: [NavBarComponent, DashboardCardsComponent, IconModule, PTableComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
+  icons = icons;
   expirationBatches: ExpirationBatches[] = [
     {
       productName: 'Produto A',
