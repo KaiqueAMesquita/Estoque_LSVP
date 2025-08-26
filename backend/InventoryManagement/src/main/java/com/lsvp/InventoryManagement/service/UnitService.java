@@ -11,8 +11,11 @@ import com.lsvp.InventoryManagement.repository.IContainerRepository;
 import com.lsvp.InventoryManagement.repository.IProductRepository;
 import com.lsvp.InventoryManagement.repository.IUnitRepository;
 
+import jakarta.transaction.Transactional;
+
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,20 +37,36 @@ public class UnitService {
     private IContainerRepository containerRepository;
 
 
+    @Transactional
     public UnitDTO createUnit(UnitCreateDTO dto){
 
-        Unit unit = mapper.toEntity(dto);
+        Optional<Unit> existingUnitOp = repository.findByProductIdAndBatch(dto.getProductId(), dto.getBatch());
+
+        if(existingUnitOp.isPresent()){
+            Unit existingUnit = existingUnitOp.get();
+
+            int newQ = existingUnit.getQuantity() + dto.getQuantity();
+
+            existingUnit.setQuantity(newQ);
+
+            Unit updatedUnit = repository.save(existingUnit);
+
+            return mapper.toDTO(updatedUnit);
+        }
+        else{
 
         Container container = containerRepository.findById(dto.getContainerId()).orElseThrow(() -> new ResourceNotFoundException("Container não encontrada!!"));
 
         Product product = productRepository.findById(dto.getProductId()).orElseThrow(() -> new ResourceNotFoundException("Produto não encontrada!!"));
 
+        Unit unit = mapper.toEntity(dto);
 
         unit.setContainer(container);
 
         unit.setProduct(product);
 
         return mapper.toDTO(repository.save(unit));
+        }
     }
 
     public UnitDTO getUnitById(Long id){
