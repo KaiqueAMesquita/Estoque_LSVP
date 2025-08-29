@@ -49,11 +49,6 @@ export const routes: Routes = [
             {path: 'view/categories', component: ViewCategoriesComponent, pathMatch: 'full'},
             {path: 'edit/category/:id', component: EditCategoryComponent, pathMatch: 'full'},
 
-            {path: 'create/category', component: CreateCategoryComponent, pathMatch: 'full'},
-            {path: 'view/category', component: ViewCategoriesComponent, pathMatch: 'full'},
-            {path: 'edit/category/:id', component: EditCategoryComponent, pathMatch: 'full'},
-
-
         ], canActivate: [authGuard]
      },
     
