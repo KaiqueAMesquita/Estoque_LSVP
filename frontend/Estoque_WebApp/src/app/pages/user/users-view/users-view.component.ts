@@ -9,11 +9,11 @@ import { AuthenticationService } from './../../../core/authentication/authentica
 import { NavigationWatcherService } from '../../../core/services/navigation-watcher.service';
 import { ModalModule } from '../../../shared/modules/modal/modal.module';
 import { ModalComponent } from '../../../shared/components/modal/modal.component';
-
+import { ViewTemplateComponent } from '../../../shared/components/view-template/view-template.component';
 
 @Component({
   selector: 'app-users-view',
-  imports: [PTableComponent, CommonModule, ModalModule],
+  imports: [PTableComponent, CommonModule, ModalModule, ViewTemplateComponent],
  standalone: true,
 templateUrl: './users-view.component.html',
 
@@ -26,7 +26,7 @@ export class UsersViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   constructor(private userService :UserService, private auth: AuthenticationService, 
-    private router: Router, private navigationWatcher: NavigationWatcherService) {}
+    public router: Router, private navigationWatcher: NavigationWatcherService) {}
 
   /**
    * Método chamado quando o componente é inicializado.
@@ -69,6 +69,11 @@ export class UsersViewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.userService.getAllUsers().subscribe({
       next: (data: User[]) => {
         this.users = data;
+        this.users.forEach(user => {
+          delete user.id;
+
+      },
+    );
       },
       error: (error) => {
         console.error('Erro ao buscar usuários:', error);

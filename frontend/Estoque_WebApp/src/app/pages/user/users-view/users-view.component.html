@@ -1,5 +1,6 @@
+<app-view-template createText="Novo Usuário" (createNewEvent)="router.navigate(['manage/create/user'])">
 <app-p-table [showSearch]="true" (onDelete)="DeleteUser($event.id)" (onEdit)="EditUser($event.id)" [data]="users" [delete]="true" [edit]="true" [view]="true"></app-p-table>
-
+</app-view-template>
 <app-modal #exceptionUser>
         <h4 class="modal-title">Erro de operação</h4>
         <p class="modal-text">Não é possível deletar a si mesmo.</p>

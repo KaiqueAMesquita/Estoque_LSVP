@@ -1,0 +1,12 @@
+ <div class="view-container">
+  <div class="table">
+    <ng-content class="table">
+    </ng-content>
+  </div>
+    <div class="action-bar">
+    <button class="btn btn-back" (click)="comeBack()">Voltar</button>
+    <button class="btn btn-create" (click)="createNew()">{{createText}}</button>
+  </div>
+</div>
+
+

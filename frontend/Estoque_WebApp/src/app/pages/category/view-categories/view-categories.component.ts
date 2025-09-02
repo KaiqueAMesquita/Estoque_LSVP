@@ -7,10 +7,10 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from './../../../core/authentication/authentication.service';
 import { NavigationWatcherService } from '../../../core/services/navigation-watcher.service';
-
+import { ViewTemplateComponent } from '../../../shared/components/view-template/view-template.component';
 @Component({
   selector: 'app-view-categories',
-  imports: [PTableComponent, CommonModule],
+  imports: [PTableComponent, CommonModule, ViewTemplateComponent],
   templateUrl: './view-categories.component.html',
   styleUrl: './view-categories.component.css',
   standalone: true
@@ -22,7 +22,7 @@ export class ViewCategoriesComponent implements OnInit, OnDestroy {
   constructor(
     private categoryService: CategoryService,
     private auth: AuthenticationService,
-    private router: Router,
+    public router: Router,
     private navigationWatcher: NavigationWatcherService
   ) {}
 

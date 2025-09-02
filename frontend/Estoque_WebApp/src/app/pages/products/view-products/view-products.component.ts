@@ -6,10 +6,10 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NavigationWatcherService } from '../../../core/services/navigation-watcher.service';
-
+import { ViewTemplateComponent } from '../../../shared/components/view-template/view-template.component';
 @Component({
   selector: 'app-view-products',
-  imports: [PTableComponent, CommonModule],
+  imports: [PTableComponent, CommonModule, ViewTemplateComponent],
   standalone: true,
   templateUrl: './view-products.component.html',
   styleUrl: './view-products.component.css'
@@ -20,7 +20,7 @@ export class ViewProductsComponent implements OnInit, OnDestroy {
 
   constructor(
     private productService: ProductService,
-    private router: Router,
+    public router: Router,
     private navigationWatcher: NavigationWatcherService
   ) {}
 
@@ -41,7 +41,15 @@ export class ViewProductsComponent implements OnInit, OnDestroy {
   private loadProducts(): void {
     this.productService.getAllProducts().subscribe({
       next: (data: Product[]) => {
+        
         this.products = data;
+        //delete filed createdAt and updatedAt from products
+      this.products?.forEach(product => {
+        delete product.createdAt;
+        delete product.updatedAt;
+        });
+
+   
       },
       error: (error) => {
         console.error('Erro ao buscar products:', error);
