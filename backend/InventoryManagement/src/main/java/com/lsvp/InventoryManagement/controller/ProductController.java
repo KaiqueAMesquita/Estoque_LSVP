@@ -26,29 +26,29 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @PostMapping
-    public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductCreateDTO dto){
+        @PostMapping
+        public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductCreateDTO dto){
 
-        return ResponseEntity.ok(productService.createProduct(dto));
-    }
+            return ResponseEntity.ok(productService.createProduct(dto));
+        }
 
-    @GetMapping
-    public ResponseEntity<List<ProductDTO>> getAllProducts(){
-        return ResponseEntity.ok(productService.getAllProducts());
-    }
-    
-    @GetMapping("/{id}")
-    public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id){
-        return ResponseEntity.ok(productService.getProductById(id));
-    }
+        @GetMapping
+        public ResponseEntity<List<ProductDTO>> getAllProducts(){
+            return ResponseEntity.ok(productService.getAllProducts());
+        }
+        
+        @GetMapping("/{id}")
+        public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id){
+            return ResponseEntity.ok(productService.getProductById(id));
+        }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductUpdateDTO dto){
+        @PutMapping("/{id}")
+        public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductUpdateDTO dto){
 
-        return ResponseEntity.ok(productService.updateProduct(id, dto));
-    }
+            return ResponseEntity.ok(productService.updateProduct(id, dto));
+        }
 
-    @DeleteMapping("/{id}")
+        @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
 
         productService.deleteProduct(id);
