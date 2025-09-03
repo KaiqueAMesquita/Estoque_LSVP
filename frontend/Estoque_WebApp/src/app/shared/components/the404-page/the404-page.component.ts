@@ -9,7 +9,7 @@ import { IconModule, icons } from '../../modules/icon/icon.module';
   selector: 'app-the404-page',
   imports: [CommonModule, IconModule],
   templateUrl: './the404-page.component.html',
-  styleUrl: './the404-page.component.css'
+  styleUrl: './the404-page.component.scss'
 })
 export class The404PageComponent {
     @Input() message: string = 'Sem Conteúdo para Exibir';
