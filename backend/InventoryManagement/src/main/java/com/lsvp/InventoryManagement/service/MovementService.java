@@ -1,6 +1,8 @@
 package com.lsvp.InventoryManagement.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,6 +76,10 @@ public class MovementService {
         Movement movement = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Movimentação nao encontrada!!"));
 
         return mapper.toDTO(movement);
+    }
+
+    public List<MovementDTO> getAllMovements() {
+        return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
     }
 
 

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +18,7 @@ import com.lsvp.InventoryManagement.dto.Product.ProductCreateDTO;
 import com.lsvp.InventoryManagement.dto.Product.ProductDTO;
 import com.lsvp.InventoryManagement.service.MovementService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
@@ -34,10 +35,10 @@ public class MovementController {
             return ResponseEntity.ok(movementService.createMovement(dto));
         }
 
-        // @GetMapping
-        // public ResponseEntity<List<ProductDTO>> getAllProducts(){
-        //     return ResponseEntity.ok(productService.getAllProducts());
-        // }
+        @GetMapping
+        public ResponseEntity<List<MovementDTO>> getAllMovements(){
+            return ResponseEntity.ok(movementService.getAllMovements());
+        }
         
         @GetMapping("/{id}")
         public ResponseEntity<MovementDTO> getProductById(@PathVariable Long id){
