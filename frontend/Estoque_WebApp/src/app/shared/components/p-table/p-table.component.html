@@ -16,7 +16,7 @@
       <!--geração de colunas dinãmicas-->
       <tr>
         <!--ngFor - para cada coluna dentro de columns gerar uma célula na tabela-->
-        <th *ngFor="let column of columns" (click)="orderBy(column)">{{ column }} 
+        <th *ngFor="let column of columns" (click)="orderBy(column)">{{ column | translation }} 
           <span class="triangle" [ngClass]="{
       'triangle-up': sortDirection[column] === 'asc',
       'triangle-down': sortDirection[column] === 'desc'
@@ -60,7 +60,7 @@
             </p>
             <!--botões de confirmação e cancelamento-->
             <button
-            (click)="onDelete.emit(row); modal.toggle(); excluido.toggle()"
+            (click)="deleteItem(row); modal.toggle(); "
             class="modal-btn exclude-btn">Excluir</button>
             <button
               (click)="modal.toggle()"

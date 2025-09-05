@@ -4,11 +4,12 @@ import { RouterOutlet, ActivatedRoute, NavigationEnd, Router } from '@angular/ro
 import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
 import { Subscription } from 'rxjs'; 
 import { filter } from 'rxjs/operators';
-
+import { TranslationPipe } from '../../../core/pipes/translation.pipe';
+import { TranslationService } from '../../../core/translation/translation.service';
 @Component({
   selector: 'app-manage-layout',
   standalone: true, 
-  imports: [RouterOutlet, CommonModule, NavBarComponent],
+  imports: [RouterOutlet, CommonModule, NavBarComponent, TranslationPipe],
   templateUrl: './manage-layout.component.html',
   styleUrl: './manage-layout.component.css'
 })
@@ -17,7 +18,7 @@ export class ManageLayoutComponent implements OnInit, OnDestroy {
   breadcrumb: string = '';
   private routerSubscription: Subscription | undefined; // Propriedade para armazenar a inscrição
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router, private translationService: TranslationService) {
   }
 
   ngOnInit(): void {
@@ -55,6 +56,8 @@ export class ManageLayoutComponent implements OnInit, OnDestroy {
       // Move para o próximo filho da rota
       currentRoute = currentRoute.firstChild;
     }
+    // Traduz cada segmento do caminho
+    this.paths = this.paths.map(path => this.translationService.translate(path));
     // Junta os segmentos do caminho com ' > ' para formar o breadcrumb
     this.breadcrumb = this.paths.join(' > ');
   }

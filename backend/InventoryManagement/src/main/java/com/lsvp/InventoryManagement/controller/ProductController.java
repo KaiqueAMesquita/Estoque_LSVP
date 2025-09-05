@@ -27,13 +27,13 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping
-    public ResponseEntity<ProductSummaryDTO> createProduct(@Valid @RequestBody ProductCreateDTO dto){
+    public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductCreateDTO dto){
 
         return ResponseEntity.ok(productService.createProduct(dto));
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductSummaryDTO>> getAllProducts(){
+    public ResponseEntity<List<ProductDTO>> getAllProducts(){
         return ResponseEntity.ok(productService.getAllProducts());
     }
     

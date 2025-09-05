@@ -35,7 +35,7 @@ public class ProductService {
     private ICategoryRepository categoryRepository;
 
 
-    public ProductSummaryDTO createProduct(ProductCreateDTO dto){
+    public ProductDTO createProduct(ProductCreateDTO dto){
 
         Product product = mapper.toEntity(dto);
 
@@ -45,9 +45,9 @@ public class ProductService {
         Category category = categoryRepository.findById(dto.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada!!"));
 
         product.setCategory(category);
-
+//        category.getProducts().add(product);
         
-        return mapper.toSummary(repository.save(product));
+        return mapper.toDTO(repository.save(product));
     }
 
     public ProductDTO getProductById(Long id){
@@ -56,8 +56,8 @@ public class ProductService {
         return mapper.toDTO(product);
     }
 
-    public List<ProductSummaryDTO> getAllProducts(){
-        return repository.findAll().stream().map(mapper::toSummary).collect(Collectors.toList());
+    public List<ProductDTO> getAllProducts(){
+        return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
     }
 
     public ProductDTO updateProduct(Long id, ProductUpdateDTO dto){

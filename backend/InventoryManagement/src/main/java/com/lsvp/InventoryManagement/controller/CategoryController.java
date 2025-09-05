@@ -23,9 +23,8 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity<CategorySummaryDTO> createCategory (@Valid @RequestBody CategoryCreateDTO dto)
+    public ResponseEntity<CategoryDTO> createCategory (@Valid @RequestBody CategoryCreateDTO dto)
     {
-        System.out.println(dto);
         return ResponseEntity.ok(categoryService.createCategory(dto));
     }
 
@@ -36,7 +35,7 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategorySummaryDTO>> getAllcategories()
+    public ResponseEntity<List<CategoryDTO>> getAllcategories()
     {
         return ResponseEntity.ok(categoryService.getAllCategories());
     }

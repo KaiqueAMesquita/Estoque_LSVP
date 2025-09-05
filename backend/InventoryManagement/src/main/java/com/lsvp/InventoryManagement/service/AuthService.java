@@ -36,8 +36,11 @@ public class AuthService {
         Authentication authentication = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(dto.getName(), dto.getPassword())
         );
+
+        User user = userRepository.findByName(dto.getName()) .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado!!!"));
+        String role = user.getRole().name();
         UserDetails userD = (UserDetails) authentication.getPrincipal();
-        String token = jwtTokenUtil.generateToken(userD.getUsername());
+        String token = jwtTokenUtil.generateToken(userD.getUsername(), role);
 
         return new TokenDTO(token);
         }
@@ -56,7 +59,9 @@ public class AuthService {
 
     public TokenDTO refreshToken(String token) {
         String username = jwtTokenUtil.extractUsername(token.replace("Bearer ", ""));
-        String newToken = jwtTokenUtil.generateToken(username);
+        String role = jwtTokenUtil.extractRole(token.replace("Bearer gi", ""));
+        
+        String newToken = jwtTokenUtil.generateToken(username, role);
         return new TokenDTO(newToken);
     }
 }

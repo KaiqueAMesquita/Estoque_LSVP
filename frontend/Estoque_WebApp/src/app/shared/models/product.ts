@@ -1,10 +1,11 @@
 export interface Product {
-    id: number;
-    name: string;
+    id?: number;
+    gtin: string;
+    measure: number;
+    measureType: string;
     description: string;
-    price: number;
-    quantity: number;
     categoryId: number;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
+  
 }

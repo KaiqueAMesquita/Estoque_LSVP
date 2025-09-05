@@ -6,10 +6,10 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NavigationWatcherService } from '../../../core/services/navigation-watcher.service';
-
+import { ViewTemplateComponent } from '../../../shared/components/view-template/view-template.component';
 @Component({
   selector: 'app-view-containers',
-  imports: [PTableComponent, CommonModule],
+  imports: [PTableComponent, CommonModule, ViewTemplateComponent],
   standalone: true,
   templateUrl: './view-containers.component.html',
   styleUrl: './view-containers.component.css'
@@ -20,7 +20,7 @@ export class ViewContainersComponent implements OnInit, OnDestroy {
 
   constructor(
     private containerService: ContainerService,
-    private router: Router,
+    public router: Router,
     private navigationWatcher: NavigationWatcherService
   ) {}
 
@@ -42,6 +42,10 @@ export class ViewContainersComponent implements OnInit, OnDestroy {
     this.containerService.getAllContainers().subscribe({
       next: (data: Container[]) => {
         this.containers = data;
+        this.containers?.forEach(container => {
+          delete container.id;
+        }
+        );
       },
       error: (error) => {
         console.error('Erro ao buscar containers:', error);

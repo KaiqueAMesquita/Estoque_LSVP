@@ -1,5 +1,6 @@
 package com.lsvp.InventoryManagement.dto.Product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lsvp.InventoryManagement.entity.Category;
 import com.lsvp.InventoryManagement.entity.Unit;
 import com.lsvp.InventoryManagement.enums.MeasureType;
@@ -18,6 +19,12 @@ public class ProductDTO {
     private MeasureType measureType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    //Campo category
+    private String description;
+    
+    @JsonIgnore
     private Category category;
+    @JsonIgnore
     private Set<Unit> units;
 }

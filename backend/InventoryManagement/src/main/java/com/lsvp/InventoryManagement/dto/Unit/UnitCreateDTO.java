@@ -1,5 +1,6 @@
 package com.lsvp.InventoryManagement.dto.Unit;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lsvp.InventoryManagement.entity.Container;
 import com.lsvp.InventoryManagement.entity.Product;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,7 +23,7 @@ public class UnitCreateDTO {
     private String batch;
 
     @Schema(description = "Data de validade da Unidade", example = "21/02/2027")
-    @NotBlank(message = "Expiration date is required")
+    @JsonFormat(pattern = "dd/MM/yyyy") 
     private LocalDate expiration_date;
 
     @Schema(description = "Quantidade da Unidade")

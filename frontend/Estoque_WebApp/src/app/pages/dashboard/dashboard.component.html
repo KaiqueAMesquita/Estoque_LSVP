@@ -4,7 +4,32 @@
 <div class="container">
     <div class="main-content">
         <!-- Cartões do dashboard -->
-        <app-dashboard-cards></app-dashboard-cards>
+         <div class="cards-row">
+        <app-dashboard-cards
+        [icon]="icons.faBox" headerValue="1500" bodyText="Total de Produtos"
+        background="#e3f2fd" color="#0d47a1"
+        hoverBackground="#0d47a1" hoverColor="#ffffff"
+       
+        
+        ></app-dashboard-cards>
+        <app-dashboard-cards
+        [icon]="icons.faClock"
+        background="#f5c1c1" color="#e60000"
+        hoverBackground="#e60000" hoverColor="#ffffff"
+        headerValue="7"
+        bodyText="Lotes com validades próximas"
+
+        ></app-dashboard-cards>
+        <app-dashboard-cards
+            [icon]="icons.faCoins"
+            background="#fff9c4" color="#f57f17"
+            hoverBackground="#fbc02d" hoverColor="#ffffff"
+            headerValue="R$ 250,00"
+            bodyText="Valor total em estoque"
+        >
+        </app-dashboard-cards>
+
+        </div>
         
         <!-- Tabela de lotes com validades próximas -->
         <app-p-table title="Lotes com validades próximas" [data]="expirationBatches" [view]="true"></app-p-table>
@@ -14,5 +39,35 @@
     </div>
     
     <!-- Ações do dashboard -->
-    <app-dashboard-actions></app-dashboard-actions>
+    <div class="dashboard-actions">
+        <div class="list-container">
+            <div class="list-actions">
+                <div class="list-item">
+                    <!--ação de registrar entrada-->
+                    <span class="item-icon"><fa-icon id="plus" [icon]="icons.faPlus"></fa-icon></span>
+                    <span class="item-text">Registrar Entrada</span>
+                </div>
+                <div class="list-item">
+                    <!--ação de registrar saída-->
+                    <span class="item-icon"><fa-icon id="minus" [icon]="icons.faMinus"></fa-icon></span>
+                    <span class="item-text">Registrar Saída</span>
+                </div>
+                <div class="list-item">
+                    <!--ação de visualizar produtos-->
+                    <span class="item-icon"><fa-icon id="box" [icon]="icons.faBox"></fa-icon></span>
+                    <span class="item-text">Ver Produtos</span>
+                </div>
+                <div class="list-item">
+                    <!--ação de visualizar unidades-->
+                    <span class="item-icon"><fa-icon id="lock" [icon]="icons.faLock"></fa-icon></span>
+                    <span class="item-text">Ver Unidades</span>
+                </div>
+                <div class="list-item">
+                    <!--ação de gerar relatórios-->
+                    <span class="item-icon"><fa-icon id="file" [icon]="icons.faFileAlt"></fa-icon></span>
+                    <span class="item-text">Gerar Relatórios</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -1,5 +1,6 @@
 package com.lsvp.InventoryManagement.dto.Unit;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lsvp.InventoryManagement.entity.Container;
 import com.lsvp.InventoryManagement.entity.Product;
 import jakarta.persistence.Column;
@@ -18,6 +19,18 @@ public class UnitDTO {
     // Lucas: Coloquei price como int pela falta de precisão em contas com números decimais
     // Ao realizar operações, usa-se o int. Ao exibir para o usuário, basta dividir por 100.
     private int price;
+
+    //Nome do container
+    private String containerCode;
+
+    //Nome do Produto
+    private String description;
+
+    //Gtin do Produto
+    private String gtin;
+
+    @JsonIgnore
     private Container container;
-    private Product product;
+    @JsonIgnore
+    private Product product;    
 }

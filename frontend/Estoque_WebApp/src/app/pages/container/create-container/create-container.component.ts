@@ -44,7 +44,7 @@ export class CreateContainerComponent {
       next: () => {
       this.form.reset();
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['manage/view/container'])
+      this.router.navigate(['manage/view/containers'])
       
     });
   },

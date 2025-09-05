@@ -15,6 +15,7 @@ public class UnitUpdateDTO {
     private LocalDate expiration_date;
     private int quantity;
     private int price;
-    private Container container;
-    private Product product;
+
+    private Long containerId;
+    private Long productId;
 }

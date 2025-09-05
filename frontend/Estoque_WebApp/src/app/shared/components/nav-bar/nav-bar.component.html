@@ -1,51 +1,72 @@
-<nav class="navbar">
-  <div class="navbar-brand">
-    <span class="logo">LSVP</span>
-    <!-- Aquela linha branca muito maneira -->
-    <span class="divider"></span>
-    <span class="app-name">Sistema de Estoque</span>
+<nav class="new-navbar">
+  <div class="navbar-brand-new">
+    <span class="logo-new">LSVP</span>
+    <span class="divider-new"></span>
+    <span class="app-name-new">Sistema de Estoque</span>
   </div>
-  <!-- Aquela barra de menu -->
-  <ul class="nav-menu">
-    <!-- Basicamente é assim, [class.active] vai aplicar a classe 'active' 
-      se a expressão (isActive('condição_especificada')) for verdadeira -->
-    <li class="nav-item" [class.active]="isActive('home')">
-      <!-- o (Click) é um evento que é acionado quando o usuário clica no link-->
-      <a href="manage" (click)="setActive('home')" class="nav-link">
-        <!-- Chama o ícone que quiser de dentro do "icons" no nav-bar.component.ts -->
-        <fa-icon [icon]="icons.faHome" class="nav-icon"></fa-icon>
+  
+  <ul class="nav-menu-new">
+    <li class="nav-item-new" [class.active-new]="isActive('home')">
+      <a href="dashboard" (click)="setActiveByRoute('home')" class="nav-link-new">
+        <fa-icon [icon]="icons.faHome" class="nav-icon-new"></fa-icon>
         <span>Home</span>
       </a>
     </li>
-    <li class="nav-item" [class.active]="isActive('gestao')">
-      <a href="manage" (click)="setActive('gestao')" class="nav-link">
-        <fa-icon [icon]="icons.faBuilding" class="nav-icon"></fa-icon>
-        <span>Gestão</span>
+    
+    <li class="nav-item-new" [class.active-new]="isActive('gestao')">
+      <div class="nav-link-new" style="cursor: pointer;">
+        <fa-icon [icon]="icons.faBuilding" class="nav-icon-new"></fa-icon>
+        <app-dropdown 
+          [label]="'Gestão'" 
+          [option]="[
+            { label: 'Containêres', route: 'manage/view/containers' },
+            { label: 'Produtos', route: 'manage/view/products' },
+            { label: 'Categorias', route: 'manage/view/categories' }
+          ]">
+          
+          
+        </app-dropdown>
+      </div>
+    </li>
+    
+    <li class="nav-item-new" [class.active-new]="isActive('movimentacoes')">
+      <a href="#" class="nav-link-new">
+        <fa-icon [icon]="icons.faArrowsTurnToDots" class="nav-icon-new"></fa-icon>
+        <span>Movimentações</span>
+        </a>
+    </li>
+    
+    <li class="nav-item-new" [class.active-new]="isActive('usuarios')">
+      <a href="manage/view/users" (click)="setActiveByRoute('usuarios')" class="nav-link-new">
+        <fa-icon [icon]="icons.faList" class="nav-icon-new"></fa-icon>
+        <span>Usuários</span>
       </a>
     </li>
-    <li class="nav-item" [class.active]="isActive('produtos')">
-      <a href="manage" (click)="setActive('produtos')" class="nav-link">
-        <fa-icon [icon]="icons.faBox" class="nav-icon"></fa-icon>
-        <span>Produtos</span>
+    
+    <li class="nav-item-new" *ngIf="hasRole('cozinha')" [class.active-new]="isActive('pedidos')">
+      <a href="manage" (click)="setActiveByRoute('pedidos')" class="nav-link-new">
+        <fa-icon [icon]="icons.faUtensils" class="nav-icon-new"></fa-icon>
+        <span>Pedidos</span>
       </a>
     </li>
-    <li class="nav-item" [class.active]="isActive('categorias')">
-      <a href="manage" (click)="setActive('categorias')" class="nav-link">
-        <fa-icon [icon]="icons.faList" class="nav-icon"></fa-icon>
-        <span>Categorias</span>
-      </a>
-    </li>
-    <li class="nav-item" [class.active]="isActive('relatorios')">
-      <a href="manage" (click)="setActive('relatorios')" class="nav-link">
-        <fa-icon [icon]="icons.faChartLine" class="nav-icon"></fa-icon>
+    
+    <li class="nav-item-new" [class.active-new]="isActive('relatorios')">
+      <a href="manage" (click)="setActiveByRoute('relatorios')" class="nav-link-new">
+        <fa-icon [icon]="icons.faChartLine" class="nav-icon-new"></fa-icon>
         <span>Relatórios</span>
       </a>
     </li>
-    <li class="nav-item" >
-      <a href="#" (click)="logout()" class="nav-link">
-        <fa-icon [icon]="icons.faRightFromBracket" class="nav-icon"></fa-icon>
-        <span>Log Out</span>
-      </a>
+    
+  </ul>
+  <ul class="nav-menu-new">
+    <li class="nav-item-new user-profile-new">
+      <fa-icon [icon]="icons.faUserCircle" class="profile-icon-new"></fa-icon>
+      <app-dropdown
+        [label]="userName"
+        [option]="[
+          { label: 'Sair', action: logout }
+        ]"></app-dropdown>
     </li>
   </ul>
+
 </nav>

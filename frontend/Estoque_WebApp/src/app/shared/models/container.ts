@@ -1,4 +1,4 @@
 export interface Container {
-    id: number;
+    id?: number;
     code: string;
 }

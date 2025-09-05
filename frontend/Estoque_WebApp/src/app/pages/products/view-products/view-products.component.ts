@@ -1,82 +1,72 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PTableComponent } from '../../../shared/components/p-table/p-table.component';
-import { ProductService } from './../../../core/services/product.service';
-import { Product } from './../../../shared/models/product';
+import { ProductService } from '../../../core/services/product.service';
+import { Product } from '../../../shared/models/product';
 import { CommonModule } from '@angular/common';
-import { Router, NavigationEnd } from '@angular/router';
-import { filter, Subscription } from 'rxjs';
-import { AuthenticationService } from './../../../core/authentication/authentication.service';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { NavigationWatcherService } from '../../../core/services/navigation-watcher.service';
+import { ViewTemplateComponent } from '../../../shared/components/view-template/view-template.component';
 @Component({
   selector: 'app-view-products',
-  imports: [PTableComponent, CommonModule],
+  imports: [PTableComponent, CommonModule, ViewTemplateComponent],
   standalone: true,
   templateUrl: './view-products.component.html',
   styleUrl: './view-products.component.css'
 })
 export class ViewProductsComponent implements OnInit, OnDestroy {
-  products: Product[] = []; // Array para armazenar os produtos
-  private navigationSub?: Subscription; // Assinatura para monitorar eventos de navegação do roteador
-  constructor(private productService: ProductService, private auth: AuthenticationService, private router: Router, private navigationWatcher: NavigationWatcherService) {}
+  products: Product[] = [];
+  private navigationSub?: Subscription;
+
+  constructor(
+    private productService: ProductService,
+    public router: Router,
+    private navigationWatcher: NavigationWatcherService
+  ) {}
+
   ngOnInit(): void {
-    // Atualiza ao iniciar
     this.loadProducts();
 
-    // Ouve eventos de navegação e recarrega se a rota atual for a deste componente
     this.navigationSub = this.navigationWatcher.navigation$.subscribe(() => {
-      // Verificando se é a rota correta deste componente
-      if (this.router.url.startsWith('/products')) {
+      if (this.router.url.startsWith('/products')) { // ajuste conforme sua rota
         this.loadProducts();
       }
     });
-  }   
-   /**
-   * Método para obter o token de autenticação do usuário.
-   * Retorna O token de autenticação ou null se não estiver autenticado.
-  **/
-  public getToken(): string | null {
-    return this.auth.getToken();
   }
 
   ngOnDestroy(): void {
-    // limpa subscription (inscrição) para evitar vazamento de memória (memory leak)
     this.navigationSub?.unsubscribe();
   }
-  // Método que carrega produtos
+
   private loadProducts(): void {
     this.productService.getAllProducts().subscribe({
       next: (data: Product[]) => {
+        
         this.products = data;
+        //delete filed createdAt and updatedAt from products
+      this.products?.forEach(product => {
+        delete product.createdAt;
+        delete product.updatedAt;
+        });
+
+   
       },
       error: (error) => {
-        console.error('Erro ao carregar produtos:', error);
+        console.error('Erro ao buscar products:', error);
       }
     });
   }
 
+  DeleteProduct(gtin: string): void {
+    try {
+      this.productService.deleteProduct(gtin);
+      this.products = this.products.filter(product => product.gtin !== gtin);
+    } catch (error) {
+      console.error('Erro ao deletar product:', error);
+    }
+  }
 
-
-// Método para deletar um produto
-DeleteProduct(productId: number): void {
-  try{
-    this.productService.deleteProduct(productId);
-    this.products = this.products.filter(product => product.id !== productId);
-  }catch (error) {
-    console.error('Erro ao deletar produto:', error);
+  EditProduct(id: number): void {
+    this.router.navigate(['manage/edit/products', id]);
   }
 }
-// Método para editar um produto e redirecionar para a página de edição
-
-EditProduct(productId: number): void {
-  // Redireciona para a página de edição do produto com o ID do produto
-  this.router.navigate(['manage/products/edit', productId]);
-}
-
-// Método para adicionar um novo produto e redirecionar para a página de adição
-AddProduct(): void { 
-  // Redireciona para a página de adição de produto
-  this.router.navigate(['manage/products/add']);
-}
-}
-
-

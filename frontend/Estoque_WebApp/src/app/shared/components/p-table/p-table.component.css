@@ -1,213 +1,264 @@
 
-/*configurações do container da tabela*/
+/* Váriaveis de Tema para um estilo limpo e customizável */
+:host {
+  --primary-color: #007bff;
+  --primary-hover-color: #0056b3;
+  --danger-color: #dc3545;
+  --danger-hover-color: #c82333;
+  --success-color: #28a745;
+  --success-hover-color: #218838;
+  --background-color: #ffffff;
+  --header-background-color: #f8f9fa;
+  --row-hover-color: #f1f3f5;
+  --border-color: #dee2e6;
+  --text-color: #212529;
+  --text-muted-color: #6c757d;
+  --shadow-color: rgba(0, 0, 0, 0.075);
+  --border-radius: 0.25rem;
+}
+
+/* Container principal da tabela com scroll horizontal */
 .table-container {
-  width: 100%;
+  width: 90%; /* Alinhado com a barra de busca para consistência */
   overflow-x: auto;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0 0.125rem 0.25rem var(--shadow-color);
+  margin: 1.5rem auto 0; /* Centraliza o container na página */
 }
-/*configurações da tabela*/
+
+/* Estilo base da tabela */
 table {
-    width: 88%;
-    border-collapse: collapse;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin: 0 auto;
-    justify-content: center;
-    text-align:center;
-    margin-top: 20px;
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left; /* Alinhamento à esquerda para melhor legibilidade */
 }
-/*configurações do caption da tabela*/
-caption{
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    border: 1px solid #d6d6d6;
-    border-bottom: none;
-    border-radius: 2px;
-    padding: 8px;
-    background-color: #f2f2f2;
+
+/* Título da tabela */
+caption {
+  padding: 0.75rem 1.25rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+  background-color: var(--header-background-color);
+  border-bottom: 1px solid var(--border-color);
+  text-align: left;
 }
-/*configurações das células da tabela*/
+
+/* Células do cabeçalho e do corpo da tabela */
 th, td {
-    padding: 8px;
-    text-align: center;
-    border-bottom: 1px solid #d6d6d6;
+  padding: 0.75rem;
+  vertical-align: middle;
+  border-top: 1px solid var(--border-color);
 }
 
-/*configurações do cabeçalho da tabela*/
+/* Cabeçalho da tabela */
 th {
-    background-color: #e6e6e6;
-    font-weight: bold;
+  border-top: none;
+  font-weight: 600;
+  color: var(--text-muted-color);
+  background-color: var(--header-background-color);
+  white-space: nowrap;
 }
+
 th:hover {
-    background-color: #d9d9d9;
-    color: #686868;
-    cursor: pointer;
-}
-/*efeito de hover para linhas das tabelas*/
-tr:hover {
-    background-color: #d9d9d9;
+  background-color: #e9ecef;
+  cursor: pointer;
 }
 
+/* Efeito de hover nas linhas do corpo da tabela */
+tbody tr:hover {
+  background-color: var(--row-hover-color);
+}
 
-/*configuração padrão de botões*/
+/* Botões de ação */
 button {
-    border: none;
-    padding: 10px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-/*configuração de ícones dentro da tabela*/
-.table-icon{
-    font-size: 14pt;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  line-height: 1.5;
+  transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-/*configuração de botão de edição dentro da tabela*/
+button:focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.table-icon {
+  font-size: 1rem;
+}
+
+.edit-btn, .delete-btn {
+  color: white;
+}
+
 .edit-btn {
-    background-color: #40c5d6;
-    color: white;
+  background-color: var(--primary-color);
 }
 
-/*configuração de botão de exclusão dentro da tabela*/
-.delete-btn {
-    background-color: #de6767;
-    color: white;
-}
-
-/*efeito hover para o botão de edição */
 .edit-btn:hover {
-  background-color: #2697a6;
-}
- 
-/*efeito hover para o botão de exclusão */
-.delete-btn:hover {
-  background-color: #da4f4d;
+  background-color: var(--primary-hover-color);
 }
 
-/*efeito hover para visualização de linha de tabela*/
+.delete-btn {
+  background-color: var(--danger-color);
+}
+
+.delete-btn:hover {
+  background-color: var(--danger-hover-color);
+}
+
+/* Linha clicável */
 .view:hover {
   cursor: pointer;
 }
 
-/*configuração de botões do modal*/
-.modal-btn{
-    padding: 8px;
-    font-weight: 12pt;
-    margin: 10px;
-    border-radius: 4px;
-    background-color: #d1d1d1;
-
+/* Botões de Modal */
+.modal-btn {
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  margin: 0.5rem;
+  background-color: #e9ecef;
+  color: var(--text-color);
 }
 
-/*efeito hover para botões do modal*/
-.modal-btn:hover{
-  background-color: #a7a7a7;
+.modal-btn:hover {
+  background-color: #ced4da;
 }
 
-/*configuração de botão de exclusão do modal*/
-.exclude-btn{
-  background-color: #ca2d2d;
+.exclude-btn {
+  background-color: var(--danger-color);
   color: white;
 }
 
-/*efeito hover para botão de exclusão do modal*/
-.exclude-btn:hover{
-  background-color: #a71f1f;
+.exclude-btn:hover {
+  background-color: var(--danger-hover-color);
 }
 
-/*configuração de botão OK do modal*/
-.ok-btn{
-  width: 50px;
-  background-color: #2aa42a;
+.ok-btn {
+  background-color: var(--success-color);
   color: white;
 }
 
-/*efeito hover para botão OK do modal*/
-.ok-btn:hover{
-  background-color: #1f7a1f;
+.ok-btn:hover {
+  background-color: var(--success-hover-color);
 }
 
-
-/* Responsividade para telas com largura máxima de 900px */
-@media (max-width: 900px) {
-  table {
-    width: 100%;
-    font-size: 13px;
-  }
-  
+/* Responsividade */
+@media (max-width: 992px) {
   th, td {
-    padding: 6px;
+    padding: 0.5rem;
+  }
+  caption {
+    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
   }
 }
 
-/* Responsividade para telas com largura máxima de 700px */
-@media (max-width: 700px) {
+@media (max-width: 768px) {
+  .table-container {
+    width: 95%; /* Ocupa mais espaço em telas menores */
+    border: none;
+    box-shadow: none;
+  }
+
+  .search {
+    width: 95%; /* Alinha com a tabela em telas menores */
+  }
+
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
 
   table {
-    display: block;
-    width: 100%;
-    overflow-x: auto;
-    font-size: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
   }
 
-
-  thead, tbody, th, td, tr {
-    display: block;
-  }
-
-  /* Esconde o cabeçalho da tabela */
   thead {
     display: none;
   }
 
-  /* Espaçamento entre as linhas da tabela */
   tr {
-    margin-bottom: 15px;
-    border-bottom: 2px solid #e6e6e6;
+    border-top: 1px solid var(--border-color);
+  }
+  tr:first-child {
+    border-top: none;
   }
 
-  /* Ajusta as células para exibição em bloco e adiciona espaço para o label */
   td {
     position: relative;
     padding-left: 50%;
-    text-align: left;
+    text-align: right;
     border: none;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #f1f3f5;
+    min-height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
 
-  /* Exibe o label da célula antes do conteúdo usando o atributo data-label */
+  td:last-child {
+    border-bottom: none;
+  }
+
   td:before {
+    content: attr(data-label);
     position: absolute;
-    top: 8px;
-    left: 8px;
+    left: 0.75rem;
     width: 45%;
+    padding-right: 0.5rem;
     white-space: nowrap;
     font-weight: bold;
-    color: #333;
-    content: attr(data-label);
+    color: var(--text-color);
+    text-align: left;
   }
 }
-.search{
-  width: 88%;
-  display: flex;
-  justify-content: center;
-  height: 40px;
-  margin: 0 auto;
-  margin-top: 10px;
 
+/* Estilo da barra de busca */
+.search {
+  display: block; /* Garante o comportamento de bloco para centralização */
+  box-sizing: border-box; /* Garante que padding e borda não afetem a largura total */
+  width: 90%;
+  margin: 1.5rem auto; /* Centraliza na página */
+  padding: 0.75rem 1rem; /* Deixa o campo mais alto e arejado */
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  -webkit-appearance: none; /* Remove estilos padrão em navegadores WebKit */
 }
-th:hover  .triangle{
-  border-top-color: #686868;
+
+.search:focus {
+  outline: 0;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Efeito de foco consistente */
 }
-.triangle{
+
+/* Indicadores de ordenação */
+.triangle {
   display: inline-block;
   width: 0;
   height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 8px solid #333;
-  margin-left: 5px;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 6px solid var(--text-muted-color);
+  margin-left: 0.5rem;
+  vertical-align: middle;
+  transition: transform 0.2s ease-in-out, border-top-color 0.2s ease-in-out;
+}
+
+th:hover .triangle {
+  border-top-color: var(--text-color);
 }
 
 .triangle-up {

@@ -1,0 +1,82 @@
+.view-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 2rem); /* Ajusta a altura para considerar a margem */
+    margin: 1rem;
+    padding: 1.5rem;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e9ecef; /* Borda sutil para definição */
+}
+
+/* Barra de ações com botões opostos */
+.action-bar {
+    display: flex;
+    align-items: center;
+    margin-top: 2rem; /* Aumenta mais o espaço acima */
+    gap: 1rem;
+    width: 100%;
+}
+
+/* empurra o btn-create para a direita */
+.action-bar .btn-create {
+    margin-left: auto; /* Empurra para a direita */
+    margin-right: 4rem; /* Puxa ainda mais para a esquerda */
+}
+
+.action-bar .btn-back {
+    margin-left: 4rem; /* Puxa ainda mais para a direita */
+}
+
+.table {
+    flex: 1;
+    overflow: auto; /* Usa 'auto' para mostrar a barra de rolagem apenas quando necessário */
+}
+
+.btn {
+    padding: 0.6rem 1.2rem;
+    margin: 0; /* Remove margens individuais para controle pelo container */
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s ease-in-out;
+}
+
+
+
+
+
+.btn-back {
+    background-color: #6c757d; /* Cinza secundário, mais suave */
+    color: #ffffff;
+}
+.btn-back:hover {
+    background-color: #5a6268; 
+}
+
+.btn-create {
+    background-color: #28a745; /* Verde sucesso, padrão e limpo */
+    color: #ffffff;
+}
+.btn-create:hover {
+    background-color: #218838; 
+}
+
+/* Responsividade */
+@media (max-width: 520px) {
+    .action-bar {
+        flex-wrap: wrap;
+    }
+    .action-bar .btn-create {
+        margin-left: 0;
+        margin-right: 0rem;
+    }
+  
+.action-bar .btn-back {
+    margin-left: 0rem; /* Puxa ainda mais para a direita */
+}
+}
+

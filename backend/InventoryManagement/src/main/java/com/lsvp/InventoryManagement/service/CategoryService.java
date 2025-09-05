@@ -13,9 +13,11 @@ import com.lsvp.InventoryManagement.mapper.IProductMapper;
 import com.lsvp.InventoryManagement.repository.ICategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -27,16 +29,18 @@ public class CategoryService {
 
     @Autowired
     private ICategoryMapper mapper;
+
+    @Autowired
     private IProductMapper product_mapper;
 
-    public CategorySummaryDTO createCategory(CategoryCreateDTO dto)
+    public CategoryDTO createCategory(CategoryCreateDTO dto)
     {
         Category category = mapper.toEntity(dto);
 
         ZoneId zone_id = ZoneId.of("America/Sao_Paulo");
         category.setCreated_at(LocalDateTime.now(zone_id));
 
-        return mapper.toSummary(repository.save(category));
+        return mapper.toDTO(repository.save(category));
     }
 
     public CategoryDTO getCategoryById(Long id)
@@ -46,9 +50,10 @@ public class CategoryService {
         return mapper.toDTO(category);
     }
 
-    public List<CategorySummaryDTO> getAllCategories()
+    @Transactional(readOnly = true)
+    public List<CategoryDTO> getAllCategories()
     {
-        return repository.findAll().stream().map(mapper::toSummary).collect(Collectors.toList());
+        return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
     }
 
     public List<ProductDTO> getProductsFromCategory(Long id)
@@ -61,7 +66,7 @@ public class CategoryService {
 
         return productsDTO.stream().toList();
     }
-
+    
     public CategoryDTO updateCategory(Long id, CategoryUpdateDTO dto)
     {
         Category categoryUpdated = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada!!!"));

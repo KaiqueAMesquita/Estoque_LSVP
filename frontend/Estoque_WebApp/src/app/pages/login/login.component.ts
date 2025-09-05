@@ -1,7 +1,6 @@
 import { Component, OnInit,ViewChild,AfterViewInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms'
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms'
 import { AuthenticationService } from '../../core/authentication/authentication.service';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Validators } from '@angular/forms';
 import { ModalModule } from '../../shared/modules/modal/modal.module';

@@ -1,13 +1,44 @@
-/*Estilização do header*/
-.header{
+/* Estilização do header - Estilo moderno e responsivo */
+.header {
     display: flex;
     align-items: center;
-    justify-content: left;
-    width: 90%;
-    padding: 20px;
+    justify-content: flex-start; /* 'left' não é um valor padrão, 'flex-start' é o correto */
+    width: 100%; /* Ocupa a largura total para melhor controle dentro do container */
+    max-width: 1200px; /* Define uma largura máxima para telas grandes */
+    padding: 1rem 1.5rem; /* Usa rem para escalabilidade com o tamanho da fonte do usuário */
     color: #fff;
-    background-color: rgb(41, 105, 169);
-    margin: 20px auto 0 auto;
-    margin-top: 20px;
-    clip-path: polygon(0 0, 90% 0, 100% 100%, 0% 100%);
+    background-color: #3286da; /* rgb(41, 105, 169) */
+    margin: 1.5rem auto 0; /* Margem superior e centralização horizontal */
+    border-radius: 8px; /* Bordas arredondadas para um visual mais suave */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil para dar profundidade */
+    box-sizing: border-box; /* Garante que padding não afete a largura total */
+}
+
+/* Media query para telas menores (tablets) */
+@media (max-width: 768px) {
+    .header {
+        width: 95%; /* Um pouco de espaço nas laterais em telas menores */
+        margin-top: 1rem;
+        padding: 0.8rem 1rem;
+        border-radius: 6px; /* Bordas um pouco menos arredondadas */
+        
+        /* Opcional: descomente as linhas abaixo se o seu cabeçalho tiver
+           vários itens (ex: logo e menu) e você quiser que eles se empilhem
+           verticalmente em telas menores para melhor usabilidade. */
+        /*
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        */
+    }
+}
+
+/* Media query para telas muito pequenas (celulares) */
+@media (max-width: 480px) {
+    .header {
+        width: 100%;
+        border-radius: 0; /* Remove bordas arredondadas para um visual de ponta a ponta */
+        margin-top: 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra mais sutil para o topo da página */
+    }
 }

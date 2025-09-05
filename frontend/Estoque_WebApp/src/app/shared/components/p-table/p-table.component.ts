@@ -1,19 +1,21 @@
-import { ChangeDetectionStrategy,SimpleChanges, Component, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy,SimpleChanges, Component, Input, OnChanges, OnInit, Output, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EventEmitter } from '@angular/core';
 import { IconModule, icons } from '../../modules/icon/icon.module';
 import { ModalModule } from '../../modules/modal/modal.module';
+import { ModalComponent } from '../modal/modal.component';
 import { EmptyComponentComponent } from '../empty-component/empty-component.component';
+import { TranslationPipe } from './../../../core/pipes/translation.pipe';
 @Component({
   selector: 'app-p-table',
-  imports: [CommonModule, IconModule, ModalModule, EmptyComponentComponent],
-  standalone: true, 
+  imports: [CommonModule, IconModule, ModalModule, EmptyComponentComponent, TranslationPipe],
+standalone: true, 
   templateUrl: './p-table.component.html',
   styleUrl: './p-table.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class PTableComponent<T>  implements OnInit, OnChanges {
+export class PTableComponent<T>  implements OnInit, OnChanges, AfterViewInit {
   icons = icons //Importa os ícones do módulo de ícones
   @Input() title: string = ''; //Título da Tabela
   
@@ -27,11 +29,16 @@ export class PTableComponent<T>  implements OnInit, OnChanges {
   @Output() onDelete = new EventEmitter<T>();//Evento de Exclusão
   @Output() onView = new EventEmitter<T>();//Evento de Visualização
 
+  sortDirection: { [key: string]: 'asc' | 'desc' } = {};//Direção de ordenação para cada coluna
+
   columns: string[] = []; //Definir Colunas  
   initialData: any[] = []; //Armazena os dados iniciais para pesquisa
+  attemptedDeleteId?: any;
+  @ViewChild('excluido') wasDeleteModal!: ModalComponent;
+  
+  constructor(private icon: IconModule) {}
 
-
-  constructor(private icon: IconModule) { }
+  ngAfterViewInit(): void {}
 
   //Inicializa o componente e define as colunas da tabela
   ngOnInit(): void {
@@ -40,9 +47,22 @@ export class PTableComponent<T>  implements OnInit, OnChanges {
   }
 
   //Detecta mudanças nas propriedades de entrada
-  ngOnChanges(changes: SimpleChanges): void {
+  
+ngOnChanges(changes: SimpleChanges): void {
+  if (changes['data'] && this.attemptedDeleteId != null) {
+    const aindaExiste = this.data.some(
+      item => (item as any).id === this.attemptedDeleteId
+    );
+
+    if (!aindaExiste) {
+      this.wasDeleteModal.toggle(); // Mostra modal
+    }
+
+    this.attemptedDeleteId = undefined; // Reseta tentativa
+  }
+
   if (changes['data'] && changes['data'].currentValue) {
-    this.initialData = [...changes['data'].currentValue]; // Armazena os dados iniciais para pesquisa
+    this.initialData = [...changes['data'].currentValue];
     this.updateColumns();
   }
 }
@@ -72,8 +92,15 @@ onSearch(event: Event): void {
     )
   );
 }
+ 
 
-sortDirection: { [key: string]: 'asc' | 'desc' } = {};
+  //Método para excluir um item
+  
+  deleteItem(row: T): void {
+    this.attemptedDeleteId = (row as any).id; // Ou outra chave única
+    this.onDelete.emit(row);
+  }
+
 
 public orderBy(column: string): void {
   // Alterna a direção da ordenação para a coluna selecionada

@@ -1,0 +1,22 @@
+<app-form-template
+    [formTitle]="'Editar Categoria'"
+    [formGroup]="form"
+    [submitText]="'Confirmar'"
+    [cancelText]="'Cancelar'"
+    (formSubmit)="onSubmit()"
+>
+    <app-input
+        [control]="getControl('description')"
+        type="text"
+        label="Descrição"
+        placeholder="Digite a descrição da categoria"
+    ></app-input>
+
+    <app-input
+        [control]="getControl('type')"
+        type="select"
+        label="Tipo"
+        placeholder="Selecione o tipo"
+        [options]="typeOptions"
+    ></app-input>
+</app-form-template>
