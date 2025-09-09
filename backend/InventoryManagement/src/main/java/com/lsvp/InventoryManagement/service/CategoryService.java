@@ -2,7 +2,6 @@ package com.lsvp.InventoryManagement.service;
 
 import com.lsvp.InventoryManagement.dto.Category.CategoryCreateDTO;
 import com.lsvp.InventoryManagement.dto.Category.CategoryDTO;
-import com.lsvp.InventoryManagement.dto.Category.CategorySummaryDTO;
 import com.lsvp.InventoryManagement.dto.Category.CategoryUpdateDTO;
 import com.lsvp.InventoryManagement.dto.Product.ProductDTO;
 import com.lsvp.InventoryManagement.entity.Category;
@@ -43,6 +42,7 @@ public class CategoryService {
         return mapper.toDTO(repository.save(category));
     }
 
+    @Transactional
     public CategoryDTO getCategoryById(Long id)
     {
         Category category = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada!!!"));
@@ -56,6 +56,7 @@ public class CategoryService {
         return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
     }
 
+    @Transactional
     public List<ProductDTO> getProductsFromCategory(Long id)
     {
         Category category = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada!!!"));

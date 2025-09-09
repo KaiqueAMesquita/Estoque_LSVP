@@ -1,5 +1,6 @@
 package com.lsvp.InventoryManagement.service;
 
+import com.lsvp.InventoryManagement.dto.Movement.InputCreateDTO;
 import com.lsvp.InventoryManagement.dto.Unit.*;
 import com.lsvp.InventoryManagement.entity.Category;
 import com.lsvp.InventoryManagement.entity.Container;
@@ -36,9 +37,8 @@ public class UnitService {
     @Autowired
     private IContainerRepository containerRepository;
 
-
     @Transactional
-    public UnitDTO createUnit(UnitCreateDTO dto){
+    public Unit createOrUpdateUnit(InputCreateDTO dto, Product product, Container container){
 
         Optional<Unit> existingUnitOp = repository.findByProductIdAndBatch(dto.getProductId(), dto.getBatch());
 
@@ -49,23 +49,13 @@ public class UnitService {
 
             existingUnit.setQuantity(newQ);
 
-            Unit updatedUnit = repository.save(existingUnit);
-
-            return mapper.toDTO(updatedUnit);
+            return repository.save(existingUnit);
         }
         else{
 
-        Container container = containerRepository.findById(dto.getContainerId()).orElseThrow(() -> new ResourceNotFoundException("Container não encontrada!!"));
+            Unit newUnit = mapper.fromInputDTO(dto, product, container);
 
-        Product product = productRepository.findById(dto.getProductId()).orElseThrow(() -> new ResourceNotFoundException("Produto não encontrada!!"));
-
-        Unit unit = mapper.toEntity(dto);
-
-        unit.setContainer(container);
-
-        unit.setProduct(product);
-
-        return mapper.toDTO(repository.save(unit));
+            return repository.save(newUnit);
         }
     }
 
@@ -79,23 +69,17 @@ public class UnitService {
         return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
     }
 
+    @Transactional
     public UnitDTO updateUnit(Long id, UnitUpdateDTO dto){
-        //Gustavo: findById retorna Optionl<User>, sendo obrigatório a tratar caso o usuario não seja encontrado.
-        Unit unitUpdated = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Unidade nao encontrada!!"));
+    //     //Gustavo: findById retorna Optionl<User>, sendo obrigatório a tratar caso o usuario não seja encontrado.
+            Unit unitUpdated = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Unidade nao encontrada!!"));
 
-        unitUpdated.setBatch(dto.getBatch());
-        unitUpdated.setExpiration_date(dto.getExpiration_date());
-        unitUpdated.setQuantity(dto.getQuantity());
-        unitUpdated.setPrice(dto.getPrice());
+            unitUpdated.setBatch(dto.getBatch());
+            unitUpdated.setExpiration_date(dto.getExpiration_date());
+    //     
+            unitUpdated.setPrice(dto.getPrice());
 
-        Product product = productRepository.findById(dto.getProductId()).orElseThrow(() -> new ResourceNotFoundException("Produto não encontrada!!"));
-        
-        Container container = containerRepository.findById(dto.getContainerId()).orElseThrow(() -> new ResourceNotFoundException("Container não encontrado!!"));
-        
-        unitUpdated.setProduct(product);
-        unitUpdated.setContainer(container);
-
-        return mapper.toDTO(repository.save(unitUpdated));
+            return mapper.toDTO(repository.save(unitUpdated));
     }
 
     public void deleteUnit(Long id){

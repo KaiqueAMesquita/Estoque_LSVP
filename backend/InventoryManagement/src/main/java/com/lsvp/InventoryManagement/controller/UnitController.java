@@ -20,11 +20,11 @@ public class UnitController {
     @Autowired
     private UnitService unitService;
 
-    @PostMapping
-    public ResponseEntity<UnitDTO> createProduct(@Valid @RequestBody UnitCreateDTO dto){
+    // @PostMapping
+    // public ResponseEntity<UnitDTO> createProduct(@Valid @RequestBody UnitCreateDTO dto){
 
-        return ResponseEntity.ok(unitService.createUnit(dto));
-    }
+    //     return ResponseEntity.ok(unitService.createUnit(dto));
+    // }
 
     @GetMapping
     public ResponseEntity<List<UnitDTO>> getAllUnits(){
