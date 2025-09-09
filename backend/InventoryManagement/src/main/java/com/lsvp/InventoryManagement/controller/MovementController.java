@@ -58,7 +58,7 @@ public class MovementController {
         }
         
     @GetMapping("/{id}")
-        public ResponseEntity<MovementDTO> getProductById(@PathVariable Long id){
+        public ResponseEntity<MovementDTO> getMovementById(@PathVariable Long id){
             return ResponseEntity.ok(movementService.getMovementById(id));
         }
 }

@@ -14,8 +14,8 @@ public class TransferCreateDTO {
     @Min(1)
     private int quantity;
 
-    @NotBlank
-    private String destiny;
+    @NotNull
+    private Long destinyContainerId;
 
     @NotNull
     private Long userId;

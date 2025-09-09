@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import com.lsvp.InventoryManagement.dto.Movement.InputCreateDTO;
 import com.lsvp.InventoryManagement.dto.Movement.MovementCreateDTO;
 import com.lsvp.InventoryManagement.dto.Movement.MovementDTO;
 import com.lsvp.InventoryManagement.dto.Movement.OutputCreateDTO;
+import com.lsvp.InventoryManagement.dto.Movement.TransferCreateDTO;
 import com.lsvp.InventoryManagement.entity.Unit;
 import com.lsvp.InventoryManagement.entity.User;
 import com.lsvp.InventoryManagement.enums.MovementType;
@@ -65,7 +67,11 @@ public class MovementService {
 
         movement.setDate(LocalDateTime.now());
         movement.setType(MovementType.ENTRADA);
+        movement.setSourceType(dto.getSourceType());
+        movement.setSourceDetails(dto.getSourceDetails());
         movement.setDestiny(container.getCode());
+
+        movement.setOrigin(null);
 
         return mapper.toDTO(repository.save(movement));
     }
@@ -94,7 +100,28 @@ public class MovementService {
         return mapper.toDTO(repository.save(movement));
     }
 
-    
+    @Transactional
+    public MovementDTO createTransfer(TransferCreateDTO dto){
+        
+        Unit unit = unitRepository.findById(dto.getUnitId()).orElseThrow(() -> new ResourceNotFoundException("Unidade não encontrada!!!"));
+        Container destinationContainer = containerRepository.findById(dto.getDestinyContainerId()).orElseThrow(() -> new ResourceNotFoundException("Container de destino não encontrado!!!"));
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado!!!"));
+
+        String origin = unit.getContainer().getCode();
+
+        unit.setContainer(destinationContainer);
+        unitRepository.save(unit);
+
+        Movement movement = mapper.fromTransferDTO(dto, unit, user);
+        movement.setDate(LocalDateTime.now());
+        movement.setType(MovementType.TRANSFERENCIA);
+        movement.setOrigin(origin);
+        movement.setDestiny(destinationContainer.getCode());
+
+        return mapper.toDTO(repository.save(movement));
+
+    }
+
     public MovementDTO getMovementById(Long id){
         Movement movement = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Movimentação nao encontrada!!"));
 

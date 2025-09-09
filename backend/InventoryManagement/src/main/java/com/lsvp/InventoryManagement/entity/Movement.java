@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.lsvp.InventoryManagement.enums.MovementType;
+import com.lsvp.InventoryManagement.enums.ProductSource;
 
 import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
@@ -39,7 +40,7 @@ public class Movement {
     @Column(name = "mov_type", length = 30, nullable = false)
     private MovementType type;
 
-    @Column(name = "mov_origin", length = 30, nullable = false)
+    @Column(name = "mov_origin", length = 30, nullable = true)
     private String origin;
 
     @Column(name = "mov_destiny", length = 30, nullable = false)
@@ -48,6 +49,13 @@ public class Movement {
     @Column(name = "mov_date", nullable = false)
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime date;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "mov_source_type")
+    private ProductSource sourceType;
+
+    @Column(name = "mov_source_details")
+    private String sourceDetails;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_tbl_unit_unt_id")

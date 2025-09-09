@@ -36,11 +36,11 @@ public class UnitController {
         return ResponseEntity.ok(unitService.getUnitById(id));
     }
 
-    // @PutMapping("/{id}")
-    // public ResponseEntity<UnitDTO> updateUnit(@PathVariable Long id, @Valid @RequestBody UnitUpdateDTO dto){
+    @PutMapping("/{id}")
+    public ResponseEntity<UnitDTO> updateUnit(@PathVariable Long id, @Valid @RequestBody UnitUpdateDTO dto){
 
-    //     return ResponseEntity.ok(unitService.updateUnit(id, dto));
-    // }
+        return ResponseEntity.ok(unitService.updateUnit(id, dto));
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUnit(@PathVariable Long id){

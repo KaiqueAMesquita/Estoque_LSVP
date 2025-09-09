@@ -69,24 +69,18 @@ public class UnitService {
         return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
     }
 
-    // public UnitDTO updateUnit(Long id, UnitUpdateDTO dto){
+    @Transactional
+    public UnitDTO updateUnit(Long id, UnitUpdateDTO dto){
     //     //Gustavo: findById retorna Optionl<User>, sendo obrigatório a tratar caso o usuario não seja encontrado.
-    //     Unit unitUpdated = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Unidade nao encontrada!!"));
+            Unit unitUpdated = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Unidade nao encontrada!!"));
 
-    //     unitUpdated.setBatch(dto.getBatch());
-    //     unitUpdated.setExpiration_date(dto.getExpiration_date());
-    //     unitUpdated.setQuantity(dto.getQuantity());
-    //     unitUpdated.setPrice(dto.getPrice());
+            unitUpdated.setBatch(dto.getBatch());
+            unitUpdated.setExpiration_date(dto.getExpiration_date());
+    //     
+            unitUpdated.setPrice(dto.getPrice());
 
-    //     Product product = productRepository.findById(dto.getProductId()).orElseThrow(() -> new ResourceNotFoundException("Produto não encontrada!!"));
-        
-    //     Container container = containerRepository.findById(dto.getContainerId()).orElseThrow(() -> new ResourceNotFoundException("Container não encontrado!!"));
-        
-    //     unitUpdated.setProduct(product);
-    //     unitUpdated.setContainer(container);
-
-    //     return mapper.toDTO(repository.save(unitUpdated));
-    // }
+            return mapper.toDTO(repository.save(unitUpdated));
+    }
 
     public void deleteUnit(Long id){
         repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Unidade não encontrado!!"));

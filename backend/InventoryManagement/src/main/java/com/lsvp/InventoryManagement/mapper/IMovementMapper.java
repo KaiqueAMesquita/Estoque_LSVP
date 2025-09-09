@@ -26,6 +26,8 @@ public interface IMovementMapper {
     @Mapping(target = "date", ignore = true)
     @Mapping(target = "destiny", ignore = true)
     @Mapping(source = "dto.quantity", target = "quantity") 
+    @Mapping(source = "newUnit", target = "unit")
+    @Mapping(source = "user", target = "user")
     Movement fromInputDTO(InputCreateDTO dto, Unit newUnit, User user);
 
     @Mapping(target = "id", ignore = true) //Ignora id na criação
@@ -33,6 +35,8 @@ public interface IMovementMapper {
     @Mapping(target = "type", ignore = true)
     @Mapping(target = "origin", ignore = true)
     @Mapping(source = "dto.quantity", target = "quantity")
+    @Mapping(source = "unit", target = "unit")
+    @Mapping(source = "user", target = "user")
     Movement fromOutputDTO(OutputCreateDTO dto, Unit unit, User user);
 
     @Mapping(target = "id", ignore = true)
@@ -41,6 +45,8 @@ public interface IMovementMapper {
     @Mapping(target = "origin", ignore = true)
     @Mapping(target = "destiny", ignore = true)
     @Mapping(source = "dto.quantity", target = "quantity")
+    @Mapping(source = "unit", target = "unit")
+    @Mapping(source = "user", target = "user")
     Movement fromTransferDTO(TransferCreateDTO dto, Unit unit, User user);
 
     Movement toEntity(MovementCreateDTO dto);
