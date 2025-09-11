@@ -58,6 +58,13 @@ public class ProductService {
     }
 
     @Transactional
+    public ProductDTO getProductByGtin(String gtin){
+        Product product = repository.findByGtin(gtin).orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado!!!"));
+
+        return mapper.toDTO(product);
+    }
+
+    @Transactional
     public List<ProductDTO> getAllProducts(){
         return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
     }

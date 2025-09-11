@@ -36,6 +36,11 @@ public class UnitController {
         return ResponseEntity.ok(unitService.getUnitById(id));
     }
 
+    @GetMapping("/batch/{batch}")
+    public ResponseEntity<UnitDTO> getUnitByBatch(@PathVariable String batch){
+        return ResponseEntity.ok(unitService.getUnitByBatch(batch));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<UnitDTO> updateUnit(@PathVariable Long id, @Valid @RequestBody UnitUpdateDTO dto){
 

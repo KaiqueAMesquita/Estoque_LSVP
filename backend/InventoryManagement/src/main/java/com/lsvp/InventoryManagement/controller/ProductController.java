@@ -41,6 +41,11 @@ public class ProductController {
             return ResponseEntity.ok(productService.getProductById(id));
         }
 
+        @GetMapping("/gtin/{gtin}")
+        public ResponseEntity<ProductDTO> getProductByGtin(@PathVariable String gtin){
+            return ResponseEntity.ok(productService.getProductByGtin(gtin));
+        }
+
         @PutMapping("/{id}")
         public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductUpdateDTO dto){
 
