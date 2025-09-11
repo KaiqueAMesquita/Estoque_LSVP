@@ -22,6 +22,4 @@ public interface IUnitMapper {
     
     @Mapping(target = "id", ignore = true)
     Unit fromInputDTO(InputCreateDTO dto, Product product, Container container);
-
-    UnitSummaryDTO toSummary(Unit unit);
 }

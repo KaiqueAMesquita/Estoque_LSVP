@@ -56,6 +56,8 @@ public class CategoryService {
         return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
     }
 
+    // É necessário utilizar a notação @Transactional para métodos que quebram
+    // por ConcurrentModification
     @Transactional
     public List<ProductDTO> getProductsFromCategory(Long id)
     {
@@ -72,11 +74,18 @@ public class CategoryService {
     {
         Category categoryUpdated = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada!!!"));
         
-        if(dto.getDescription() != "")
+        if(!dto.getDescription().isEmpty())
             categoryUpdated.setDescription(dto.getDescription());
         
         if(dto.getFood_type() != null)
             categoryUpdated.setFood_type(dto.getFood_type());
+
+        // Java não deixa comparar int com null
+        if(dto.getMin_quantity() >= 1)
+            categoryUpdated.setMin_quantity(dto.getMin_quantity());
+
+        if(dto.getMax_quantity() >= 1)
+            categoryUpdated.setMax_quantity(dto.getMax_quantity());
 
         ZoneId zone_id = ZoneId.of("America/Sao_Paulo");
         categoryUpdated.setUpdated_at(LocalDateTime.now(zone_id));

@@ -11,6 +11,4 @@ public interface IContainerMapper {
     Container toEntity(ContainerCreateDTO dto);
 
     ContainerDTO toDTO(Container container);
-
-    ContainerSummaryDTO toSummary(Container container);
 }

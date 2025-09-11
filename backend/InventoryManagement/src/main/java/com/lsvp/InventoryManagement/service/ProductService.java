@@ -3,7 +3,6 @@ package com.lsvp.InventoryManagement.service;
 
 import com.lsvp.InventoryManagement.dto.Product.ProductCreateDTO;
 import com.lsvp.InventoryManagement.dto.Product.ProductDTO;
-import com.lsvp.InventoryManagement.dto.Product.ProductSummaryDTO;
 import com.lsvp.InventoryManagement.dto.Product.ProductUpdateDTO;
 import com.lsvp.InventoryManagement.dto.User.UserDTO;
 import com.lsvp.InventoryManagement.dto.User.UserUpdateDTO;
@@ -21,6 +20,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProductService {
@@ -50,12 +50,14 @@ public class ProductService {
         return mapper.toDTO(repository.save(product));
     }
 
+    @Transactional
     public ProductDTO getProductById(Long id){
         Product product = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado!!!"));
 
         return mapper.toDTO(product);
     }
 
+    @Transactional
     public List<ProductDTO> getAllProducts(){
         return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
     }

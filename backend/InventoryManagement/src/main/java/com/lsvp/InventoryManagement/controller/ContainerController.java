@@ -24,12 +24,12 @@ public class ContainerController {
 
 
     @PostMapping
-    public ResponseEntity<ContainerSummaryDTO> createContainer(@Valid @RequestBody ContainerCreateDTO dto){
+    public ResponseEntity<ContainerDTO> createContainer(@Valid @RequestBody ContainerCreateDTO dto){
         return ResponseEntity.ok(containerService.createContainer(dto));
     }
 
     @GetMapping
-    public ResponseEntity<List<ContainerSummaryDTO>> getAllContainers(){
+    public ResponseEntity<List<ContainerDTO>> getAllContainers(){
         return ResponseEntity.ok(containerService.getAllContainers());
     }
 

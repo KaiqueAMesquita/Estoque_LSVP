@@ -35,6 +35,12 @@ public class Category {
     @Column(name = "cat_type", length = 30, nullable = false)
     private FoodType food_type;
 
+    @Column(name = "cat_min_quantity", nullable = true)
+    private int min_quantity;
+
+    @Column(name = "cat_max_quantity", nullable = true)
+    private int max_quantity;
+
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     // Lucas: NÃO MEXA nessas duas linhas abaixo se valoriza sua vida e sanidade
     @ToString.Exclude

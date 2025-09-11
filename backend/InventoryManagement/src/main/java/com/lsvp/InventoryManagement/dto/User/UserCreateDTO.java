@@ -26,7 +26,7 @@ public class UserCreateDTO {
     @Schema(description = "Senha do usuario", example = "jose123")
     private String password;
 
-    @Schema(description = "Papel do usuário", example = "ADMINISTRATOR")
+    @Schema(description = "Papel do usuário", example = "ADMINISTRADOR")
     @NotNull(message = "Role is required")
     private Role role;
 

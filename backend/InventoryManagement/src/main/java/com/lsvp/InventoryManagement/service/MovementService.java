@@ -71,6 +71,10 @@ public class MovementService {
         movement.setSourceDetails(dto.getSourceDetails());
         movement.setDestiny(container.getCode());
 
+        // Setar os atributos das entidades pai?
+//        movement.setUnit(unit);
+//        movement.setUser(user);
+
         movement.setOrigin(null);
 
         return mapper.toDTO(repository.save(movement));

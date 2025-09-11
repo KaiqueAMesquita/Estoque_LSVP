@@ -13,4 +13,6 @@ import lombok.Data;
 public class CategoryUpdateDTO {
     private String description;
     private FoodType food_type;
+    private int min_quantity;
+    private int max_quantity;
 }

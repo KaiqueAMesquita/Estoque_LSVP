@@ -27,7 +27,7 @@ public class ProductCreateDTO {
     @NotNull(message = "Measure is required")
     private BigDecimal measure;
 
-    @Schema(description = "Tipo de Medida do Produto", example = "kg")
+    @Schema(description = "Tipo de Medida do Produto", example = "KG")
     @NotNull(message = "Measure type is required")
     private MeasureType measureType;
 

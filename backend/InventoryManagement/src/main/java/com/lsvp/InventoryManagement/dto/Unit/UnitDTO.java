@@ -2,6 +2,7 @@ package com.lsvp.InventoryManagement.dto.Unit;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lsvp.InventoryManagement.entity.Container;
+import com.lsvp.InventoryManagement.entity.Movement;
 import com.lsvp.InventoryManagement.entity.Product;
 import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
@@ -9,6 +10,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 public class UnitDTO {
@@ -32,5 +34,7 @@ public class UnitDTO {
     @JsonIgnore
     private Container container;
     @JsonIgnore
-    private Product product;    
+    private Product product;
+    @JsonIgnore
+    private Set<Movement> movements;
 }

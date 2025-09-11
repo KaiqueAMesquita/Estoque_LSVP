@@ -2,14 +2,13 @@ package com.lsvp.InventoryManagement.entity;
 
 import com.lsvp.InventoryManagement.enums.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 // Lucas:
 // No código antigo, se importava o jakarta.validation.constraints.NotBlank
 // Retirei por não precisarmos agora
@@ -36,6 +35,11 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(name = "us_role", nullable = false)
     private Role role;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<Movement> movements;
 
 
     @Override

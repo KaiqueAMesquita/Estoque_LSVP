@@ -26,4 +26,8 @@ public class MovementDTO {
     private String unitBatch;
     private Long userId;
     private String userName;
+
+    // Não faltam as entidades pai? Unit e User
+//    private Unit unit;
+//    private User user;
 }

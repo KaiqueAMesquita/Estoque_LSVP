@@ -15,6 +15,8 @@ public class CategoryDTO {
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
     private FoodType food_type;
+    private int min_quantity;
+    private int max_quantity;
 
     @JsonIgnore
     private Set<Product> products;

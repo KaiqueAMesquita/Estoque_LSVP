@@ -2,8 +2,11 @@ package com.lsvp.InventoryManagement.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "tbl_unit")
@@ -35,4 +38,9 @@ public class Unit {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_tbl_product_pdt_id")
     private Product product;
+
+    @OneToMany(mappedBy = "unit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<Movement> movements;
 }

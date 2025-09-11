@@ -32,4 +32,10 @@ public class CategoryCreateDTO {
     @NotNull(message = "Category type is required")
     @Schema(description = "Tipo da categoria", example = "NAO_PERECIVEL")
     private FoodType food_type;
+
+    @Schema(description = "Quantidade mínima necessária da categoria em estoque", example = "25")
+    private int min_quantity;
+
+    @Schema(description = "Quantidade máxima possível da categoria em estoque", example = "100")
+    private int max_quantity;
 }

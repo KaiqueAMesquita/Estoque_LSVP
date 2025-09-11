@@ -3,7 +3,6 @@ package com.lsvp.InventoryManagement.controller;
 
 import com.lsvp.InventoryManagement.dto.Product.ProductCreateDTO;
 import com.lsvp.InventoryManagement.dto.Product.ProductDTO;
-import com.lsvp.InventoryManagement.dto.Product.ProductSummaryDTO;
 import com.lsvp.InventoryManagement.dto.Product.ProductUpdateDTO;
 import com.lsvp.InventoryManagement.dto.User.UserDTO;
 import com.lsvp.InventoryManagement.dto.User.UserUpdateDTO;

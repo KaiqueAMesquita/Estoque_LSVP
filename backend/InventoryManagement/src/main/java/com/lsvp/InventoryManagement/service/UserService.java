@@ -13,6 +13,7 @@ import com.lsvp.InventoryManagement.entity.User;
 import com.lsvp.InventoryManagement.exceptions.ResourceNotFoundException;
 import com.lsvp.InventoryManagement.mapper.IUserMapper;
 import com.lsvp.InventoryManagement.repository.IUserRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -65,6 +66,7 @@ public class UserService {
 
 
     //Gustavo: Get User por Id
+    @Transactional
     public UserDTO getUserById(Long id){
         User user = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado!!!"));
 
@@ -73,6 +75,7 @@ public class UserService {
 
     //Gustavo: Get todos os Users
     //Gustavo: https://www.youtube.com/watch?v=3vYLwPzxJ2E
+    @Transactional
     public List<UserDTO> getAllUsers(){
         return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
     }
