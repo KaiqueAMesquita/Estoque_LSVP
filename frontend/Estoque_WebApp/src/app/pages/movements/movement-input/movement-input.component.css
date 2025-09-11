@@ -1,0 +1,27 @@
+a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 320px;
+    height: 80px;
+    background-color: #1976d2; /* Azul */
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+a:hover {
+    background-color: #1565c0; /* Azul mais escuro no hover */
+    color: #fff;
+    text-decoration: none;
+}
+#space{
+    margin-right: 10px;
+}

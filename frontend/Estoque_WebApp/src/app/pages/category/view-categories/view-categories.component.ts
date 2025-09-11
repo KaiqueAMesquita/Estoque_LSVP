@@ -51,6 +51,8 @@ export class ViewCategoriesComponent implements OnInit, OnDestroy {
           ...cat,
           created_at: new Date(cat.created_at),
           updated_at: cat.updated_at ? new Date(cat.updated_at) : undefined
+         
+        
         }));
       },
       error: (error) => {

@@ -1,0 +1,95 @@
+<!-- A barra de navegação permanece no topo da página -->
+<app-nav-bar></app-nav-bar>
+
+<!-- Este link/botão provavelmente é para uma funcionalidade de scanner, mantive como estava -->
+<a>
+    <fa-icon [icon]="icons.faBarcode"></fa-icon>
+    <span id="space"></span>
+    Escanear Entrada
+</a>
+
+<!--
+  O template do formulário agora contém um app-input para cada campo
+  definido no seu FormGroup no arquivo .ts (MovementInputComponent).
+-->
+<app-form-template
+    [formTitle]="'Nova Entrada'"
+    [formGroup]="form"
+    [submitText]="'Adicionar Entrada'"
+    [cancelText]="'Cancelar'"
+    (formSubmit)="onSubmit()"
+>
+    <!-- Campo para o ID do Produto -->
+    <app-input
+        [control]="getControl('productId')"
+        type="text"
+        label="ID do Produto"
+        placeholder="Digite o ID ou código do produto"
+    ></app-input>
+
+    <!-- Campo para o Lote -->
+    <app-input
+        [control]="getControl('batch')"
+        type="text"
+        label="Lote"
+        placeholder="Digite o lote do produto"
+    ></app-input>
+
+    <!-- Campo para a Quantidade -->
+    <app-input
+        [control]="getControl('quantity')"
+        type="number"
+        label="Quantidade"
+        placeholder="Digite a quantidade"
+    ></app-input>
+
+    <!-- Campo para o ID do Contêiner/Local de Armazenamento -->
+    <app-input
+        [control]="getControl('containerId')"
+        type="text"
+        label="ID do Contêiner"
+        placeholder="Digite o ID do contêiner ou local"
+    ></app-input>
+
+    <!-- Campo para o Tipo de Origem -->
+    <app-input
+        [control]="getControl('sourceType')"
+        type="select"
+        label="Tipo de Origem"
+        [options]="sourceOptions"
+        placeholder="Selecione o tipo de origem"
+    ></app-input>
+
+    <!-- Campo para Detalhes da Origem -->
+    <app-input
+        [control]="getControl('sourceDetails')"
+        type="text"
+        label="Detalhes da Origem"
+        placeholder="Ex: Nome do Fornecedor, Nota Fiscal"
+    ></app-input>
+
+    <!-- Campo para a Data de Validade -->
+    <app-input
+        [control]="getControl('expiration_date')"
+        type="date"
+        label="Data de Validade"
+        placeholder="Selecione a data de validade"
+    ></app-input>
+
+    <!-- Campo para o Preço -->
+    <app-input
+        [control]="getControl('price')"
+        type="number"
+        label="Preço"
+        placeholder="Digite o preço unitário"
+    ></app-input>
+
+    <!-- Campo para o ID do Usuário que está registrando -->
+    <app-input
+        [control]="getControl('userId')"
+        type="text"
+        label="ID do Usuário"
+        placeholder="ID do usuário responsável"
+    ></app-input>
+
+</app-form-template>

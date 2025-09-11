@@ -36,7 +36,7 @@ export class CreateProductsComponent implements OnInit {
     private categoryService: CategoryService
   ) {
     this.form = this.fb.group({
-      gtin: this.fb.control('', [Validators.required, onlyNumbersValidator(), exactLengthValidator(11)]),
+      gtin: this.fb.control('', [Validators.required, onlyNumbersValidator(), exactLengthValidator(13)]),
       measure: this.fb.control('', [Validators.required, onlyNumbersValidator()]),
       measureType: this.fb.control('', Validators.required),
       categoryId: this.fb.control('', Validators.required)
