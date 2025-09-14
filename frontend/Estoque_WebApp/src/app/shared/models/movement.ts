@@ -1,6 +1,7 @@
 export interface Movement {
     productId: number;
     batch: string;
+    type: 'Entrada' | 'Saída';
     quantity: number;
     containerId: number;
     sourceType: string;
