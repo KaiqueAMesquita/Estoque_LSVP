@@ -10,3 +10,4 @@ export interface Movement {
     price: number;
     userId: number;
 }
+//Model
