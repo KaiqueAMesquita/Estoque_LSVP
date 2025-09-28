@@ -21,30 +21,30 @@ export class MovementService {
 
  
     // Método para pegar todos Movements
-    public getAllMovements(): Observable<MovementService[]> {
-      return this.http.get<MovementService[]>(this.movementLink);
+    public getAllMovements(): Observable<Movement[]> {
+      return this.http.get<Movement[]>(this.movementLink);
     }
-    //Why is That?
-    //public is getting error because ts1128 
+    //Ver se após o merge:
+    //public com ts1128, Descobrir o porque é  
   
     // Método para pegar um Movement pelo id
-    public getMovementById(MovementId: number): Observable<MovementService> {
-      return this.http.get<MovementService>(`${this.movementLink}/${MovementId}`);
+    public getMovementById(MovementId: number): Observable<Movement> {
+      return this.http.get<Movement>(`${this.movementLink}/${MovementId}`);
     }
   
     // Método para atualizar um Movement
-    public updateMovement(MovementId: number, Movement: Partial<MovementService>): Observable<MovementService> {
-      return this.http.put<MovementService>(`${this.movementLink}/${MovementId}`, Movement);
+    public updateMovement(MovementId: number, Movement: Partial<Movement>): Observable<Movement> {
+      return this.http.put<Movement>(`${this.movementLink}/${MovementId}`, Movement);
     }
   
     // Método para deletar um Movement
     public deleteMovement(MovementId: number): void {
-      this.http.delete<MovementService>(`${this.movementLink}/${MovementId}`).subscribe(
+      this.http.delete<Movement>(`${this.movementLink}/${MovementId}`).subscribe(
         (response) => {
-          console.log('Movement deletado com sucesso:', response);
+          console.log('Movimentação deletado com sucesso:', response);
         },
         (error) => {
-          console.error('Erro ao deletar Movement:', error);
+          console.error('Erro ao deletar Movimentação:', error);
         }
       );
     }
