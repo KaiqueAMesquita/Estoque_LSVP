@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, ElementRef, HostListener, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { IconModule, icons } from '../../../shared/modules/icon/icon.module';
 import { FormBuilder, FormsModule, Validators } from '@angular/forms';
 import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.component';
@@ -13,21 +14,23 @@ import { Unit } from '../../../shared/models/unit';
 import { AuthenticationService } from '../../../core/authentication/authentication.service';
 import { InputComponent } from '../../../shared/components/input/input.component';
 import { FormTemplateComponent } from '../../../shared/components/form-template/form-template.component';
+import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-scanner-input',
-  imports: [IconModule,FormsModule,NavBarComponent, FormsModule, InputComponent, FormTemplateComponent],
+  imports: [IconModule, FormsModule, NavBarComponent, InputComponent, FormTemplateComponent, CommonModule],
   standalone: true,
   providers: [AuthenticationService],
   templateUrl: './scanner-input.component.html',
   styleUrl: './scanner-input.component.css'
 })
-export class ScannerInputComponent implements AfterViewInit{
+export class ScannerInputComponent implements AfterViewInit, OnDestroy {
   private buffer: string = '';
   private timeout: any;
-  private batchView: boolean = false;
+  batchView: boolean = false;
   form: FormGroup;
   private product: Product | undefined;
-
+  private destroy$ = new Subject<void>();
+  private manualControl: boolean = false;
 
   @ViewChild('input') input!: ElementRef<HTMLInputElement>;
 
@@ -55,6 +58,11 @@ export class ScannerInputComponent implements AfterViewInit{
      this.input.nativeElement.focus();
     }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    if (this.timeout) clearTimeout(this.timeout);
+  }
   
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
@@ -78,15 +86,20 @@ export class ScannerInputComponent implements AfterViewInit{
     return this.form.get(field) as FormControl;
   }
   onBarcodeScanned(code: string) {
-    let product = this.productService.getProductByGtin(code).subscribe({next: (data) => {
+    this.productService.getProductByGtin(code)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (data) => {
       if(data){
         this.product = data;
         this.batchView = true;
       }else{
-        alert("Produto não cadastrado");
-        this.router.navigate(['/manage/create/product']);
+        this.batchView = false;
+        window.alert("Produto não encontrado");
       }
-    }})
+
+      }
+    });
 }
   onSubmit(){
      
@@ -94,7 +107,9 @@ export class ScannerInputComponent implements AfterViewInit{
       let unit: Unit;
       let batch = this.form.value.batch;
       let quantity = this.form.value.quantity;
-      this.unitService.getUnitByBatch(batch).subscribe({next: (data) => {
+      this.unitService.getUnitByBatch(batch)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({next: (data) => {
         unit = data;
         if (this.product && data.gtin === this.product.gtin) {
           let inputMovement: InputMovement = {
@@ -109,22 +124,21 @@ export class ScannerInputComponent implements AfterViewInit{
             userId: this.auth.decodeToken().sub // substituir pelo id do usuário logado
 
           };
-          this.movementService.createInputMovement(inputMovement).subscribe({next: (data) => {
-            if(data){
-              alert("Movimento de entrada criado com sucesso");
-              this.router.navigate(['/movments']);
-            }else{
-              alert("Erro ao criar movimento de entrada");
-              this.router.navigate(['/movments']);
-            }
-          }})
+          this.movementService.createInputMovement(inputMovement)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({next: (response) => {
+            const message = response ? "Movimento de entrada criado com sucesso" : "Erro ao criar movimento de entrada";
+            alert(message);
+            this.router.navigate(['/movements']);
+          }});
         } else {
+          alert("O lote informado não corresponde ao produto escaneado.");
           this.router.navigate(['/manage/create/product']);
-          alert("Produto não cadastrado");
         }
       },
       error: (err) => {
-            this.router.navigate(['/manage/movements/input']);
+            alert('Lote não encontrado. Verifique o lote e tente novamente.');
+            this.router.navigate(['/movements/input']);
 
       }
     })
