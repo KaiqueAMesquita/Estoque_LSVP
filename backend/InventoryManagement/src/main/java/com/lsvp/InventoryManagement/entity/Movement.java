@@ -65,4 +65,9 @@ public class Movement {
     @JoinColumn(name = "fk_tbl_user_us_id")
     private User user;
 
+    // Relacionamento com pedido item ou orderitem
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_tbl_order_item_ori_id")
+    private OrderItem orderItem;
+
 }

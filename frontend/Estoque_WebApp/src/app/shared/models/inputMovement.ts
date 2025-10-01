@@ -9,3 +9,4 @@ export interface InputMovement{
     price: number;
     userId: number;
 }
+//Interface

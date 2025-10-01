@@ -119,7 +119,7 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy {
             containerId: unit.id,
             sourceType: this.form.value.sourceType,
             sourceDetails: 'Adicionado via Scanner',
-            expiration_date: unit.expiration_date,
+            expiration_date: unit.expirationDate,
             price: this.form.value.price,
             userId: this.auth.decodeToken().sub // substituir pelo id do usuário logado
 

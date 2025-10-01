@@ -73,6 +73,12 @@ public class UserService {
         return mapper.toDTO(user);
     }
 
+    public UserDTO getUserByName(String name){
+        User user = repository.findByName(name).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado!!!"));
+
+        return mapper.toDTO(user);
+    }
+
     //Gustavo: Get todos os Users
     //Gustavo: https://www.youtube.com/watch?v=3vYLwPzxJ2E
     @Transactional

@@ -1,0 +1,60 @@
+<app-nav-bar></app-nav-bar>
+
+<a>
+    <fa-icon [icon]="icons.faBarcode"></fa-icon>
+    <span id="space"></span>
+    Escanear Entrada
+</a>
+
+<app-form-template
+    [formTitle]="'Editar Entrada'"
+    [formGroup]="form"
+    [submitText]="'Alterar entrada'"
+    [cancelText]="'Cancelar'"
+    (formSubmit)="onSubmit()"
+>
+    <app-input
+        [control]="getControl('batch')"
+        type="text"
+        label="Lote"
+        placeholder="Digite o lote"
+    ></app-input>
+
+    <app-input
+        [control]="getControl('measure')"
+        type="select"
+        label="Unidade de Medida"
+        placeholder="Selecione a unidade de medida"
+        [options]="measures"
+
+    ></app-input>
+
+    <app-input
+        [control]="getControl('quantity')"
+        type="number"
+        label="Quantidade"
+        placeholder="Digite a quantidade"
+    ></app-input>
+    
+    <app-input
+        [control]="getControl('expirationDate')"
+        type="date"
+        label="Data de Validade"
+        placeholder="Selecione a data de validade"
+    ></app-input>
+
+    <app-input
+        [control]="getControl('price')"
+        type="number"
+        label="Preço"
+        placeholder="Digite o preço"
+    ></app-input>
+
+    <app-input
+        [control]="getControl('gtin')"
+        type="text"
+        label="Produto"
+        placeholder="Selecione o produto"
+        [disable]="true"
+    ></app-input>
+</app-form-template>
