@@ -28,30 +28,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Tag(name = "Orders", description = "Gerenciamento de Pedidos de Unidades")
 public class OrderController {
 
-    @Autowired
-    private OrderService orderService;
+    // @Autowired
+    // private OrderService orderService;
 
-    @PostMapping
-    public ResponseEntity<OrderDTO> createOrder(@Valid @RequestBody OrderCreateDTO dto) {
+    // @PostMapping
+    // public ResponseEntity<OrderDTO> createOrder(@Valid @RequestBody OrderCreateDTO dto) {
 
-        return ResponseEntity.ok(orderService.createOrder(dto));
-    }
+    //     return ResponseEntity.ok(orderService.createOrder(dto));
+    // }
 
-    @PostMapping("/{id}/fulfill")
-    public ResponseEntity<Void> fulfillOrder(@PathVariable Long id, @Valid @RequestBody FulfillmentRequestDTO dto) {
-        orderService.fulfillOrder(id, dto);
-        return ResponseEntity.ok().build();
-    }
+    // @PostMapping("/{id}/fulfill")
+    // public ResponseEntity<Void> fulfillOrder(@PathVariable Long id, @Valid @RequestBody FulfillmentRequestDTO dto) {
+    //     orderService.fulfillOrder(id, dto);
+    //     return ResponseEntity.ok().build();
+    // }
 
-    @GetMapping
-    public ResponseEntity <List<OrderDTO>> getAllOrders(){
-        return ResponseEntity.ok(orderService.getAllOrders());
-    }
+    // @GetMapping
+    // public ResponseEntity <List<OrderDTO>> getAllOrders(){
+    //     return ResponseEntity.ok(orderService.getAllOrders());
+    // }
 
-    @GetMapping("/{id}")
-    public ResponseEntity <OrderDTO> getOrderById(@PathVariable Long id){
-        return ResponseEntity.ok(orderService.getOrderById(id));
-    }
+    // @GetMapping("/{id}")
+    // public ResponseEntity <OrderDTO> getOrderById(@PathVariable Long id){
+    //     return ResponseEntity.ok(orderService.getOrderById(id));
+    // }
 
     
     

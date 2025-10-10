@@ -13,18 +13,18 @@ export class ProductService {
     this.productLink = environment.API_URL+"/product"
   }
   
-  //Método para registrar um usuário
+  //Método para registrar um Produto
   public registerProduct(product: ProductCreate): Observable<ProductCreate> {
     return this.http.post<Product>(this.productLink, product);
 
 }
 
-    //Método para pegar todos usuários
+    //Método para pegar todos Produtos
   public getAllProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.productLink);
   }
 
-  //Método para pegar um usuário pelo id
+  //Método para pegar um Produto pelo id
   public getProductById(productId: number): Observable<Product> {
     return this.http.get<Product>(this.productLink+"/"+productId);
   }
@@ -34,18 +34,18 @@ export class ProductService {
     return this.http.get<Product>(this.productLink+"/gtin/"+gtin);
   }
 
-  //Método para atualizar um usuário
+  //Método para atualizar um Produto
   public updateProduct(productId: number, product: Partial<Product>): Observable<Partial<Product>> { 
      return this.http.put<Product>(this.productLink + "/" + productId, product);
   }
-    //Método para deletar um usuário
+    //Método para deletar um Produto
   public deleteProduct(productId: string): void {	
     this.http.delete<Product>(this.productLink+"/"+productId).subscribe(
       (response) => {
-        console.log('Usuário deletado com sucesso:', response);
+        console.log('Produto deletado com sucesso:', response);
       },
       (error) => {
-        console.error('Erro ao deletar usuário:', error);
+        console.error('Erro ao deletar Produto:', error);
       } 
     );
   

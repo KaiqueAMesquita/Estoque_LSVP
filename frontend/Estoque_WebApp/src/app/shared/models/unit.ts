@@ -1,14 +1,9 @@
 export interface Unit {
     id: number;
     batch: string;
-    expiration_date: Date;
+    measure: number;
     quantity: number;
-    price: number;
-    containerCode: string;
-    description: string;
+    expirationDate: Date;
+    price?: number;
     gtin: string;
-
-
 }
-
-
