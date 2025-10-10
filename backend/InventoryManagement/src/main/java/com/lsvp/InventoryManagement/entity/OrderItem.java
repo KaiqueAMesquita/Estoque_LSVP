@@ -22,7 +22,7 @@ public class OrderItem {
     private Long id;
 
     @Column(name = "ori_quantity_requested", nullable = false)
-    private int quantityRequest;
+    private int quantityRequested;
 
     @Column(name = "ori_quantity_fulfilled")
     private int quantityFulfilled;

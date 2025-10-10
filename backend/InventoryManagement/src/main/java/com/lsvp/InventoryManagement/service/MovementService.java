@@ -18,11 +18,14 @@ import com.lsvp.InventoryManagement.entity.User;
 import com.lsvp.InventoryManagement.enums.MovementType;
 import com.lsvp.InventoryManagement.entity.Container;
 import com.lsvp.InventoryManagement.entity.Movement;
+import com.lsvp.InventoryManagement.entity.OrderItem;
 import com.lsvp.InventoryManagement.entity.Product;
+import com.lsvp.InventoryManagement.exceptions.BusinessException;
 import com.lsvp.InventoryManagement.exceptions.ResourceNotFoundException;
 import com.lsvp.InventoryManagement.mapper.IMovementMapper;
 import com.lsvp.InventoryManagement.repository.IContainerRepository;
 import com.lsvp.InventoryManagement.repository.IMovementRepository;
+import com.lsvp.InventoryManagement.repository.IOrderItemRepository;
 import com.lsvp.InventoryManagement.repository.IProductRepository;
 import com.lsvp.InventoryManagement.repository.IUnitRepository;
 import com.lsvp.InventoryManagement.repository.IUserRepository;
@@ -52,6 +55,9 @@ public class MovementService {
 
     @Autowired
     private UnitService unitService;
+
+    @Autowired
+    private IOrderItemRepository orderItemRepository;
 
 
     @Transactional
@@ -91,7 +97,7 @@ public class MovementService {
             throw new ResourceNotFoundException("Estoque insuficiente!!");
         }
 
-        String origin = unit.getContainer().toString();
+        String origin = (unit.getContainer() != null) ? unit.getContainer().getCode() : "Estoque Geral";
 
         unit.setQuantity(unit.getQuantity() - dto.getQuantity());
         unitRepository.save(unit);
@@ -100,6 +106,26 @@ public class MovementService {
         movement.setDate(LocalDateTime.now());
         movement.setType(MovementType.SAIDA);
         movement.setOrigin(origin);
+
+        //Logica para incrementar quantityFulfilled do Order Fulfill
+        if (dto.getOrderItemId() != null) {
+            
+            OrderItem item = orderItemRepository.findById(dto.getOrderItemId())
+                .orElseThrow(() -> new ResourceNotFoundException("Item de pedido não encontrado! ID: " + dto.getOrderItemId()));
+           
+            int quantityNeeded = item.getQuantityRequested() - item.getQuantityFulfilled();
+
+                if (dto.getQuantity() > quantityNeeded) {
+                throw new BusinessException(
+                    "A quantidade a ser atendida (" + dto.getQuantity() + ") excede a quantidade restante do pedido (" + quantityNeeded + ")."
+                );
+                }
+
+            movement.setOrderItem(item);
+            
+            item.setQuantityFulfilled(item.getQuantityFulfilled() + dto.getQuantity());
+            orderItemRepository.save(item); 
+        }
 
         return mapper.toDTO(repository.save(movement));
     }

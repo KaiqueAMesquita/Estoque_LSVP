@@ -16,4 +16,6 @@ public class OutputCreateDTO {
     private String destiny;
     @NotNull
     private Long userId;
+
+    private Long orderItemId;
 }

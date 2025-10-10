@@ -2,7 +2,7 @@ package com.lsvp.InventoryManagement.enums;
 
 
 public enum OrderStatus {
-    PENDENDTE,
+    PENDENTE,
     ATENDIDO_PARCIALMENTE,
     ATENDIDO,
     CANCELADO
