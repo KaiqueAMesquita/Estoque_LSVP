@@ -14,7 +14,7 @@ export class MovementService {
     this.movementLink = environment.API_URL+"/movement"
   }
 
-  createInputMovement(movement: InputMovement): Observable<InputMovement>{ {
+  public createInputMovement(movement: InputMovement): Observable<InputMovement>{ {
     return this.http.post<any>(`${this.movementLink}/inputs`, movement);
   }
 

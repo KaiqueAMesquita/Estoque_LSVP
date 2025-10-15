@@ -12,6 +12,7 @@ export interface Movement {
     unitBatch: string;
     userId: number;
     userName: string;
+    OrderItem: number; 
     // Optionais (não lembro se vamos usar):
     /*
     productId?: number;
