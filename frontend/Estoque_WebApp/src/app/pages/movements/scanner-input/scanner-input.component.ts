@@ -30,7 +30,7 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy {
   form: FormGroup;
   private product: Product | undefined;
   private destroy$ = new Subject<void>();
-  private manualControl: boolean = false;
+  public manualControl: boolean = false;
 
   @ViewChild('input') input!: ElementRef<HTMLInputElement>;
 

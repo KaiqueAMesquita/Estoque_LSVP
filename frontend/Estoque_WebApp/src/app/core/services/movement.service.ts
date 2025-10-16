@@ -16,7 +16,7 @@ export class MovementService {
 
   public createInputMovement(movement: InputMovement): Observable<InputMovement>{ {
     return this.http.post<any>(`${this.movementLink}/inputs`, movement);
-  }
+  } }
 
  
     // Método para pegar todos Movements
