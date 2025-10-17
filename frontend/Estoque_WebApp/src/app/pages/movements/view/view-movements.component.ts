@@ -44,11 +44,13 @@ export class ViewMovementsComponent implements OnInit, OnDestroy {
       next: (data: Movement[]) => {
         
         this.Movements = data;
-        //delete filed createdAt and updatedAt from Movements
+        //Teste Não mostrar createdAt e updatedAt
+        /*
       this.Movements?.forEach(Movement => {
         delete Movement.createdAt;
         delete Movement.updatedAt;
         });
+        */
 
    
       },
@@ -57,16 +59,16 @@ export class ViewMovementsComponent implements OnInit, OnDestroy {
       }
     });
   }
-
+/*
   DeleteMovement(id: string): void {
     try {
-      this.MovementService.deleteMovement(id);
-      this.Movements = this.Movements.filter(Movement => Movement.id !== id);
+      this.MovementService.deleteMovement(MovementId);
+      this.Movements = this.Movements.filter(Movement => MovementId !== id);
     } catch (error) {
       console.error('Erro ao deletar Movimentação:', error);
     }
   }
-
+*/
   EditMovement(id: number): void {
     this.router.navigate(['manage/edit/movements', id]);
   }

@@ -27,18 +27,18 @@ export class DeleteMovementsComponent {
     // Agora mapeando para os campos do DTO MovementUpdateDTO
     this.form = this.fb.group({
       unitId: this.fb.control('', Validators.required),
-      SourceType: this.fb.control('', Validators.required),
-      SourceDetails: this.fb.control('', Validators.required),
+      sourceType: this.fb.control('', Validators.required),
+      sourceDetails: this.fb.control('', Validators.required),
       userId: this.fb.control('', Validators.required)
     });
 
     if (this.id !== '') {
       this.MovementService.getMovementById(Number(this.id)).subscribe({
-        next: (Movement: { unitId: any; SourceType: any; SourceDetails: any; userId: any; }) => {
+        next: (Movement: { unitId: any; sourceType: any; sourceDetails: any; userId: any; }) => {
           this.form.patchValue({
             unitId: Movement.unitId,
-            SourceType: Movement.SourceType,
-            SourceDetails: Movement.SourceDetails,
+            sourceType: Movement.sourceType,
+            sourceDetails: Movement.sourceDetails,
             userId: Movement.userId,
             
           });
@@ -60,8 +60,8 @@ export class DeleteMovementsComponent {
 
     const Movement: Partial<Movement> = {
       unitId: this.form.value.unitId,
-      SourceType: this.form.value.SourceType,
-      SourceDetails: this.form.value.SourceDetails,
+      sourceType: this.form.value.sourceType,
+      sourceDetails: this.form.value.sourceDetails,
       userId: this.form.value.userId
     };
 
