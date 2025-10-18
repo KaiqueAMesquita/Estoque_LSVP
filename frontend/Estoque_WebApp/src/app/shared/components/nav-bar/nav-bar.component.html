@@ -30,7 +30,7 @@
     </li>
     
     <li class="nav-item-new" [class.active-new]="isActive('movimentacoes')">
-      <a href="#" class="nav-link-new">
+      <a href="manage/view/movements" (click)="setActiveByRoute('movimentacoes')" class="nav-link-new">
         <fa-icon [icon]="icons.faArrowsTurnToDots" class="nav-icon-new"></fa-icon>
         <span>Movimentações</span>
         </a>
