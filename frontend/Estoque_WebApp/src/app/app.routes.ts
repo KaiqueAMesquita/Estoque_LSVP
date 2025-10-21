@@ -21,7 +21,6 @@ import { CreateCategoryComponent } from './pages/category/create-category/create
 import { ViewCategoriesComponent } from './pages/category/view-categories/view-categories.component';
 import { EditCategoryComponent } from './pages/category/edit-category/edit-category.component';
 import { adminGuard } from './core/guards/admin.guard';
-import { ViewMovementsComponent } from './pages/movements/view/view-movements.component';
 import { EditMovementsComponent } from './pages/movements/edit/edit-movements.component';
 import { MovementInputComponent } from './pages/movements/movement-input/movement-input.component';
 import { ScannerInputComponent } from './pages/movements/scanner-input/scanner-input.component';
@@ -43,17 +42,14 @@ export const routes: Routes = [
     //filhos da rota de gerenciamento
         children: [
             {path: '', redirectTo: 'view', pathMatch: 'full'},
-<<<<<<< HEAD
 
             {path: 'view/users', component: UsersViewComponent, pathMatch: 'full', canActivate: [adminGuard] },
             {path: 'create/user', component: CreateUserComponent, pathMatch: 'full', canActivate: [adminGuard] },
             {path: 'edit/user/:id', component: EditUserComponent, pathMatch: 'full', canActivate: [adminGuard] },
-=======
             {path: 'view', component: ManageViewComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
             {path: 'view/users', component: UsersViewComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
             {path: 'create/user', component: CreateUserComponent, pathMatch: 'full', /*canActivate:[adminGuard]},*/ },
             {path: 'edit/user/:id', component: EditUserComponent, pathMatch: 'full', /*canActivate:[adminGuard]},*/ },
->>>>>>> c0165e59a2c5d7e2c96126b1dd519daa659aabee
 
             {path: 'view/products', component: ViewProductsComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
             {path: 'create/product', component: CreateProductsComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
@@ -67,19 +63,16 @@ export const routes: Routes = [
             {path: 'create/category', component: CreateCategoryComponent, pathMatch: 'full', /*canActivate:[authGuard]*/ },
             {path: 'edit/category/:id', component: EditCategoryComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
 
-<<<<<<< HEAD
             {path: 'movements/scan', component: ScannerInputComponent, pathMatch: 'full'},
             {path:'movements/input', component: MovementInputComponent, pathMatch: 'full'},
             {path:'view/movements',component: ViewMovementsComponent, pathMatch: 'full'},
 
             {path: 'view/units', component: ViewUnitComponent, pathMatch: 'full'},
             {path: 'edit/unit/:id', component:EditUnitComponent, pathMatch: 'full'},
-=======
             {path: 'view/movements', component: ViewMovementsComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
             {path: 'edit/movements/:id', component: EditMovementsComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
             {path: 'movements/scan', component: ScannerInputComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
             {path: 'movements/input', component: MovementInputComponent, pathMatch: 'full', /*canActivate:[authGuard]*/}
->>>>>>> c0165e59a2c5d7e2c96126b1dd519daa659aabee
 
         ], /*//*/
      },
