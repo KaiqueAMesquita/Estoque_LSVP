@@ -121,7 +121,7 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy {
             sourceDetails: 'Adicionado via Scanner',
             expiration_date: unit.expirationDate,
             price: this.form.value.price,
-            userId: this.auth.decodeToken().sub // substituir pelo id do usuário logado
+            userId: this.auth.decodeToken().sub 
 
           };
           this.movementService.createInputMovement(inputMovement)
@@ -138,7 +138,18 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy {
       },
       error: (err) => {
             alert('Lote não encontrado. Verifique o lote e tente novamente.');
-            this.router.navigate(['/movements/input']);
+
+            const navigationData = {
+              state: {
+                productId: this.product?.id,
+                batch: this.form.value.batch,
+                quantity: this.form.value.quantity,
+                sourceType: this.form.value.sourceType,
+                price: this.form.value.price,
+                userId: this.auth.decodeToken().sub
+              }
+            };
+            this.router.navigate(['manage/movements/input'], navigationData);
 
       }
     })

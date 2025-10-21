@@ -25,6 +25,9 @@ import { MovementInputComponent } from './pages/movements/movement-input/movemen
 import { ScannerInputComponent } from './pages/movements/scanner-input/scanner-input.component';
 import { CookDashboardComponent } from './pages/cook-dashboard/cook-dashboard.component';
 import { KitchenOrderComponent } from './pages/request/kitchen-order/kitchen-order.component';
+import { ViewUnitComponent } from './pages/unit/view-unit/view-unit.component';
+import { EditUnitComponent } from './pages/unit/edit-unit/edit-unit.component';
+import { ViewMovementsComponent } from './pages/movements/view/view-movements.component';
 
 export const routes: Routes = [
     //[authGuard] protege as rotas que precisam de autenticação
@@ -41,7 +44,7 @@ export const routes: Routes = [
     //filhos da rota de gerenciamento
         children: [
             {path: '', redirectTo: 'view', pathMatch: 'full'},
-            {path: 'view', component: ManageViewComponent, pathMatch: 'full'},
+
             {path: 'view/users', component: UsersViewComponent, pathMatch: 'full', canActivate: [adminGuard] },
             {path: 'create/user', component: CreateUserComponent, pathMatch: 'full', canActivate: [adminGuard] },
             {path: 'edit/user/:id', component: EditUserComponent, pathMatch: 'full', canActivate: [adminGuard] },
@@ -59,7 +62,11 @@ export const routes: Routes = [
             {path: 'edit/category/:id', component: EditCategoryComponent, pathMatch: 'full'},
 
             {path: 'movements/scan', component: ScannerInputComponent, pathMatch: 'full'},
-            {path:'movements/input', component: MovementInputComponent, pathMatch: 'full'}
+            {path:'movements/input', component: MovementInputComponent, pathMatch: 'full'},
+            {path:'view/movements',component: ViewMovementsComponent, pathMatch: 'full'},
+
+            {path: 'view/units', component: ViewUnitComponent, pathMatch: 'full'},
+            {path: 'edit/unit/:id', component:EditUnitComponent, pathMatch: 'full'},
 
         ], /*canActivate: [authGuard]*/
      },

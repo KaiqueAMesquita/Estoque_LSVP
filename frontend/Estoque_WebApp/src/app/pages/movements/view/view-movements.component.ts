@@ -46,8 +46,7 @@ export class ViewMovementsComponent implements OnInit, OnDestroy {
         this.Movements = data;
         //delete filed createdAt and updatedAt from Movements
       this.Movements?.forEach(Movement => {
-        delete Movement.createdAt;
-        delete Movement.updatedAt;
+    
         });
 
    
@@ -60,8 +59,6 @@ export class ViewMovementsComponent implements OnInit, OnDestroy {
 
   DeleteMovement(id: string): void {
     try {
-      this.MovementService.deleteMovement(id);
-      this.Movements = this.Movements.filter(Movement => Movement.id !== id);
     } catch (error) {
       console.error('Erro ao deletar Movimentação:', error);
     }
