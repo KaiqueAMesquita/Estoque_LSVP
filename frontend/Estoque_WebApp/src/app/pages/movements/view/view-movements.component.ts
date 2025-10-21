@@ -44,10 +44,12 @@ export class ViewMovementsComponent implements OnInit, OnDestroy {
       next: (data: Movement[]) => {
         
         this.Movements = data;
-        //delete filed createdAt and updatedAt from Movements
+        //Teste Não mostrar createdAt e updatedAt
+        /*
       this.Movements?.forEach(Movement => {
     
         });
+        */
 
    
       },
@@ -57,10 +59,15 @@ export class ViewMovementsComponent implements OnInit, OnDestroy {
     });
   }
 
-  DeleteMovement(id: string): void {
+  DeleteMovement(id: number): void {
     try {
+<<<<<<< HEAD
+=======
+      this.MovementService.deleteMovement(id);
+      this.Movements = this.Movements.filter(movement => movement.id !== id);
+>>>>>>> c0165e59a2c5d7e2c96126b1dd519daa659aabee
     } catch (error) {
-      console.error('Erro ao deletar Movimentação:', error);
+      console.error('Erro ao deletar essa Movimentação!', error);
     }
   }
 

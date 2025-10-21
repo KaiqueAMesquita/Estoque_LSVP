@@ -1,12 +1,16 @@
+<<<<<<< HEAD
 <app-template title="Movimentações" createText="Nova Movimentação" (createNewEvent)="router.navigate(['manage/movements/scan'])">
+=======
+<app-view-template title="Movimentações" createText="Nova Movimentação" (createNewEvent)="router.navigate(['manage/create/moviment'])">
+>>>>>>> c0165e59a2c5d7e2c96126b1dd519daa659aabee
   <app-p-table
     [showSearch]="true"
-    (onDelete)="Deletemoviment($event.id)"
-    (onEdit)="Editmoviment($event.id)"
-    [data]="moviment"
+    (onDelete)="DeleteMovement($event.id)"
+    (onEdit)="EditMovement($event.id)"
+    [data]="Movements"
     [delete]="true"
     [edit]="true"
     [view]="true"
   ></app-p-table>
 
-</app-template>
+</app-view-template>
