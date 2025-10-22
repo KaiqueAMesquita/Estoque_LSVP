@@ -1,0 +1,29 @@
+.order-paper{
+    border: 1px solid #cccccc;
+    border-radius: 1px;
+    padding: 5px;
+    margin: 5px;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+}
+.order-items{
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    margin: 5px;
+}
+.x{
+    cursor: pointer;
+    color: rgb(158, 158, 158);
+}
+ul{
+    list-style-type: none;
+    padding: 0;
+}
+li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #cccccc;
+}

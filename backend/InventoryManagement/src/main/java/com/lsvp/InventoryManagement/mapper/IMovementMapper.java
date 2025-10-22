@@ -14,7 +14,7 @@ import com.lsvp.InventoryManagement.entity.User;
 
 @Mapper(componentModel = "spring")
 public interface IMovementMapper {
-
+    //Sources
     @Mapping(source = "unit.id", target = "unitId")
     @Mapping(source = "unit.product.gtin", target = "unitProductGtin")
     @Mapping(source = "unit.batch", target = "unitBatch")

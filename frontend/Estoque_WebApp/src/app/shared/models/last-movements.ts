@@ -6,4 +6,4 @@ export interface LastMovements {
     origin_destination: string;
     userName: string;
 
-}
+}//Interface

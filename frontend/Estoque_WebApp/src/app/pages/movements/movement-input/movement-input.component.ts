@@ -39,6 +39,13 @@ export class MovementInputComponent {
       userId: this.fb.control('', Validators.required)
    
     });
+
+    const navigation = this.router.getCurrentNavigation();
+    const state = navigation?.extras.state as { [key: string]: any };
+
+    if (state) {
+      this.form.patchValue(state);
+    }
   }
 
   getControl(field: string): FormControl {

@@ -27,6 +27,9 @@ export class ManageViewComponent {
   navigateToContainers(): void{
     this.router.navigate(['/manage/view/container']);
   }
+  navigateToMovements(): void{
+    this.router.navigate(['/manage/view/movements']);
+  }
 
 
 }

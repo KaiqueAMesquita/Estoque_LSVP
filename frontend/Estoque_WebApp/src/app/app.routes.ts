@@ -21,42 +21,60 @@ import { CreateCategoryComponent } from './pages/category/create-category/create
 import { ViewCategoriesComponent } from './pages/category/view-categories/view-categories.component';
 import { EditCategoryComponent } from './pages/category/edit-category/edit-category.component';
 import { adminGuard } from './core/guards/admin.guard';
+import { EditMovementsComponent } from './pages/movements/edit/edit-movements.component';
 import { MovementInputComponent } from './pages/movements/movement-input/movement-input.component';
 import { ScannerInputComponent } from './pages/movements/scanner-input/scanner-input.component';
+import { CookDashboardComponent } from './pages/cook-dashboard/cook-dashboard.component';
+import { KitchenOrderComponent } from './pages/request/kitchen-order/kitchen-order.component';
+import { ViewUnitComponent } from './pages/unit/view-unit/view-unit.component';
+import { EditUnitComponent } from './pages/unit/edit-unit/edit-unit.component';
+import { ViewMovementsComponent } from './pages/movements/view/view-movements.component';
 
 export const routes: Routes = [
     //[authGuard] protege as rotas que precisam de autenticação
-    //[loginGuard] protege as rotas que não devem ser acessadas se o usuário já estiver logado
-   { path: 'teste', component: UnitInputComponent, canActivate: [authGuard] }, //rota de login
-   { path: 'login', component: LoginComponent, canActivate: [loginGuard] }, //rota de login
-   {path: '', redirectTo: 'dashboard', pathMatch: 'full' }, //rota padrão redireciona para o dashboard
-   {path: 'dashboard', component: DashboardComponent, pathMatch: 'full', canActivate: [authGuard] }, //rota do dashboard
+    //[authGuard] protege as rotas que não devem ser acessadas se o usuário já estiver logado
+   { path: 'teste', component: UnitInputComponent }, // }, //rota de login
+   { path: 'login', component: LoginComponent }, // }, //rota de login
+   {path: '', redirectTo: 'dashboard', pathMatch: 'full', /*canActivate:[loginGuard]*/ }, //rota padrão redireciona para o dashboard
+   {path: 'dashboard', component: DashboardComponent, pathMatch: 'full', canActivate:[authGuard] }, // }, //rota do dashboard
    //rotas de gerenciamento 
    { path: 'manage', component: ManageLayoutComponent,
     //filhos da rota de gerenciamento
         children: [
             {path: '', redirectTo: 'view', pathMatch: 'full'},
-            {path: 'view', component: ManageViewComponent, pathMatch: 'full'},
+
             {path: 'view/users', component: UsersViewComponent, pathMatch: 'full', canActivate: [adminGuard] },
             {path: 'create/user', component: CreateUserComponent, pathMatch: 'full', canActivate: [adminGuard] },
             {path: 'edit/user/:id', component: EditUserComponent, pathMatch: 'full', canActivate: [adminGuard] },
+            {path: 'view', component: ManageViewComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
+            {path: 'view/users', component: UsersViewComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
+            {path: 'create/user', component: CreateUserComponent, pathMatch: 'full', /*canActivate:[adminGuard]},*/ },
+            {path: 'edit/user/:id', component: EditUserComponent, pathMatch: 'full', /*canActivate:[adminGuard]},*/ },
 
-            {path: 'view/products', component: ViewProductsComponent, pathMatch: 'full'},
-            {path: 'create/product', component: CreateProductsComponent, pathMatch: 'full'},
-            {path: 'edit/products/:id', component: EditProductsComponent, pathMatch: 'full'},
+            {path: 'view/products', component: ViewProductsComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
+            {path: 'create/product', component: CreateProductsComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
+            {path: 'edit/products/:id', component: EditProductsComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
 
-            {path: 'view/containers', component: ViewContainersComponent, pathMatch: 'full'},
-            {path: 'create/container', component: CreateContainerComponent, pathMatch: 'full'},
-            {path: 'edit/container/:id', component: EditContainerComponent, pathMatch: 'full'},
+            {path: 'view/containers', component: ViewContainersComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
+            {path: 'create/container', component: CreateContainerComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
+            {path: 'edit/container/:id', component: EditContainerComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
 
-            {path: 'view/categories', component: ViewCategoriesComponent, pathMatch: 'full'},
-            {path: 'create/category', component: CreateCategoryComponent, pathMatch: 'full' },
-            {path: 'edit/category/:id', component: EditCategoryComponent, pathMatch: 'full'},
+            {path: 'view/categories', component: ViewCategoriesComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
+            {path: 'create/category', component: CreateCategoryComponent, pathMatch: 'full', /*canActivate:[authGuard]*/ },
+            {path: 'edit/category/:id', component: EditCategoryComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
 
             {path: 'movements/scan', component: ScannerInputComponent, pathMatch: 'full'},
-            {path:'movements/input', component: MovementInputComponent, pathMatch: 'full'}
+            {path:'movements/input', component: MovementInputComponent, pathMatch: 'full'},
+            {path:'view/movements',component: ViewMovementsComponent, pathMatch: 'full'},
 
-        ], /*canActivate: [authGuard]*/
+            {path: 'view/units', component: ViewUnitComponent, pathMatch: 'full'},
+            {path: 'edit/unit/:id', component:EditUnitComponent, pathMatch: 'full'},
+            {path: 'view/movements', component: ViewMovementsComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
+            {path: 'edit/movements/:id', component: EditMovementsComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
+            {path: 'movements/scan', component: ScannerInputComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
+            {path: 'movements/input', component: MovementInputComponent, pathMatch: 'full', /*canActivate:[authGuard]*/}
+
+        ], /*//*/
      },
     { path:'**', component: The404PageComponent, pathMatch: 'full' }, //A ** redireciona para o Componente da 404!
 ];

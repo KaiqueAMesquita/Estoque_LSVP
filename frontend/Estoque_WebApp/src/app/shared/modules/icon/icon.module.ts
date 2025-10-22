@@ -31,7 +31,8 @@ import {
   faUtensils,
   faB,
   faTriangleCircleSquare,
-  faUserCircle
+  faUserCircle,
+  faXmark
 
   
 } from '@fortawesome/free-solid-svg-icons';
@@ -71,7 +72,8 @@ export const icons = {
   faBarcode,
   faUtensils,
   faB,
-  faUserCircle
+  faUserCircle,
+  faXmark
 
 };
 

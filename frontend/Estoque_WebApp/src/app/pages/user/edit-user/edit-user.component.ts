@@ -5,6 +5,7 @@ import { InputComponent } from '../../../shared/components/input/input.component
 import { UserService } from '../../../core/services/user.service';
 import { User } from './../../../shared/models/user';
 import { ActivatedRoute, Router } from '@angular/router';
+import { onlyLettersAndSpacesValidator } from '../../../core/validators/custom-validators';
 
 @Component({
   selector: 'app-edit-user',
@@ -25,7 +26,7 @@ export class EditUserComponent {
   constructor(private fb: FormBuilder, private userService: UserService, private router: Router, private route: ActivatedRoute) {
     this.id = this.route.snapshot.paramMap.get('id') ?? '';
      this.form = this.fb.group({
-      name: this.fb.control('', Validators.required),
+      name: this.fb.control('', [Validators.required, onlyLettersAndSpacesValidator()]),
       role: this.fb.control('', Validators.required)
     });
     if (this.id !== '') {
