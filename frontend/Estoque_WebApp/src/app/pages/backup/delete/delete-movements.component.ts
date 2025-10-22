@@ -7,12 +7,12 @@ import { Movement } from '../../../shared/models/movement';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-edit-movement',
+  selector: 'app-delete-movement',
   imports: [FormTemplateComponent, ReactiveFormsModule, InputComponent],
-  templateUrl: './edit-movements.component.html',
-  styleUrl: './edit-movements.component.css'
+  templateUrl: './delete-movements.component.html',
+  styleUrl: './delete-movements.component.css'
 })
-export class EditMovementsComponent {
+export class DeleteMovementsComponent {
   form: FormGroup;
   id: string = '';
 
@@ -27,7 +27,7 @@ export class EditMovementsComponent {
     // Agora mapeando para os campos do DTO MovementUpdateDTO
     this.form = this.fb.group({
       unitId: this.fb.control('', Validators.required),
-      SourceType: this.fb.control('', Validators.required),
+      sourceType: this.fb.control('', Validators.required),
       sourceDetails: this.fb.control('', Validators.required),
       userId: this.fb.control('', Validators.required)
     });
@@ -45,7 +45,7 @@ export class EditMovementsComponent {
         },
         error: () => {
           location.href = '/manage/view/Movement';
-          console.error('Erro ao carregar Movimentação para edição');
+          console.error('Erro ao carregar Movement para edição');
         }
       });
     }
@@ -73,7 +73,7 @@ export class EditMovementsComponent {
         });
       },
       error: (error: any) => {
-        console.error('Erro ao editar Movimentação:', error);
+        console.error('Erro ao Deletear Movement:', error);
       }
     });
   }

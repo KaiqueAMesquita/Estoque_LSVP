@@ -45,7 +45,7 @@ export class EditMovementsComponent {
         },
         error: () => {
           location.href = '/manage/view/Movement';
-          console.error('Erro ao carregar Movimentação para edição');
+          console.error('Erro ao carregar Movement para edição');
         }
       });
     }
@@ -73,7 +73,7 @@ export class EditMovementsComponent {
         });
       },
       error: (error: any) => {
-        console.error('Erro ao editar Movimentação:', error);
+        console.error('Erro ao editar Movement:', error);
       }
     });
   }

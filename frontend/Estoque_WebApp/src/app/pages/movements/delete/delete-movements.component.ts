@@ -73,7 +73,7 @@ export class DeleteMovementsComponent {
         });
       },
       error: (error: any) => {
-        console.error('Erro ao Deletear Movement:', error);
+        console.error('Erro ao Deletar Movement:', error);
       }
     });
   }

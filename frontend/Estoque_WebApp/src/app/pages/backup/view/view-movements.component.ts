@@ -41,28 +41,29 @@ export class ViewMovementsComponent implements OnInit, OnDestroy {
 
   private loadMovements(): void {
     this.MovementService.getAllMovements().subscribe({
-       next: (data: Movement[]) => {
+      next: (data: Movement[]) => {
         
-         this.Movements = data;
-    //     //Teste Não mostrar createdAt e updatedAt
-    //     /*
-    //   this.Movements?.forEach(Movement => {
-    
-    //     });
-    //     */
+        this.Movements = data;
+        //Teste Não mostrar createdAt e updatedAt
+        /*
+      this.Movements?.forEach(Movement => {
+        delete Movement.createdAt;
+        delete Movement.updatedAt;
+        });
+        */
 
    
       },
-       error: (error) => {
-         console.error('Erro ao buscar Movimentações:', error);
-       }
-     });
+      error: (error) => {
+        console.error('Erro ao buscar Movimentações:', error);
+      }
+    });
   }
 
   DeleteMovement(id: number): void {
     try {
-      // this.MovementService.deleteMovement(id);
-      // this.Movements = this.Movements.filter(movement => movement.id !== id);
+      this.MovementService.deleteMovement(id);
+      this.Movements = this.Movements.filter(movement => movement.id !== id);
     } catch (error) {
       console.error('Erro ao deletar essa Movimentação!', error);
     }
