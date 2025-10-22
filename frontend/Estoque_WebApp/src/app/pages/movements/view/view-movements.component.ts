@@ -29,7 +29,7 @@ export class ViewMovementsComponent implements OnInit, OnDestroy {
     this.loadMovements();
 
     this.navigationSub = this.navigationWatcher.navigation$.subscribe(() => {
-      if (this.router.url.startsWith('/Movements')) { // ajuste conforme sua rota
+      if (this.router.url.startsWith('/Movements')) {
         this.loadMovements();
       }
     });
