@@ -24,22 +24,23 @@ public class Category {
     @Column(name = "cat_description", length = 50, nullable = false)
     private String description;
 
-    @Column(name = "cat_createdAt", nullable = false)
+    @Column(name = "cat_created_at", nullable = false)
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime createdAt;
 
-    @Column(name = "cat_updatedAt", nullable = true)
+    @Column(name = "cat_updated_at", nullable = true)
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime updatedAt;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "cat_type", length = 30, nullable = false)
-    private FoodType food_type;
+    private FoodType foodType;
 
     @Column(name = "cat_min_quantity", nullable = true)
-    private int min_quantity;
+    private Integer min_quantity;
 
     @Column(name = "cat_max_quantity", nullable = true)
-    private int max_quantity;
+    private Integer max_quantity;
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     // Lucas: NÃO MEXA nessas duas linhas abaixo se valoriza sua vida e sanidade

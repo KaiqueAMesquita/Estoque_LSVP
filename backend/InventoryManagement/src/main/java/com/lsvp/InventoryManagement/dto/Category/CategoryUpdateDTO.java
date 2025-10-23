@@ -12,7 +12,7 @@ import lombok.Data;
 @Schema(description = "DTO para atualização da categoria")
 public class CategoryUpdateDTO {
     private String description;
-    private FoodType food_type;
+    private FoodType foodType;
     private int min_quantity;
     private int max_quantity;
 }

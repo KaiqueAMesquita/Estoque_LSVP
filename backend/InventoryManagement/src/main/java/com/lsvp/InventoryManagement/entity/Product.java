@@ -30,14 +30,14 @@ public class Product {
     private BigDecimal measure;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "pdt_measureType", nullable = false)
+    @Column(name = "pdt_measure_type", nullable = false)
     private MeasureType measureType;
 
-    @Column(name = "pdt_createdAt", nullable = false)
+    @Column(name = "pdt_created_at", nullable = false)
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime createdAt;
 
-    @Column(name = "pdt_updatedAt", nullable = true)
+    @Column(name = "pdt_updated_at", nullable = true)
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime updatedAt;
 

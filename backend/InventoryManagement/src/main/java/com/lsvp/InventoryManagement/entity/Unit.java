@@ -20,7 +20,7 @@ public class Unit {
     @Column(name = "unt_batch", length = 30, nullable = false)
     private String batch;
 
-    @Column(name = "unt_expirationDate", nullable = false)
+    @Column(name = "unt_expiration_date", nullable = false)
     private LocalDate expiration_date;
 
     @Column(name = "unt_quantity", nullable = false)

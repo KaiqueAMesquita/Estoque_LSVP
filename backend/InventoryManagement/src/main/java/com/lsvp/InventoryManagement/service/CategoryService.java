@@ -77,8 +77,8 @@ public class CategoryService {
         if(!dto.getDescription().isEmpty())
             categoryUpdated.setDescription(dto.getDescription());
         
-        if(dto.getFood_type() != null)
-            categoryUpdated.setFood_type(dto.getFood_type());
+        if(dto.getFoodType() != null)
+            categoryUpdated.setFoodType(dto.getFoodType());
 
         // Java não deixa comparar int com null
         if(dto.getMin_quantity() >= 1)

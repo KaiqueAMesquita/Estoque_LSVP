@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "PasswordEncoderUtil",
+            "request": "launch",
+            "mainClass": "com.lsvp.InventoryManagement.PasswordEncoderUtil",
+            "projectName": "InventoryManagement"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-InventoryManagementApplication<InventoryManagement>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
