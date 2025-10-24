@@ -59,7 +59,7 @@ public class AuthService {
 
     public TokenDTO refreshToken(String token) {
         String username = jwtTokenUtil.extractUsername(token.replace("Bearer ", ""));
-        String role = jwtTokenUtil.extractRole(token.replace("Bearer gi", ""));
+        String role = jwtTokenUtil.extractRole(token.replace("Bearer ", ""));
         
         String newToken = jwtTokenUtil.generateToken(username, role);
         return new TokenDTO(newToken);
