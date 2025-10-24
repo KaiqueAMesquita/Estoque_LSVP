@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { Router } from '@angular/router';
-import { throwError, Observable } from 'rxjs'; 
+import { throwError, Observable, tap } from 'rxjs'; 
 import { FormGroup } from '@angular/forms';
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,7 @@ import { FormGroup } from '@angular/forms';
 export class AuthenticationService {
   //define a URL para o endpoint de login
    private url: string = environment.API_URL+"/auth/login"
+   private refreshUrl: string = environment.API_URL + "/auth/refresh";
    
 
   constructor(private router: Router, private http: HttpClient) { }
@@ -32,6 +33,16 @@ export class AuthenticationService {
   //funcao login
    login(credentials: { name: string; password: string }): Observable<any> {
   return this.http.post(this.url, credentials, { withCredentials: true });
+  }
+
+  //função para refresh do token
+  refreshToken(): Observable<any> {
+    const token = this.getToken();
+    // O backend espera o token no header para o refresh
+    return this.http.post(this.refreshUrl, {}).pipe(
+      tap((response: any) => {
+        this.setToken(response.token);
+      }));
   }
   
   //função para logout
@@ -58,6 +69,7 @@ export class AuthenticationService {
       return false;
     }
   }
+
   //decodifica o token JWT para obter o payload
   decodeToken(): any {
     const token = this.getToken();
