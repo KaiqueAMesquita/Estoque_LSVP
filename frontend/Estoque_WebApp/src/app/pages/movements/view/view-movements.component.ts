@@ -61,8 +61,8 @@ export class ViewMovementsComponent implements OnInit, OnDestroy {
 
   DeleteMovement(id: number): void {
     try {
-      // this.MovementService.deleteMovement(id);
-      // this.Movements = this.Movements.filter(movement => movement.id !== id);
+      this.MovementService.deleteMovement(id);
+      this.Movements = this.Movements.filter(movement => movement.id !== id);
     } catch (error) {
       console.error('Erro ao deletar essa Movimentação!', error);
     }
