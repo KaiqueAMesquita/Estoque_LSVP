@@ -6,6 +6,7 @@ import { UserService } from '../../../core/services/user.service';
 import { User } from './../../../shared/models/user';
 import { ActivatedRoute, Router } from '@angular/router';
 import { onlyLettersAndSpacesValidator } from '../../../core/validators/custom-validators';
+import { BaseCreateComponent } from '../../../shared/components/crud/base-create/base-create.component';
 
 @Component({
   selector: 'app-edit-user',
@@ -13,7 +14,7 @@ import { onlyLettersAndSpacesValidator } from '../../../core/validators/custom-v
   templateUrl: './edit-user.component.html',
   styleUrl: './edit-user.component.css'
 })
-export class EditUserComponent {
+export class EditUserComponent extends BaseCreateComponent {
  form: FormGroup;
  id: string = '';
   
@@ -23,7 +24,8 @@ export class EditUserComponent {
     { label: 'Cozinha', value: 2 }
   ];
 
-  constructor(private fb: FormBuilder, private userService: UserService, private router: Router, private route: ActivatedRoute) {
+  constructor(fb: FormBuilder, private userService: UserService, router: Router, private route: ActivatedRoute) {
+    super(router, fb);
     this.id = this.route.snapshot.paramMap.get('id') ?? '';
      this.form = this.fb.group({
       name: this.fb.control('', [Validators.required, onlyLettersAndSpacesValidator()]),
@@ -45,10 +47,6 @@ export class EditUserComponent {
     }
   
    
-  }
-
-  getControl(field: string): FormControl {
-    return this.form.get(field) as FormControl;
   }
 
   onSubmit(): void {

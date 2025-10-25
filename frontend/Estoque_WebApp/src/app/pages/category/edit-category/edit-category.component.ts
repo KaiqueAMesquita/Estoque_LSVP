@@ -5,6 +5,7 @@ import { InputComponent } from '../../../shared/components/input/input.component
 import { CategoryService } from '../../../core/services/category.service';
 import { Category } from '../../../shared/models/category';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BaseCreateComponent } from '../../../shared/components/crud/base-create/base-create.component';
 
 @Component({
   selector: 'app-edit-category',
@@ -12,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './edit-category.component.html',
   styleUrl: './edit-category.component.css'
 })
-export class EditCategoryComponent {
+export class EditCategoryComponent extends BaseCreateComponent {
   form: FormGroup;
   id: string = '';
 
@@ -21,7 +22,8 @@ export class EditCategoryComponent {
     { label: 'Não-Perecível', value: 1 },
   ];
 
-  constructor(private fb: FormBuilder, private categoryService: CategoryService, private router: Router, private route: ActivatedRoute) {
+  constructor(fb: FormBuilder, private categoryService: CategoryService, router: Router, private route: ActivatedRoute) {
+    super(router, fb);
     this.id = this.route.snapshot.paramMap.get('id') ?? '';
     this.form = this.fb.group({
       description: this.fb.control('', Validators.required),
@@ -41,10 +43,6 @@ export class EditCategoryComponent {
         }
       });
     }
-  }
-
-  getControl(field: string): FormControl {
-    return this.form.get(field) as FormControl;
   }
 
   onSubmit(): void {

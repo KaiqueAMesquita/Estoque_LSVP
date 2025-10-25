@@ -7,7 +7,7 @@ import { UserService } from '../../../core/services/user.service';
 import { User } from './../../../shared/models/user';
 import { Router } from '@angular/router';
 import { onlyLettersAndSpacesValidator } from '../../../core/validators/custom-validators';
-import { faLaughBeam } from '@fortawesome/free-solid-svg-icons';
+import { BaseCreateComponent } from '../../../shared/components/crud/base-create/base-create.component';
 
 @Component({
   selector: 'app-create-user',
@@ -17,7 +17,7 @@ import { faLaughBeam } from '@fortawesome/free-solid-svg-icons';
   imports: [FormTemplateComponent, ReactiveFormsModule, InputComponent, JsonPipe]
 })
 
-export class CreateUserComponent {
+export class CreateUserComponent extends BaseCreateComponent{
   form: FormGroup;
 
   roleOptions = [
@@ -26,16 +26,14 @@ export class CreateUserComponent {
     { label: 'Cozinha', value: 2 },
   ];
 
-  constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
-    this.form = this.fb.group({
+  
+    constructor(router: Router, private userService: UserService, fb: FormBuilder) {
+    super(router,fb, );
+      this.form = this.fb.group({
       name: this.fb.control('', [Validators.required, onlyLettersAndSpacesValidator()]),
       password: this.fb.control('', [Validators.required, Validators.minLength(6)]),
       role: this.fb.control(null, Validators.required)
     });
-  }
-
-  getControl(field: string): FormControl {
-    return this.form.get(field) as FormControl;
   }
 
   onSubmit(): void {

@@ -7,6 +7,7 @@ import { ContainerService } from '../../../core/services/container.service';
 import { User } from './../../../shared/models/user';
 import { Router } from '@angular/router';
 import { Container } from '../../../shared/models/container';
+import { BaseCreateComponent } from '../../../shared/components/crud/base-create/base-create.component';
 
 @Component({
   selector: 'app-create-container',
@@ -15,7 +16,7 @@ templateUrl: './create-container.component.html',
   styleUrl: './create-container.component.css',
   
 })
-export class CreateContainerComponent {
+export class CreateContainerComponent extends BaseCreateComponent {
  form: FormGroup;
 
   roleOptions = [
@@ -24,14 +25,11 @@ export class CreateContainerComponent {
     { label: 'Cozinha', value: 2 }
   ];
 
-  constructor(private fb: FormBuilder, private containerService: ContainerService, private router: Router) {
-    this.form = this.fb.group({
+  constructor(fb: FormBuilder, private containerService: ContainerService, router: Router) {
+    super(router, fb);
+    this.form = fb.group({
       code: this.fb.control('', [Validators.required, Validators.maxLength(20)]),
     });
-  }
-
-  getControl(field: string): FormControl {
-    return this.form.get(field) as FormControl;
   }
 
   onSubmit(): void {

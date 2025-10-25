@@ -5,6 +5,7 @@ import { InputComponent } from '../../../shared/components/input/input.component
 import { ProductService } from '../../../core/services/product.service';
 import { Product } from '../../../shared/models/product';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BaseCreateComponent } from '../../../shared/components/crud/base-create/base-create.component';
 
 @Component({
   selector: 'app-edit-product',
@@ -12,16 +13,16 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './edit-products.component.html',
   styleUrl: './edit-products.component.css'
 })
-export class EditProductsComponent {
+export class EditProductsComponent extends BaseCreateComponent {
   form: FormGroup;
   id: string = '';
 
-  constructor(
-    private fb: FormBuilder,
+  constructor(fb: FormBuilder,
     private productService: ProductService,
-    private router: Router,
+    router: Router,
     private route: ActivatedRoute
   ) {
+    super(router, fb);
     this.id = this.route.snapshot.paramMap.get('id') ?? '';
 
     // Agora mapeando para os campos do DTO ProductUpdateDTO
@@ -48,10 +49,6 @@ export class EditProductsComponent {
         }
       });
     }
-  }
-
-  getControl(field: string): FormControl {
-    return this.form.get(field) as FormControl;
   }
 
   onSubmit(): void {

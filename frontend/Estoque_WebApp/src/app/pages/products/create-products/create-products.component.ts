@@ -7,9 +7,10 @@ import { ProductService } from '../../../core/services/product.service';
 import { Router } from '@angular/router';
 import { PTableComponent } from '../../../shared/components/p-table/p-table.component';
 import { ProductCreate } from '../../../shared/models/product-create';
-import { onlyNumbersValidator, exactLengthValidator } from '../../../core/validators/custom-validators';
+import { exactLengthValidator, onlyNumbersValidator } from '../../../core/validators/custom-validators';
 import { CategoryService } from '../../../core/services/category.service';
 import { Category } from '../../../shared/models/category';
+import { BaseCreateComponent } from '../../../shared/components/crud/base-create/base-create.component';
 
 @Component({
   selector: 'app-create-products',
@@ -17,7 +18,7 @@ import { Category } from '../../../shared/models/category';
   templateUrl: './create-products.component.html',
   styleUrl: './create-products.component.css'
 })
-export class CreateProductsComponent implements OnInit {
+export class CreateProductsComponent extends BaseCreateComponent implements OnInit {
   form: FormGroup;
 
   categories: any[] = [];
@@ -30,12 +31,13 @@ export class CreateProductsComponent implements OnInit {
   ];
 
   constructor(
-    private fb: FormBuilder,
+    fb: FormBuilder,
     private productService: ProductService,
-    private router: Router,
+    router: Router,
     private categoryService: CategoryService
   ) {
-    this.form = this.fb.group({
+    super(router, fb);
+    this.form = fb.group({
       gtin: this.fb.control('', [Validators.required, onlyNumbersValidator(), exactLengthValidator(13)]),
       measure: this.fb.control('', [Validators.required, onlyNumbersValidator()]),
       measureType: this.fb.control('', Validators.required),
@@ -59,26 +61,15 @@ export class CreateProductsComponent implements OnInit {
     });
   }
 
-  getControl(field: string): FormControl {
-    return this.form.get(field) as FormControl;
-  }
-
-  // <-- MUDANÇA: Novo método para receber o evento da tabela e atualizar o formulário.
   handleCategorySelection(selectedCategory: any): void {
     if (selectedCategory && selectedCategory.id) {
       this.form.get('categoryId')?.setValue(selectedCategory.id);
     } else {
-      this.form.get('categoryId')?.setValue(null); // Limpa o campo se a seleção for removida
+      this.form.get('categoryId')?.setValue(null); 
     }
   }
 
   onSubmit(): void {
-    if (this.form.invalid) {
-      // Opcional: Adicionar lógica para lidar com formulário inválido
-      console.error('Formulário inválido');
-      return;
-    }
-
     const product: ProductCreate = {
       gtin: this.form.value.gtin,
       measure: this.form.value.measure,

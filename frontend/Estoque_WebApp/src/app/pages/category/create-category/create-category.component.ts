@@ -5,6 +5,7 @@ import { InputComponent } from '../../../shared/components/input/input.component
 import { CategoryService } from '../../../core/services/category.service';
 import { Category } from '../../../shared/models/category';
 import { Router } from '@angular/router';
+import { BaseCreateComponent } from '../../../shared/components/crud/base-create/base-create.component';
 
 @Component({
   selector: 'app-create-category',
@@ -14,7 +15,7 @@ import { Router } from '@angular/router';
   imports: [FormTemplateComponent, ReactiveFormsModule, InputComponent]
 })
 
-export class CreateCategoryComponent {
+export class CreateCategoryComponent extends BaseCreateComponent {
   form: FormGroup;
 
   typeOptions = [
@@ -22,15 +23,12 @@ export class CreateCategoryComponent {
     { label: 'Não-Perecível', value: 1 }
   ];
 
-  constructor(private fb: FormBuilder, private categoryService: CategoryService, private router: Router) {
-    this.form = this.fb.group({
+  constructor(fb: FormBuilder, private categoryService: CategoryService, router: Router) {
+    super(router, fb);
+    this.form = fb.group({
       description: this.fb.control('', Validators.required),
       type: this.fb.control(null, Validators.required)
     });
-  }
-
-  getControl(field: string): FormControl {
-    return this.form.get(field) as FormControl;
   }
   
   onSubmit(): void {

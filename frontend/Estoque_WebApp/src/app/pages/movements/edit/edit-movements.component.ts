@@ -5,6 +5,7 @@ import { InputComponent } from '../../../shared/components/input/input.component
 import { MovementService } from '../../../core/services/movement.service';
 import { Movement } from '../../../shared/models/movement';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BaseCreateComponent } from '../../../shared/components/crud/base-create/base-create.component';
 
 @Component({
   selector: 'app-edit-movement',
@@ -12,16 +13,16 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './edit-movements.component.html',
   styleUrl: './edit-movements.component.css'
 })
-export class EditMovementsComponent {
+export class EditMovementsComponent extends BaseCreateComponent {
   form: FormGroup;
   id: string = '';
 
-  constructor(
-    private fb: FormBuilder,
+  constructor(fb: FormBuilder,
     private MovementService: MovementService,
-    private router: Router,
+    router: Router,
     private route: ActivatedRoute
   ) {
+    super(router, fb);
     this.id = this.route.snapshot.paramMap.get('id') ?? '';
 
     // Agora mapeando os campos do DTO MovementUpdateDTO I
@@ -49,10 +50,6 @@ export class EditMovementsComponent {
         }
       });
     }
-  }
-
-  getControl(field: string): FormControl {
-    return this.form.get(field) as FormControl;
   }
 
   onSubmit(): void {

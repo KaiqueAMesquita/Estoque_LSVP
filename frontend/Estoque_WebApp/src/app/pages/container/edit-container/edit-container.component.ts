@@ -5,6 +5,7 @@ import { InputComponent } from '../../../shared/components/input/input.component
 import { ContainerService } from '../../../core/services/container.service';
 import { Container } from '../../../shared/models/container';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BaseCreateComponent } from '../../../shared/components/crud/base-create/base-create.component';
 
 @Component({
   selector: 'app-edit-container',
@@ -12,16 +13,16 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './edit-container.component.html',
   styleUrl: './edit-container.component.css'
 })
-export class EditContainerComponent {
+export class EditContainerComponent extends BaseCreateComponent {
   form: FormGroup;
   id: string = '';
 
-  constructor(
-    private fb: FormBuilder,
+  constructor(fb: FormBuilder,
     private containerService: ContainerService,
-    private router: Router,
+    router: Router,
     private route: ActivatedRoute
   ) {
+    super(router, fb);
     this.id = this.route.snapshot.paramMap.get('id') ?? '';
     this.form = this.fb.group({
       code: this.fb.control('', Validators.required)
@@ -40,10 +41,6 @@ export class EditContainerComponent {
         }
       });
     }
-  }
-
-  getControl(field: string): FormControl {
-    return this.form.get(field) as FormControl;
   }
 
   onSubmit(): void {
