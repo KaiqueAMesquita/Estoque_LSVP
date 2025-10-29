@@ -17,6 +17,11 @@ import com.lsvp.InventoryManagement.repository.IProductRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,6 +72,20 @@ public class ProductService {
     @Transactional
     public List<ProductDTO> getAllProducts(){
         return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ProductDTO> getAllProductsSorted(int page, int limit, String sortParam) {
+        if (page < 1) page = 1;
+        String[] sortParts = sortParam.split(",");
+        String property = sortParts[0];
+        Sort.Direction direction = (sortParts.length > 1 && sortParts[1].equalsIgnoreCase("asc"))
+                ? Sort.Direction.ASC : Sort.Direction.DESC;
+
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(direction, property));
+        org.springframework.data.domain.Page<Product> pageResult = repository.findAll(pageable);
+        List<ProductDTO> dtos = pageResult.stream().map(mapper::toDTO).collect(Collectors.toList());
+        return new PageImpl<>(dtos, pageable, pageResult.getTotalElements());
     }
 
     public ProductDTO updateProduct(Long id, ProductUpdateDTO dto){

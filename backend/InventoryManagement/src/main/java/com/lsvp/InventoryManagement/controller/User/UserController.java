@@ -13,6 +13,8 @@ import com.lsvp.InventoryManagement.dto.User.UserCreateDTO;
 import com.lsvp.InventoryManagement.dto.User.UserDTO;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
@@ -60,8 +62,13 @@ public class UserController {
 
 
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUsers(){
-        return ResponseEntity.ok(userService.getAllUsers());
+    public ResponseEntity<Page<UserDTO>> getAllUsers(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit,
+            @RequestParam(required = false) String name
+    ){
+        Page<UserDTO> result = userService.getUsersPaged(page, limit, name);
+        return ResponseEntity.ok(result);
     }
 
 }

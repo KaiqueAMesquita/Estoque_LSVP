@@ -14,6 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class ContainerService {
@@ -34,6 +39,20 @@ public class ContainerService {
     @Transactional
     public List<ContainerDTO> getAllContainers(){
         return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ContainerDTO> getAllContainersSorted(int page, int limit, String sortParam) {
+        if (page < 1) page = 1;
+        String[] sortParts = sortParam.split(",");
+        String property = sortParts[0];
+        Sort.Direction direction = (sortParts.length > 1 && sortParts[1].equalsIgnoreCase("asc"))
+                ? Sort.Direction.ASC : Sort.Direction.DESC;
+
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(direction, property));
+        org.springframework.data.domain.Page<Container> pageResult = repository.findAll(pageable);
+        List<ContainerDTO> dtos = pageResult.stream().map(mapper::toDTO).collect(Collectors.toList());
+        return new PageImpl<>(dtos, pageable, pageResult.getTotalElements());
     }
 
     @Transactional

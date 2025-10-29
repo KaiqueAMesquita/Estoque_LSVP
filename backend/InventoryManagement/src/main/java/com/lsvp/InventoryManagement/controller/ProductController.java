@@ -15,6 +15,8 @@ import jakarta.validation.Valid;
 
 import java.io.IOException;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,8 +41,13 @@ public class ProductController {
         }
 
         @GetMapping
-        public ResponseEntity<List<ProductDTO>> getAllProducts(){
-            return ResponseEntity.ok(productService.getAllProducts());
+        public ResponseEntity<Page<ProductDTO>> getAllProducts(
+                @RequestParam(defaultValue = "1") int page,
+                @RequestParam(defaultValue = "20") int limit,
+                @RequestParam(defaultValue = "id,desc") String sort
+        ){
+            Page<ProductDTO> result = productService.getAllProductsSorted(page, limit, sort);
+            return ResponseEntity.ok(result);
         }
         
         @GetMapping("/{id}")

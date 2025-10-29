@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @Tag(name = "Conteiners", description = "Gerenciamento dos Conteiners")
@@ -29,8 +31,13 @@ public class ContainerController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ContainerDTO>> getAllContainers(){
-        return ResponseEntity.ok(containerService.getAllContainers());
+    public ResponseEntity<Page<ContainerDTO>> getAllContainers(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit,
+            @RequestParam(defaultValue = "id,desc") String sort
+    ){
+        Page<ContainerDTO> result = containerService.getAllContainersSorted(page, limit, sort);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{id}")

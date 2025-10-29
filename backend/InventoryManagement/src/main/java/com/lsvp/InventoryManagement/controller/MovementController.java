@@ -1,6 +1,8 @@
 package com.lsvp.InventoryManagement.controller;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -69,8 +71,13 @@ public class MovementController {
 
     
     @GetMapping
-        public ResponseEntity<List<MovementDTO>> getAllMovements(){
-            return ResponseEntity.ok(movementService.getAllMovements());
+        public ResponseEntity<Page<MovementDTO>> getAllMovements(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit,
+            @RequestParam(defaultValue = "date,desc") String sort
+        ){
+            Page<MovementDTO> result = movementService.getAllMovementsSorted(page, limit, sort);
+            return ResponseEntity.ok(result);
         }
         
     @GetMapping("/{id}")

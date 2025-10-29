@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @Tag(name = "Categorias", description = "Gerenciamento de Categorias")
@@ -34,9 +36,14 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryDTO>> getAllcategories()
+    public ResponseEntity<Page<CategoryDTO>> getAllcategories(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit,
+            @RequestParam(defaultValue = "id,desc") String sort
+    )
     {
-        return ResponseEntity.ok(categoryService.getAllCategories());
+        Page<CategoryDTO> result = categoryService.getAllCategoriesSorted(page, limit, sort);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{id}/products")

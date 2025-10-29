@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +29,13 @@ public class UnitController {
     // }
 
     @GetMapping
-    public ResponseEntity<List<UnitDTO>> getAllUnits(){
-        return ResponseEntity.ok(unitService.getAllUnits());
+    public ResponseEntity<Page<UnitDTO>> getAllUnits(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit,
+            @RequestParam(defaultValue = "id,desc") String sort
+    ){
+        Page<UnitDTO> result = unitService.getAllUnitsSorted(page, limit, sort);
+        return ResponseEntity.ok(result);
     }
     
     @GetMapping("/{id}")
