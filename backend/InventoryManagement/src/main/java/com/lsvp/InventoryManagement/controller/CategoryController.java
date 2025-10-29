@@ -39,10 +39,11 @@ public class CategoryController {
     public ResponseEntity<Page<CategoryDTO>> getAllcategories(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int limit,
-            @RequestParam(defaultValue = "id,desc") String sort
+            @RequestParam(defaultValue = "id,desc") String sort,
+            @RequestParam(required = false) String description
     )
     {
-        Page<CategoryDTO> result = categoryService.getAllCategoriesSorted(page, limit, sort);
+        Page<CategoryDTO> result = categoryService.getAllCategoriesSorted(page, limit, sort, description);
         return ResponseEntity.ok(result);
     }
 

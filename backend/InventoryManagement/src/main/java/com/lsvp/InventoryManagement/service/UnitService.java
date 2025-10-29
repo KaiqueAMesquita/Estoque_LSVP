@@ -84,18 +84,33 @@ public class UnitService {
     }
 
     @Transactional()
-    public Page<UnitDTO> getAllUnitsSorted(int page, int limit, String sortParam) {
+    public Page<UnitDTO> getAllUnitsSorted(int page, int limit, String sortParam, Long productId, String batch) {
         if (page < 1) page = 1;
-        String[] sortParts = sortParam.split(",");
+
+        String[] sortParts = sortParam != null ? sortParam.split(",") : new String[]{"id","desc"};
         String property = sortParts[0];
         Sort.Direction direction = (sortParts.length > 1 && sortParts[1].equalsIgnoreCase("asc"))
                 ? Sort.Direction.ASC : Sort.Direction.DESC;
 
         Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(direction, property));
-        org.springframework.data.domain.Page<Unit> pageResult = repository.findAll(pageable);
+
+        Page<Unit> pageResult;
+
+        if (productId != null && batch != null && !batch.isBlank()) {
+            pageResult = repository.findByProduct_IdAndBatchContainingIgnoreCase(productId, batch, pageable);
+        } else if (productId != null) {
+            pageResult = repository.findByProduct_Id(productId, pageable);
+        } else if (batch != null && !batch.isBlank()) {
+            pageResult = repository.findByBatchContainingIgnoreCase(batch, pageable);
+        } else {
+            pageResult = repository.findAll(pageable);
+        }
+
         List<UnitDTO> dtos = pageResult.stream().map(mapper::toDTO).collect(Collectors.toList());
         return new PageImpl<>(dtos, pageable, pageResult.getTotalElements());
     }
+
+    
 
     @Transactional
     public UnitDTO updateUnit(Long id, UnitUpdateDTO dto){

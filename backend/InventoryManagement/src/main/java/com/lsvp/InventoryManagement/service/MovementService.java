@@ -10,18 +10,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import com.lsvp.InventoryManagement.dto.Movement.ConsumptionCreateDTO;
 import com.lsvp.InventoryManagement.dto.Movement.InputCreateDTO;
-import com.lsvp.InventoryManagement.dto.Movement.MovementCreateDTO;
+
 import com.lsvp.InventoryManagement.dto.Movement.MovementDTO;
 import com.lsvp.InventoryManagement.dto.Movement.OutputCreateDTO;
 import com.lsvp.InventoryManagement.dto.Movement.StockAdjustmentDTO;
 import com.lsvp.InventoryManagement.dto.Movement.TransferCreateDTO;
 import com.lsvp.InventoryManagement.entity.Unit;
 import com.lsvp.InventoryManagement.entity.User;
+import com.lsvp.InventoryManagement.enums.AdjustmentReason;
 import com.lsvp.InventoryManagement.enums.ContainerType;
 import com.lsvp.InventoryManagement.enums.MovementType;
 import com.lsvp.InventoryManagement.entity.Container;
@@ -38,7 +38,7 @@ import com.lsvp.InventoryManagement.repository.IProductRepository;
 import com.lsvp.InventoryManagement.repository.IUnitRepository;
 import com.lsvp.InventoryManagement.repository.IUserRepository;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MovementService {
@@ -267,10 +267,87 @@ public class MovementService {
                 ? Sort.Direction.ASC : Sort.Direction.DESC;
 
         Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(direction, property));
-        org.springframework.data.domain.Page<Movement> pageResult = repository.findAll(pageable);
+        Page<Movement> pageResult = repository.findAll(pageable);
         List<MovementDTO> dtos = pageResult.stream().map(mapper::toDTO).collect(Collectors.toList());
         return new PageImpl<>(dtos, pageable, pageResult.getTotalElements());
     }
+
+    @Transactional()
+    public Page<MovementDTO> getMovementsByTypeSorted(MovementType type, int page, int limit, String sortParam, Long unitId, String destiny) {
+        if (page < 1) page = 1;
+
+        String[] sortParts = sortParam.split(",");
+        String property = sortParts[0];
+        Sort.Direction direction = (sortParts.length > 1 && sortParts[1].equalsIgnoreCase("asc"))
+                ? Sort.Direction.ASC : Sort.Direction.DESC;
+
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(direction, property));
+
+        Page<Movement> pageResult;
+
+        if (unitId != null && destiny != null && !destiny.isBlank()) {
+            pageResult = repository.findByTypeAndUnit_IdAndDestiny(type, unitId, destiny, pageable);
+        } else if (unitId != null) {
+            pageResult = repository.findByTypeAndUnit_Id(type, unitId, pageable);
+        } else if (destiny != null && !destiny.isBlank()) {
+            pageResult = repository.findByTypeAndDestiny(type, destiny, pageable);
+        } else {
+            pageResult = repository.findByType(type, pageable);
+        }
+
+        List<MovementDTO> dtos = pageResult.stream().map(mapper::toDTO).collect(Collectors.toList());
+        return new PageImpl<>(dtos, pageable, pageResult.getTotalElements());
+    }
+
+        @Transactional(readOnly = true)
+        public Page<MovementDTO> getOutputAdjustmentsSorted(int page, int limit, String sortParam, Long unitId) {
+            if (page < 1) page = 1;
+
+            String[] sortParts = sortParam != null ? sortParam.split(",") : new String[]{"date","desc"};
+            String property = sortParts[0];
+            Sort.Direction direction = (sortParts.length > 1 && sortParts[1].equalsIgnoreCase("asc"))
+                    ? Sort.Direction.ASC : Sort.Direction.DESC;
+
+            Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(direction, property));
+
+            
+            List<String> reasons = new java.util.ArrayList<>();
+            for (AdjustmentReason r : AdjustmentReason.values()) {
+                reasons.add(r.toString());
+            }
+
+            Page<Movement> pageResult;
+            if (unitId != null) {
+                pageResult = repository.findByTypeAndDestinyInAndUnit_Id(MovementType.SAIDA, reasons, unitId, pageable);
+            } else {
+                pageResult = repository.findByTypeAndDestinyIn(MovementType.SAIDA, reasons, pageable);
+            }
+
+            List<MovementDTO> dtos = pageResult.stream().map(mapper::toDTO).collect(Collectors.toList());
+            return new PageImpl<>(dtos, pageable, pageResult.getTotalElements());
+        }
+
+        @Transactional(readOnly = true)
+        public Page<MovementDTO> getTransfersSorted(int page, int limit, String sortParam, Long unitId) {
+            if (page < 1) page = 1;
+
+            String[] sortParts = sortParam != null ? sortParam.split(",") : new String[]{"date","desc"};
+            String property = sortParts[0];
+            Sort.Direction direction = (sortParts.length > 1 && sortParts[1].equalsIgnoreCase("asc"))
+                    ? Sort.Direction.ASC : Sort.Direction.DESC;
+
+            Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(direction, property));
+
+            Page<Movement> pageResult;
+            if (unitId != null) {
+                pageResult = repository.findByTypeAndUnit_Id(MovementType.TRANSFERENCIA, unitId, pageable);
+            } else {
+                pageResult = repository.findByType(MovementType.TRANSFERENCIA, pageable);
+            }
+
+            List<MovementDTO> dtos = pageResult.stream().map(mapper::toDTO).collect(Collectors.toList());
+            return new PageImpl<>(dtos, pageable, pageResult.getTotalElements());
+        }
 
 
 }

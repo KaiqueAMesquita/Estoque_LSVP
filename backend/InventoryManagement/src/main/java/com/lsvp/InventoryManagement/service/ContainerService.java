@@ -42,7 +42,7 @@ public class ContainerService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ContainerDTO> getAllContainersSorted(int page, int limit, String sortParam) {
+    public Page<ContainerDTO> getAllContainersSorted(int page, int limit, String sortParam, String code, String category) {
         if (page < 1) page = 1;
         String[] sortParts = sortParam.split(",");
         String property = sortParts[0];
@@ -50,7 +50,14 @@ public class ContainerService {
                 ? Sort.Direction.ASC : Sort.Direction.DESC;
 
         Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(direction, property));
-        org.springframework.data.domain.Page<Container> pageResult = repository.findAll(pageable);
+        Page<Container> pageResult;
+        if (code != null && !code.isBlank()) {
+            pageResult = repository.findByCodeContainingIgnoreCase(code, pageable);
+        } else if (category != null && !category.isBlank()) {
+            pageResult = repository.findByProductCategoryDescriptionContainingIgnoreCase(category, pageable);
+        } else {
+            pageResult = repository.findAll(pageable);
+        }
         List<ContainerDTO> dtos = pageResult.stream().map(mapper::toDTO).collect(Collectors.toList());
         return new PageImpl<>(dtos, pageable, pageResult.getTotalElements());
     }

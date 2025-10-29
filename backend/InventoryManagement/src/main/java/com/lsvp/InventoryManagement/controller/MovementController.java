@@ -24,6 +24,7 @@ import com.lsvp.InventoryManagement.dto.Movement.StockAdjustmentDTO;
 import com.lsvp.InventoryManagement.dto.Movement.TransferCreateDTO;
 import com.lsvp.InventoryManagement.dto.Product.ProductCreateDTO;
 import com.lsvp.InventoryManagement.dto.Product.ProductDTO;
+import com.lsvp.InventoryManagement.enums.MovementType;
 import com.lsvp.InventoryManagement.service.MovementService;
 
 
@@ -79,7 +80,51 @@ public class MovementController {
             Page<MovementDTO> result = movementService.getAllMovementsSorted(page, limit, sort);
             return ResponseEntity.ok(result);
         }
-        
+
+    @GetMapping("/inputs")
+    public ResponseEntity<Page<MovementDTO>> getInputs(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit,
+            @RequestParam(defaultValue = "date,desc") String sort,
+            @RequestParam(required = false) Long unitId
+    ){
+        Page<MovementDTO> result = movementService.getMovementsByTypeSorted(MovementType.ENTRADA, page, limit, sort, unitId, null);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/outputs")
+    public ResponseEntity<Page<MovementDTO>> getOutputs(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit,
+            @RequestParam(defaultValue = "date,desc") String sort,
+            @RequestParam(required = false) Long unitId
+    ){
+        Page<MovementDTO> result = movementService.getMovementsByTypeSorted(MovementType.SAIDA, page, limit, sort, unitId, null);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/adjustments/output")
+    public ResponseEntity<Page<MovementDTO>> getOutputAdjustments(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit,
+            @RequestParam(defaultValue = "date,desc") String sort
+    ){
+        Page<MovementDTO> result = movementService.getOutputAdjustmentsSorted(page, limit, sort, null);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/transfers")
+    public ResponseEntity<Page<MovementDTO>> getTransfers(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit,
+            @RequestParam(defaultValue = "date,desc") String sort,
+            @RequestParam(required = false) Long unitId
+    ){
+        Page<MovementDTO> result = movementService.getTransfersSorted(page, limit, sort, unitId);
+        return ResponseEntity.ok(result);
+    }
+
+    
     @GetMapping("/{id}")
         public ResponseEntity<MovementDTO> getMovementById(@PathVariable Long id){
             return ResponseEntity.ok(movementService.getMovementById(id));

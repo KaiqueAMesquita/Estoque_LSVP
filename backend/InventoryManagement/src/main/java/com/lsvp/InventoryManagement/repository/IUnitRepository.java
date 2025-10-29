@@ -34,4 +34,11 @@ public interface IUnitRepository extends JpaRepository<Unit, Long>  {
             Container container, int quantity, LocalDate startDate, LocalDate endDate, Pageable pageable
     );
 
+    // Paginação e filtros por produto e lote
+    Page<Unit> findByProduct_Id(Long productId, Pageable pageable);
+
+    Page<Unit> findByProduct_IdAndBatchContainingIgnoreCase(Long productId, String batch, Pageable pageable);
+
+    Page<Unit> findByBatchContainingIgnoreCase(String batch, Pageable pageable);
+
 }

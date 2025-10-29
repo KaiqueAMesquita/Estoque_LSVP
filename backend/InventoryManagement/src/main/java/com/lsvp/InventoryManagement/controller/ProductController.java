@@ -40,15 +40,17 @@ public class ProductController {
             return ResponseEntity.ok(productService.createProduct(dto));
         }
 
-        @GetMapping
-        public ResponseEntity<Page<ProductDTO>> getAllProducts(
-                @RequestParam(defaultValue = "1") int page,
-                @RequestParam(defaultValue = "20") int limit,
-                @RequestParam(defaultValue = "id,desc") String sort
-        ){
-            Page<ProductDTO> result = productService.getAllProductsSorted(page, limit, sort);
-            return ResponseEntity.ok(result);
-        }
+    @GetMapping
+    public ResponseEntity<Page<ProductDTO>> getAllProducts(
+        @RequestParam(defaultValue = "1") int page,
+        @RequestParam(defaultValue = "20") int limit,
+        @RequestParam(defaultValue = "id,desc") String sort,
+        @RequestParam(required = false) String gtin,
+        @RequestParam(required = false) String category
+    ){
+        Page<ProductDTO> result = productService.getAllProductsSorted(page, limit, sort, gtin, category);
+        return ResponseEntity.ok(result);
+    }
         
         @GetMapping("/{id}")
         public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id){

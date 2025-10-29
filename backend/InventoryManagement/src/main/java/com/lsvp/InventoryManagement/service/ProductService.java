@@ -75,7 +75,7 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> getAllProductsSorted(int page, int limit, String sortParam) {
+    public Page<ProductDTO> getAllProductsSorted(int page, int limit, String sortParam, String gtin, String category) {
         if (page < 1) page = 1;
         String[] sortParts = sortParam.split(",");
         String property = sortParts[0];
@@ -83,7 +83,17 @@ public class ProductService {
                 ? Sort.Direction.ASC : Sort.Direction.DESC;
 
         Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(direction, property));
-        org.springframework.data.domain.Page<Product> pageResult = repository.findAll(pageable);
+
+        Page<Product> pageResult;
+
+        if (gtin != null && !gtin.isBlank()) {
+            pageResult = repository.findByGtin(gtin, pageable);
+        } else if (category != null && !category.isBlank()) {
+            pageResult = repository.findByCategory_DescriptionContainingIgnoreCase(category, pageable);
+        } else {
+            pageResult = repository.findAll(pageable);
+        }
+
         List<ProductDTO> dtos = pageResult.stream().map(mapper::toDTO).collect(Collectors.toList());
         return new PageImpl<>(dtos, pageable, pageResult.getTotalElements());
     }

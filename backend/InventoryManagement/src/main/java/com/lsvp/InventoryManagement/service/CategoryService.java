@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.HashSet;
+ 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -60,17 +60,24 @@ public class CategoryService {
     {
         return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
     }
-
     @Transactional(readOnly = true)
-    public Page<CategoryDTO> getAllCategoriesSorted(int page, int limit, String sortParam) {
+    public Page<CategoryDTO> getAllCategoriesSorted(int page, int limit, String sortParam, String description) {
         if (page < 1) page = 1;
-        String[] sortParts = sortParam.split(",");
+
+        String[] sortParts = sortParam != null ? sortParam.split(",") : new String[]{"id","desc"};
         String property = sortParts[0];
         Sort.Direction direction = (sortParts.length > 1 && sortParts[1].equalsIgnoreCase("asc"))
                 ? Sort.Direction.ASC : Sort.Direction.DESC;
 
         Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(direction, property));
-        org.springframework.data.domain.Page<Category> pageResult = repository.findAll(pageable);
+
+        Page<Category> pageResult;
+        if (description != null && !description.isBlank()) {
+            pageResult = repository.findByDescriptionContainingIgnoreCase(description, pageable);
+        } else {
+            pageResult = repository.findAll(pageable);
+        }
+
         List<CategoryDTO> dtos = pageResult.stream().map(mapper::toDTO).collect(Collectors.toList());
         return new PageImpl<>(dtos, pageable, pageResult.getTotalElements());
     }

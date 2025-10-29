@@ -34,9 +34,11 @@ public class ContainerController {
     public ResponseEntity<Page<ContainerDTO>> getAllContainers(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int limit,
-            @RequestParam(defaultValue = "id,desc") String sort
+            @RequestParam(defaultValue = "id,desc") String sort,
+            @RequestParam(required = false) String code,
+            @RequestParam(required = false) String category
     ){
-        Page<ContainerDTO> result = containerService.getAllContainersSorted(page, limit, sort);
+        Page<ContainerDTO> result = containerService.getAllContainersSorted(page, limit, sort, code, category);
         return ResponseEntity.ok(result);
     }
 

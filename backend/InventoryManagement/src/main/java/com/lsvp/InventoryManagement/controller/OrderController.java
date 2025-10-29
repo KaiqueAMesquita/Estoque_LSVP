@@ -52,13 +52,13 @@ public class OrderController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping // Ajuste se necessário para aceitar sort
+    @GetMapping 
     public ResponseEntity<Page<OrderDTO>> getAllOrders(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int limit,
-            @RequestParam(defaultValue = "date,desc") String sort // Ex: date,desc ou id,asc
+            @RequestParam(defaultValue = "date,desc") String sort 
     ){
-        // Ajuste o método no OrderService para receber Pageable com Sort
+        
         Page<OrderDTO> result = orderService.getAllOrdersSorted(page, limit, sort);
         return ResponseEntity.ok(result);
     }
