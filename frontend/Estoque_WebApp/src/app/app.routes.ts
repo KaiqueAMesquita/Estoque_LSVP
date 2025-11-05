@@ -31,6 +31,7 @@ import { EditUnitComponent } from './pages/units/edit-unit/edit-unit.component';
 import { ViewMovementsComponent } from './pages/movements/view/view-movements.component';
 
 export const routes: Routes = [
+    //[adminGuard] Permite Somente o Acesso a Administradores dessas Funcionalidades
     //[authGuard] protege as rotas que precisam de autenticação
     //[loginGuard] protege as rotas que não devem ser acessadas se o usuário já estiver logado
    //{ path: 'teste', component: UnitInputComponent }, // }, //rota de login
