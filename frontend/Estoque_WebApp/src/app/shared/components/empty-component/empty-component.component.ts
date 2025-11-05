@@ -18,10 +18,10 @@ export class EmptyComponentComponent {
     //@Input() icon: string = 'pi pi-exclamation-triangle'; 
     //@Input() icon?: IconDefinition;
     icon: IconDefinition = icons.faPassport; // Ícone padrão
-    @Input() showButton: boolean = false;
+    //@Input() showButton: boolean = false;
     //@Input() Elbutton: string = 'Voltar';
     //TheReturnButton: string = 'Retorne a Tela Inicial';
 
-    @Input() onButtonClick: () => void = () => {};
+    //@Input() onButtonClick: () => void = () => {};
     //Clique do Botão
   }
