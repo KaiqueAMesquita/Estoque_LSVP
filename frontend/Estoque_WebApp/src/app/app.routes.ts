@@ -33,7 +33,7 @@ import { ViewMovementsComponent } from './pages/movements/view/view-movements.co
 export const routes: Routes = [
     //[authGuard] protege as rotas que precisam de autenticação
     //[loginGuard] protege as rotas que não devem ser acessadas se o usuário já estiver logado
-   { path: 'teste', component: UnitInputComponent }, // }, //rota de login
+   //{ path: 'teste', component: UnitInputComponent }, // }, //rota de login
    { path: 'login', component: LoginComponent }, // }, //rota de login
    {path: '', redirectTo: 'dashboard/stock', pathMatch: 'full', /*canActivate:[loginGuard]*/ }, //rota padrão redireciona para o dashboard
    {path: 'dashboard/stock', component: DashboardComponent, pathMatch: 'full', canActivate:[authGuard] }, // }, //rota do dashboard
