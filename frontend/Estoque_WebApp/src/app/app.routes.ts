@@ -15,7 +15,7 @@ import { CreateContainerComponent } from './pages/container/create-container/cre
 import { ViewContainersComponent } from './pages/container/view-containers/view-containers.component';
 import { The404PageComponent } from './shared/components/the404-page/the404-page.component';
 import { TesteComponent } from './teste/teste.component';
-import { UnitInputComponent } from './pages/unit/unit-input/unit-input.component';
+//import { UnitInputComponent } from './pages/unit/unit-input/unit-input.component';
 import { EditContainerComponent } from './pages/container/edit-container/edit-container.component';
 import { CreateCategoryComponent } from './pages/category/create-category/create-category.component';
 import { ViewCategoriesComponent } from './pages/category/view-categories/view-categories.component';
