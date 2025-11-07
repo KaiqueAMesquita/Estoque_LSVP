@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, Input } from '@angular/core';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.prod';
 import { Observable } from 'rxjs';
 import { InputMovement } from '../../shared/models/inputMovement';
 import { Movement } from '../../shared/models/movement';
