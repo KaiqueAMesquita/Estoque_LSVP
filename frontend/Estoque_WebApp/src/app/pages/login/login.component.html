@@ -1,0 +1,21 @@
+<div class="container">
+    <!-- Linha decorativa -->
+    <span class="line"></span>
+    <!-- Título -->
+    <h3>LOGIN</h3>
+    <!-- Formulário de login com validação reativa -->
+    <form [formGroup]="loginForm" (ngSubmit)="submitForm($event)">
+        <!-- Campo para o nome do usuário -->
+        <input type="text" placeholder="Nome" formControlName="name" >
+        <!-- Campo para a senha do usuário -->
+        <input type="password"  placeholder="Senha" formControlName="password">
+        <button class="submit-btn">ENTRAR</button>
+        
+        <!-- <button (click)="exceptionLogin.toggle()">Abrir Modal</button> -->
+    </form>
+</div>
+<app-modal #exceptionLogin>
+        <h4 class="modal-title">Erro de Login</h4>
+        <p class="modal-text">{{errorMessage}}</p>
+        <button class="modal-btn" (click)="exceptionLogin.toggle()">Fechar</button>
+</app-modal>

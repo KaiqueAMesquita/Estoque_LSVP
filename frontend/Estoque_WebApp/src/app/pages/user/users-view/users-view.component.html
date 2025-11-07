@@ -1,0 +1,10 @@
+<app-view-template createText="Novo Usuário" (createNewEvent)="router.navigate(['manage/create/user'])"
+  [isPagedView]="pagedView" [pageNumber]="pageNumber" [totalPages]="totalPages" (pageChangeEvent)="onPageChange($event)">
+  <app-p-table [showSearch]="true" (onDelete)="DeleteUser($event.id)" (onEdit)="EditUser($event.id)" (searchEvent)="onSearch($event)" [data]="users"
+    [delete]="true" [edit]="true" [view]="true"></app-p-table>
+</app-view-template>
+<app-modal #exceptionUser>
+        <h4 class="modal-title">Erro de operação</h4>
+        <p class="modal-text">Não é possível deletar a si mesmo.</p>
+        <button class="modal-btn" (click)="exceptionUser.toggle()">Fechar</button>
+</app-modal>

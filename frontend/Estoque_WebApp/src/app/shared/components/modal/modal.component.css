@@ -1,0 +1,26 @@
+/*Estlização do modal*/
+.modal {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px #5c5c5c;
+  min-width: 320px;
+  position: fixed;
+  left: 50%;
+  padding: 24px;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 11;
+  align-items: center;
+}
+
+/* Estilização do fundo ao ter modal ativado */
+.overlay {
+  background: #000;
+  height: 100vh;
+  left: 0;
+  opacity: 0.5;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: 10;
+}

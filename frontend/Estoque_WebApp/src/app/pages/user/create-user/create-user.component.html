@@ -1,0 +1,29 @@
+<app-form-template
+    [formTitle]="'Criar Usuário'"
+    [formGroup]="form"
+    [submitText]="'Confirmar'"
+    [cancelText]="'Cancelar'"
+    (formSubmit)="onSubmit()"
+>
+    <app-input
+        [control]="getControl('name')"
+        type="text"
+        label="Nome"
+        placeholder="Digite seu nome"
+    ></app-input>
+
+    <app-input
+        [control]="getControl('password')"
+        type="password"
+        label="Senha"
+        placeholder="Digite sua senha"
+    ></app-input>
+
+    <app-input
+        [control]="getControl('role')"
+        type="select"
+        label="Função"
+        placeholder="Selecione a função"
+        [options]="roleOptions"
+    ></app-input>
+</app-form-template>

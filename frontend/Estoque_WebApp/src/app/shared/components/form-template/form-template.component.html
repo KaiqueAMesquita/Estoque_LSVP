@@ -1,0 +1,26 @@
+<div class="form-card">
+    <h2 class="form-title"> {{ formTitle }}</h2>
+    
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+      <div class="form-content">
+        <ng-content></ng-content> <!-- Conteúdo dinâmico vai aqui -->
+      </div>
+    
+    
+    <div class="form-actions">
+      <button type="button" 
+              class="btn-cancel" 
+              (click)="onCancel()" 
+              [disabled]="isSubmitting">
+        {{ cancelText }}
+      </button>
+      
+      <button type="submit" 
+              class="btn-submit" 
+              [disabled]="isSubmitting || formGroup.invalid">
+        <span *ngIf="!isSubmitting">{{ submitText }}</span>
+        <span *ngIf="isSubmitting">Enviando...</span>
+      </button>
+    </div>
+    </form>
+  </div>

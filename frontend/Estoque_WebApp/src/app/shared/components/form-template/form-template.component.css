@@ -1,0 +1,119 @@
+/*
+  Estilos modernos, responsivos e limpos para o template de formulário.
+  - Utiliza variáveis CSS para fácil customização e manutenção.
+  - Layout responsivo que se adapta a dispositivos móveis.
+  - Melhorias de acessibilidade e hierarquia visual.
+*/
+:host {
+  --form-background: #ffffff;
+  --form-text-color: #333333;
+  --form-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --form-border-radius: 8px;
+
+  --color-primary: #03fc88;
+  --color-primary-hover: #02d973;
+  --color-primary-text: #003d21; /* Texto escuro para alto contraste e acessibilidade */
+
+  --color-danger: #fc3103;
+  --color-danger-hover: #d92a02;
+  --color-danger-text: #ffffff;
+
+  --color-disabled-bg: #cccccc;
+  --color-disabled-text: #666666;
+
+  --btn-padding: 0.75rem 1.5rem;
+  --btn-border-radius: 4px;
+  --btn-font-weight: 500;
+  --btn-transition: background-color 0.2s ease-in-out;
+}
+
+.form-card {
+  background-color: var(--form-background);
+  border-radius: var(--form-border-radius);
+  padding: 2rem;
+  box-shadow: var(--form-shadow);
+  max-width: 600px;
+  margin: 2rem auto;
+  width: 95%; /* Garante fluidez em telas menores */
+  box-sizing: border-box;
+}
+
+.form-title {
+  color: var(--form-text-color);
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.form-content {
+  margin-bottom: 2rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap; /* Permite que os botões quebrem a linha em telas pequenas */
+}
+
+/* --- Estilos dos Botões --- */
+
+.btn-submit {
+  background-color: var(--color-primary);
+  color: var(--color-primary-text);
+  border: none;
+  padding: var(--btn-padding);
+  border-radius: var(--btn-border-radius);
+  cursor: pointer;
+  font-weight: var(--btn-font-weight);
+  transition: var(--btn-transition);
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+}
+
+.btn-submit:disabled {
+  background-color: var(--color-disabled-bg);
+  color: var(--color-disabled-text);
+  cursor: not-allowed;
+}
+
+.btn-cancel {
+  background-color: var(--color-danger);
+  color: var(--color-danger-text);
+  border: none;
+  padding: var(--btn-padding);
+  border-radius: var(--btn-border-radius);
+  cursor: pointer;
+  font-weight: var(--btn-font-weight);
+  transition: var(--btn-transition);
+}
+
+.btn-cancel:hover {
+  background-color: var(--color-danger-hover);
+}
+
+/* --- Ajustes Responsivos --- */
+@media (max-width: 640px) {
+  .form-card {
+    padding: 1.5rem 1rem;
+    margin: 1rem auto;
+  }
+
+  .form-title {
+    font-size: 1.5rem;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse; /* Empilha os botões verticalmente */
+    align-items: stretch; /* Faz os botões ocuparem a largura total */
+  }
+
+  .btn-submit,
+  .btn-cancel {
+    width: 100%;
+  }
+}

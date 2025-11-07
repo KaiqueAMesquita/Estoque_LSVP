@@ -1,0 +1,56 @@
+<app-nav-bar></app-nav-bar>
+
+<div class="container">
+    <div class="form-section">
+        <app-form-template
+        formTitle="Adicionar ao pedido"
+        [formGroup]="form"
+        submitText="Adicionar"
+        cancelText="Cancelar"
+        (formSubmit)="addItem()"
+        
+        >
+            <app-p-table
+            [data]="products"
+            [select]="true"
+            (onSelect)="handleProductSelection($event)"
+            title="Selecione um produto"
+            >
+        
+            </app-p-table>
+        
+            <app-input
+            [control]="getControl('productName')"
+            type="text"
+            label="Nome do Produto"
+            placeholder="Selecione um produto na tabela"
+            [disable]="true"
+            ></app-input>
+        
+            <app-input
+            [control]="getControl('productGtin')"
+            type="text"
+            label="GTIN do Produto"
+            placeholder="Selecione um produto na tabela"
+            [disable]="true"
+            ></app-input>
+        
+            <app-input
+            [control]="getControl('quantityRequested')"
+            type="number"
+            label="Quantidade Solicitada"
+            placeholder="Insira a quantidade"
+            
+            ></app-input>
+        
+        </app-form-template>
+    </div>
+    <div class="order-paper">
+        <h3>Itens do Pedido</h3>
+        <ul class="order-items">
+            <li *ngFor="let item of orderItems"><span>{{item.productName}} - <span class="quantity">{{item.quantityRequested}}</span></span> <fa-icon (click)="removeItem(item)" [icon]="icons.faXmark" class="x"></fa-icon></li>
+        </ul>
+    </div>
+</div>
+
+>

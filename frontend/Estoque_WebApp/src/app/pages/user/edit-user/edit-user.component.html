@@ -1,0 +1,23 @@
+<app-form-template
+    [formTitle]="'Editar Usuário'"
+    [formGroup]="form"
+    [submitText]="'Confirmar'"
+    [cancelText]="'Cancelar'"
+    (formSubmit)="onSubmit()"
+>
+    <app-input
+        [control]="getControl('name')"
+        type="text"
+        label="Nome"
+        placeholder="Digite seu nome"
+        maskUse=""
+    ></app-input>
+
+    <app-input
+        [control]="getControl('role')"
+        type="select"
+        label="Função"
+        placeholder="Selecione a função"
+        [options]="roleOptions"
+    ></app-input>
+</app-form-template>

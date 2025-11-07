@@ -1,0 +1,21 @@
+ <div class="view-container">
+  <div class="table">
+    <ng-content class="table">
+    </ng-content>
+    <div *ngIf="isPagedView">
+      <ul class="pagination">
+       <li class="list-item" id="first" (click)="togglePage(0)"><fa-icon [icon] = "icons.faBackwardFast"></fa-icon></li>
+       <li class="listitem" id="previous" (click)="togglePage(pageNumber - 1)"><fa-icon [icon] = "icons.faBackward"></fa-icon></li>
+       <li class="list-item" id="page-number">{{pageNumber + 1}}</li>
+       <li class="list-item" id="next" (click)="togglePage(pageNumber + 1)"><fa-icon [icon] = "icons.faForward"></fa-icon></li>
+       <li class="list-item" id="last" (click)="togglePage(totalPages - 1)"><fa-icon [icon] = "icons.faForwardFast"></fa-icon></li>
+
+
+      </ul>
+    </div>
+  </div>
+    <div class="action-bar">
+    <button class="btn btn-back" (click)="comeBack()">Voltar</button>
+    <button class="btn btn-create" (click)="createNew()">{{createText}}</button>
+  </div>
+</div>

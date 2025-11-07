@@ -1,0 +1,11 @@
+<!-- controla o show do modal através do *ngIf-->
+<ng-container *ngIf="show">
+  <div class="modal">
+    <!-- 
+         Conteúdo vem atraves do ng-content, que permite que o conteúdo do modal seja definido onde o componente é usado.
+     -->
+    <ng-content></ng-content>
+  </div>
+  <div (click)="toggle()"
+       class="overlay"></div>
+</ng-container>

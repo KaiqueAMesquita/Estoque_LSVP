@@ -1,0 +1,50 @@
+📚 Git Flow - Instruções
+📌 Padrão de Feature
+
+    Nome da branch em minúsculo.
+
+    Underline (_) para separar palavras.
+
+    Exemplo:
+
+    project_initialize
+
+📌 Padrão de Commit
+
+    Mensagem em minúsculo.
+
+    Três partes na mensagem do commit:
+
+        Tipo e nome da ação (feature, hotfix, etc.).
+
+        Descrição resumida do que foi feito.
+
+        Nome do autor.
+
+    Exemplo de commit:
+
+    git commit -m "feat:project_initialize" -m "project initialized" -m "Kaique A Mesquita"
+
+⚡ Regras:
+
+    Sempre usar o mesmo nome para o autor (mesmo formato e escrita).
+
+    Prefixos padrões para o primeiro comentário:
+
+        feat: → nova funcionalidade
+
+        hotfix: → correção rápida
+
+        (Outros tipos podem ser combinados se necessário)
+
+📌 Processo de Envio
+
+    Envie as branches de feature para o repositório remoto.
+
+    O Scrum Master será responsável por fazer o merge das features.
+
+⚠️ Observações
+
+    Cuidado com o nome da feature e commit antes de enviar.
+
+    Se cometer erros no commit já enviado, comunique ao time para resolver de forma segura.

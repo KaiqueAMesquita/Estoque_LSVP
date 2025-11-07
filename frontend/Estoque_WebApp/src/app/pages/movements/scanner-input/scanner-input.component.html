@@ -1,0 +1,56 @@
+<button (click)="input.focus()" #buttons>
+    <fa-icon [icon]="icons.faBarcode"></fa-icon>
+    <span id="space"></span>
+    <input #input type="text" placeholder="Digite o código de barras do produto (Digite Enter ao finalizar)">
+    Escanear Entrada
+</button>
+<button (click)="manualController()">
+    Digitar manualmente
+</button>
+
+<div *ngIf="batchView" class="form-container">
+    <app-form-template
+    [formTitle]="'Registrar Lote'"
+    [formGroup]="form"
+    [submitText]="'Salvar'"
+    [cancelText]="'Cancelar'"
+    (formSubmit)="onSubmit()"
+>
+
+    <!-- Campo para o Lote -->
+    <app-input
+        [control]="getControl('batch')"
+        type="text"
+        label="Lote"
+        placeholder="Digite o lote do produto"
+    ></app-input>
+
+    <!-- Campo para a Quantidade -->
+    <app-input
+        [control]="getControl('quantity')"
+        type="number"
+        label="Quantidade"
+        placeholder="Digite a quantidade"
+    ></app-input>
+
+    <!--Campo para o tipo de origem-->
+    <app-input
+        [control]="getControl('sourceType')"
+        type="select"
+        label="Tipo de Origem"
+        [options]="sourceOptions"
+        placeholder="Selecione o tipo de origem">
+    </app-input>
+
+    <!-- Campo para o Preço -->
+    <app-input 
+        [control]="getControl('price')"
+        type="number"
+        label="Preço"
+        placeholder="Digite o preço"
+    ></app-input>
+    
+    
+</app-form-template>
+
+</div>

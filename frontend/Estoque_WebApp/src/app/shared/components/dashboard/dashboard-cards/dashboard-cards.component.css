@@ -1,0 +1,59 @@
+:host {
+    display: flex; /* Permite que o card preencha o host */
+    flex: 1 1 250px; /* Propriedades flex para um grid responsivo */
+    margin: 5px;
+    cursor: pointer;
+    /* Valores padrão para as propriedades customizadas */
+    --main-color: #333;
+    --main-bg: #fff;
+    --hover-color: #fff;
+    --hover-bg: #007bff;
+}
+
+.card {
+    width: 100%;
+    background-color: var(--main-bg);
+    color: var(--main-color);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+:host(:hover) .card {
+    background-color: var(--hover-bg);
+    color: var(--hover-color);
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    font-size: 2.5em;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.card-icon {
+    margin-right: 15px;
+    font-size: 0.9em;
+}
+
+.card-body {
+    font-size: 1em;
+    line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+    :host {
+        flex-basis: calc(100% - 20px); /* Largura total em telas menores, considerando a margem */
+    }
+
+    .card-header {
+        font-size: 2em;
+    }
+}

@@ -1,0 +1,37 @@
+<app-form-template
+    [formTitle]="'Criar Categoria'"
+    [formGroup]="form"
+    [submitText]="'Confirmar'"
+    [cancelText]="'Cancelar'"
+    (formSubmit)="onSubmit()"
+>
+    <app-input
+        [control]="getControl('description')"
+        type="text"
+        label="Descrição"
+        placeholder="Digite a descrição da categoria"
+    ></app-input>
+
+    <app-input
+        [control]="getControl('type')"
+        type="select"
+        label="Tipo"
+        placeholder="Selecione o tipo"
+        [options]="typeOptions"
+    ></app-input>
+    <app-input
+        [control]="getControl('max_quantity')"
+        type="number"
+        label="Estoque Máximo"
+        placeholder="Digite o estoque máximo"
+    ></app-input>
+    <app-input
+        [control]="getControl('min_quantity')"
+        type="number"
+        label="Estoque Mínimo"
+        placeholder="Digite o estoque mínimo"
+    >
+        
+
+    </app-input>
+</app-form-template>

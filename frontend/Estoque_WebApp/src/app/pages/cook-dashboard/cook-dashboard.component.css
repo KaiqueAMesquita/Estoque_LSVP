@@ -1,0 +1,89 @@
+.dashboard-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f4f7f6;
+}
+
+.main-content {
+    flex: 3;
+    min-width: 300px;
+}
+
+.dashboard-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.tables-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.dashboard-actions {
+    flex: 1;
+    min-width: 250px;
+}
+
+.list-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+
+.list-actions .list-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    margin-bottom: 8px;
+}
+
+.list-actions .list-item:last-child {
+    margin-bottom: 0;
+}
+
+.list-actions .list-item:hover {
+    background-color: #f0f4f8;
+    color: #0056b3;
+}
+
+.list-actions .item-icon {
+    margin-right: 15px;
+    font-size: 1.2em;
+    width: 24px;
+    text-align: center;
+}
+
+.list-actions .item-text {
+    font-size: 1em;
+    font-weight: 500;
+}
+
+/* Cores específicas para os ícones */
+#fazer-pedido { color: #28a745; }
+#gerar-relatorio { color: #17a2b8; }
+#finalizar-pedido { color: #007bff; }
+
+
+@media (max-width: 992px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+}

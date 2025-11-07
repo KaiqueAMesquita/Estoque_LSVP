@@ -1,0 +1,93 @@
+BACKEND - INSTRUÇÕES (SPRING BOOT REST API)
+
+1. Inicializar o Projeto:
+- Comando: ./mvnw spring-boot:run
+- Observação: A aplicação iniciará na porta padrão 8080 (pode ser alterada no application.properties ou application.yml).
+
+2. Estrutura Recomendada:
+- Controller → Responsável pelas rotas (endpoints REST).
+- Service → Responsável pela lógica de negócio.
+- Repository → Interface para acesso ao banco de dados (extende JpaRepository ou CrudRepository).
+- Model/Entity → Classes que representam as tabelas do banco de dados.
+
+3. Criar uma nova Controller:
+- Crie uma classe em: src/main/java/.../controller/
+- Exemplo básico:
+```java
+@RestController
+@RequestMapping("/api/exemplo")
+public class ExemploController {
+    
+    @GetMapping
+    public String listar() {
+        return "API funcionando!";
+    }
+}
+
+    Criar um novo Service:
+
+    Crie uma classe em: src/main/java/.../service/
+
+    Lembre de usar a anotação @Service.
+
+    Criar um novo Repository:
+
+    Crie uma interface em: src/main/java/.../repository/
+
+    Extenda JpaRepository ou CrudRepository.
+
+Exemplo:
+
+@Repository
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+}
+
+    Configurações:
+
+    application.properties (ou application.yml):
+
+        Configurar conexão com o banco de dados.
+
+        Configurar porta, modo devtools, logging, e mais.
+
+Exemplo (application.properties):
+
+spring.datasource.url=jdbc:mysql://localhost:3306/seu_banco
+spring.datasource.username=usuario
+spring.datasource.password=senha
+spring.jpa.hibernate.ddl-auto=update
+server.port=8080
+
+    Dependências mais comuns (pom.xml):
+
+    spring-boot-starter-web
+
+    spring-boot-starter-data-jpa
+
+    spring-boot-starter-security (opcional)
+
+    spring-boot-devtools (desenvolvimento)
+
+    Banco de dados driver (MySQL, PostgreSQL, etc.)
+
+    Boas práticas:
+
+    Dividir bem camadas (controller, service, repository).
+
+    Usar DTOs para transferência de dados quando necessário.
+
+    Tratar erros com @ExceptionHandler e ResponseEntity.
+
+    Utilizar validações (@Valid, @NotNull, @Size, etc).
+
+    Testar a API:
+
+    Use ferramentas como Postman ou Insomnia para testar endpoints.
+
+    Ou, use testes automatizados com JUnit e Mockito.
+
+    Observação Geral:
+
+    Sempre documentar endpoints (pode usar Swagger/OpenAPI para gerar documentação automática).
+
+    Manter o padrão REST (GET, POST, PUT, DELETE).

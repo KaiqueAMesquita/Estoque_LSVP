@@ -1,0 +1,20 @@
+<div class="dropdown">
+  <!-- Trigger do dropdown que exibe o rótulo -->
+  <a  (click)="toggleDropdown()" class="dropdown-trigger" [attr.aria-expanded]="showDropdown" aria-haspopup="true">
+    {{ label }} <span class="triangle"></span>
+  </a>
+
+  <!-- O menu que aparece ao clicar -->
+  <ul *ngIf="showDropdown" class="dropdown-menu" role="menu">
+    <li *ngFor="let opt of option" class="dropdown-item" role="menuitem">
+      <!-- Usar uma tag de âncora para rotas externas -->
+      <a *ngIf="opt.route" [href]="opt.route">
+        {{ opt.label }}
+      </a>
+      <!-- Usar um botão para ações internas do app -->
+      <button type="button" *ngIf="opt.action" (click)="opt.action()">
+        {{ opt.label }}
+      </button>
+    </li>
+  </ul>
+</div>

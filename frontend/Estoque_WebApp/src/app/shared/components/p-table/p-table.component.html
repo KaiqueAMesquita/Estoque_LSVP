@@ -1,0 +1,85 @@
+  <div class="table-container" >
+<input
+  *ngIf="showSearch"
+  type="text"
+  class="search"
+  placeholder="Pesquisar..."
+  (input)="onSearchInputChange($event)"
+/>
+  <app-empty-component *ngIf="data.length === 0"></app-empty-component>
+
+  <table *ngIf="data.length > 0">
+    <!--se existe um título, ele será exibido-->
+    <caption *ngIf="title != ''">{{title}}</caption>
+    
+    <thead>
+      <!--geração de colunas dinãmicas-->
+      <tr>
+        <!--ngFor - para cada coluna dentro de columns gerar uma célula na tabela-->
+        <th *ngFor="let column of columns" (click)="orderBy(column)">{{ column | translation }} 
+          <span class="triangle" [ngClass]="{
+      'triangle-up': sortDirection[column] === 'asc',
+      'triangle-down': sortDirection[column] === 'desc'
+    }"
+  ></span>
+</th>
+        <!--se edit for true, exibe coluna de editar-->
+        <th *ngIf="edit">Editar</th>
+        <!--se delete for true, exibe coluna de deletar-->
+        <th *ngIf="delete">Deletar</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <!--para cada campo dentro de data gerar uma linha para tabela-->
+      <!--ngClass - define classe dinâmica dependendo do valor de view ser true-->
+      <!--(click) - evento de click com ternário, se view for true ele realiza a função onView emitindo 
+      o row como parâmetro senão tem valor nullo-->
+      <tr *ngFor="let row of data"  [ngClass]="{'view': view}" (click)="view ? onView.emit(row) : null; toggleSelected(row)" [class.selected]="rowSelected === row">
+        <!--ngFor - para cada coluna dentro de columns gerar uma célula na tabela-->
+        <!--[attr.data-label] - define o atributo data-label para acessibilidade e responsividade,
+        usado data-label com CSS para exibir o nome da coluna antes do valor.-->
+        <td *ngFor="let column of columns" [attr.data-label]="column">
+          <!--ngIf - verifica se o valor da célula é uma data, se for exibe formatada, senão exibe o valor normal-->
+          <span *ngIf="row[column] && row[column].constructor.name === 'Date'; else other">{{ row[column] | date:'dd/MM/yyyy' }}</span>
+          <ng-template #other>{{ row[column] }}</ng-template>
+        </td>
+        <!--se edit for true, exibe coluna de editar-->
+        <td *ngIf="edit" data-label="Editar">
+          <button class="edit-btn" (click)="onEdit.emit(row)"><fa-icon [icon]="icons.faPenToSquare" class="table-icon"></fa-icon></button>
+        </td>
+        <!--se delete for true, exibe coluna de deletar-->
+        <td *ngIf="delete" data-label="Deletar">
+          <!--botão de deletar com modal de confirmação-->
+          <button class="delete-btn" (click)="modal.toggle()"><fa-icon [icon]="icons.faTrash" class="table-icon"></fa-icon></button>
+          <!--modal de confirmação de exclusão-->
+          <app-modal #modal>
+            <h2>Excluir {{ row[columns[1]] }} ?</h2>
+            <p>
+              Isso não poderá ser desfeito. Você tem certeza de que deseja excluir este item?
+            </p>
+            <!--botões de confirmação e cancelamento-->
+            <button
+            (click)="deleteItem(row); modal.toggle(); "
+            class="modal-btn exclude-btn">Excluir</button>
+            <button
+              (click)="modal.toggle()"
+              class="modal-btn cancel-btn">Cancelar</button>
+          </app-modal>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal de confirmação de exclusão -->
+<app-modal #excluido>
+  <h1>Excluído com sucesso!</h1>
+  <p>
+    O item foi excluído com sucesso.
+  </p>
+  <button
+    (click)="excluido.toggle()"
+    class="modal-btn ok-btn">OK
+  </button>
+</app-modal>

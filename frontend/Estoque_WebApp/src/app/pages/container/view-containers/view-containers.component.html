@@ -1,0 +1,5 @@
+<app-view-template createText="Novo Container" (createNewEvent)=" router.navigate(['manage/create/container']) "
+    [isPagedView]="pagedView" [pageNumber]="pageNumber" [totalPages]="totalPages" (pageChangeEvent)="onPageChange($event)">
+    <app-p-table [showSearch]="true" (onDelete)="DeleteContainer($event.id)" (onEdit)="EditContainer($event.id)" (searchEvent)="onSearch($event)"
+        [data]="containers" [delete]="true" [edit]="true" [view]="true"></app-p-table>
+</app-view-template>

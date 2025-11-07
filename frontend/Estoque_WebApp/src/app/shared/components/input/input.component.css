@@ -1,0 +1,76 @@
+/* Container do campo do formulário */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* Espaçamento entre label e input */
+  margin-bottom: 1.5rem; /* Espaçamento entre os campos */
+  width: 100%;
+}
+
+/* Estilo do rótulo (label) */
+label {
+  display: block;
+  font-weight: 500;
+  color: #495057; /* Cor de texto mais suave */
+}
+
+/* Estilo base para inputs, textareas e selects */
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #343a40;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  box-sizing: border-box;
+}
+
+/* Efeito de foco para todos os campos */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #007bff;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+/* Estilo para campos inválidos que foram tocados */
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched,
+select.is-invalid { /* Manter compatibilidade com classe is-invalid */
+  border-color: #dc3545;
+}
+
+/* Efeito de foco para campos inválidos */
+input.ng-invalid.ng-touched:focus,
+textarea.ng-invalid.ng-touched:focus,
+select.ng-invalid.ng-touched:focus,
+select.is-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.25);
+}
+
+/* Mensagem de erro */
+.error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  min-height: 1.25rem; /* Garante espaço para não causar pulos no layout */
+}
+
+/* Estilo para o select (seta customizada) */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23343a40' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+}

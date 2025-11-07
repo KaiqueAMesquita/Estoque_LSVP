@@ -1,0 +1,29 @@
+FRONTEND - INSTRUÇÕES
+
+1 Inicializar o Projeto:
+- Comando: ng serve
+- Porta padrão: 4200
+
+2 Gerar Componente:
+- Comando: ng generate component {caminho}/{nome}
+- Observação: O caminho é opcional e começa a partir da pasta "app".
+
+3 Gerar Service:
+- Comando: ng generate service {caminho}/{nome}
+- Observação: O caminho é opcional e começa a partir da pasta "app".
+
+4 Gerar Interface:
+- Comando: ng generate interface {caminho}/{nome}
+- Observação: O caminho é opcional e começa a partir da pasta "app".
+
+Observação Geral:
+- É possível utilizar abreviações para agilizar os comandos:
+  - "g" para "generate"
+  - "c" para "component"
+  - "s" para "service"
+  - "i" para "interface"
+
+Exemplos usando abreviações:
+- ng g c {caminho}/{nome}
+- ng g s {caminho}/{nome}
+- ng g i {caminho}/{nome}

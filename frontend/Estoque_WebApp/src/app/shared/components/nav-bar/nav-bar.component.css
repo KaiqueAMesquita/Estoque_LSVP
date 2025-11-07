@@ -1,0 +1,156 @@
+/* --- Nova Navbar --- */
+.new-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 56px;
+  padding: 0 32px;
+  background-color: #f8f9fa; /* Fundo muito claro */
+  border-bottom: 1px solid #e9ecef; /* Linha sutil */
+  font-family: 'Inter', sans-serif; /* Nova fonte */
+}
+
+/* --- Seção de Branding --- */
+.navbar-brand-new {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-new {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #3b82f6; /* Azul vibrante */
+}
+
+.divider-new {
+  width: 1px;
+  height: 20px;
+  background-color: #dee2e6;
+}
+
+.app-name-new {
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+/* --- Menu de Navegação --- */
+.nav-menu-new {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  align-items: center;
+}
+
+.nav-item-new {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  transition: background-color 0.2s;
+}
+
+.nav-link-new {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  height: 100%;
+  color: #495057;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-item-new:hover .nav-link-new,
+.nav-link-new.active-new {
+  color: #3b82f6;
+  background-color: #e3f2fd;
+}
+/* Ao passar o mouse sobre o item, o dropdown filho direto se torna visível.
+   Lembre-se de esconder o app-dropdown por padrão (ex: display: none) e posicioná-lo. */
+.nav-item-new:hover > app-dropdown.dropdown-trigger {
+    background-color: #e3f2fd;
+
+}
+
+.nav-item-new.active-new {
+  box-shadow: inset 0 -3px 0 0 #3b82f6; /* Efeito de linha embaixo */
+}
+
+.nav-icon-new {
+  font-size: 1rem;
+  color: #6c757d;
+  transition: color 0.2s;
+}
+
+.nav-item-new:hover .nav-icon-new,
+.nav-link-new.active-new .nav-icon-new {
+  color: #3b82f6;
+}
+
+/* --- Perfil de Usuário --- */
+.user-profile-new {
+   font-size: 0.775rem;
+
+}
+
+.user-greeting-new {
+  font-size: 0.875rem;
+  color: #495057;
+  font-weight: 500;
+}
+
+.profile-icon-new {
+  font-size: 1.75rem;
+  color: #3b82f6;
+  cursor: pointer;
+}
+
+
+/* --- Responsividade --- */
+@media (max-width: 992px) {
+  .app-name-new, .user-greeting-new {
+    display: none;
+  }
+  .new-navbar {
+    padding: 0 16px;
+  }
+  .nav-link-new {
+    padding: 0 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .new-navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 12px;
+  }
+  .navbar-brand-new, .user-profile-new {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+  .nav-menu-new {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .nav-item-new {
+    margin: 4px;
+    height: auto;
+  }
+  .nav-link-new {
+    padding: 8px 12px;
+    border-radius: 4px;
+  }
+  .nav-item-new.active-new {
+    box-shadow: none;
+    background-color: #e3f2fd;
+  }
+}

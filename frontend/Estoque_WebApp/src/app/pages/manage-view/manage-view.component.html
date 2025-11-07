@@ -1,0 +1,32 @@
+<!--botões para navegar entre a gestão de entidades-->
+<div class="manage-view">
+    <div class="content">
+        <!--navega para unidades-->
+        <div class="entity-item" (click)="navigateToUser()">
+                <fa-icon [icon]="icons.faBagShopping"></fa-icon> Unidades
+        </div>
+        <!--navega para produtos-->
+        <div class="entity-item" (click)="navigateToProducts()">
+                <fa-icon [icon]="icons.faBox"></fa-icon> Produtos
+        </div>
+        <!--navega para usuários-->
+        <div class="entity-item" (click)="navigateToUser()">
+                <fa-icon [icon]="icons.faList"></fa-icon> Categorias
+        </div>
+        <!--navega para movimentações-->
+        <div class="entity-item" (click)="navigateToMovements()">
+                <fa-icon [icon]="icons.faArrowsTurnToDots"></fa-icon> Movimentações
+        </div>
+        <!--navega para contêineres-->
+        <div class="entity-item" (click)="navigateToContainers()">
+                <fa-icon [icon]="icons.faBoxesStacked"></fa-icon> Contêineres
+        </div>
+        <!--navega para usuários-->
+        <div class="entity-item" (click)="navigateToUser()">
+                <fa-icon [icon]="icons.faUsers"></fa-icon> Usuários
+        </div>
+        
+</div>
+
+
+
