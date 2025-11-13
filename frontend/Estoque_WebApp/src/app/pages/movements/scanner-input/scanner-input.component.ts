@@ -36,6 +36,7 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('input') input!: ElementRef<HTMLInputElement>;
   @ViewChild('buttons') button!: ElementRef<HTMLInputElement>;
+  @ViewChild('search') searchButton!: ElementRef<HTMLButtonElement>;
 
 
   icons = icons;
@@ -70,6 +71,9 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy {
   
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
+    if (this.manualControl) {
+      return;
+    }
     // scanner envia rápido, então juntamos caracteres
     if (this.timeout) clearTimeout(this.timeout);
 
@@ -175,10 +179,14 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy {
       this.input.nativeElement.style.opacity = '1';
       this.input.nativeElement.focus();
       this.button.nativeElement.style.background = 'none'
+      this.searchButton.nativeElement.style.opacity = '1';
+      this.searchButton.nativeElement.style.position = 'relative';
     }else{
       this.input.nativeElement.style.opacity = '0';
       this.input.nativeElement.value = '';
       this.button.nativeElement.style.backgroundColor = '#1976d2'
+      this.searchButton.nativeElement.style.opacity = '0';
+      this.searchButton.nativeElement.style.left = '0';
 
     }
   
