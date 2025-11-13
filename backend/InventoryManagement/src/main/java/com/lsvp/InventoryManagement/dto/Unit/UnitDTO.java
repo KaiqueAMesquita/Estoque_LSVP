@@ -15,6 +15,9 @@ import java.util.Set;
 @Data
 public class UnitDTO {
     private Long id;
+
+    private String code;
+
     private String batch;
     private LocalDate expiration_date;
     private int quantity;
@@ -23,7 +26,7 @@ public class UnitDTO {
     private int price;
 
     //Nome do container
-    private String containerCode;
+    private String containerCode; 
 
     //Nome do Produto
     private String description;

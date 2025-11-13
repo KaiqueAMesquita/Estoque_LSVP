@@ -17,6 +17,7 @@ import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -60,8 +61,46 @@ public class UnitService {
 
             Unit newUnit = mapper.fromInputDTO(dto, product, container);
 
+            String uniqueCode;
+            do {
+                uniqueCode = generateSmartCode(product);
+                
+            } while (repository.existsByCode(uniqueCode));
+            
+            
+            newUnit.setCode(uniqueCode);
+
             return repository.save(newUnit);
         }
+    }
+
+    private String generateSmartCode(Product product) {
+        // 1. Prefixo da Categoria (3 primeiras letras)
+        String categoryName = product.getCategory().getDescription();
+        String catPrefix = (categoryName != null && categoryName.length() >= 3) 
+            ? categoryName.substring(0, 3).toUpperCase() 
+            : "GEN"; // Fallback se não tiver descrição
+
+        // 2. Parte do GTIN (4 últimos dígitos)
+        String gtin = product.getGtin();
+        String gtinPart = (gtin != null && gtin.length() >= 4) 
+            ? gtin.substring(gtin.length() - 4) 
+            : "0000";
+
+        // 3. Sufixo Aleatório (3 caracteres A-Z, 0-9)
+        String randomSuffix = generateRandomSuffix(3);
+
+        return String.format("%s-%s-%s", catPrefix, gtinPart, randomSuffix);
+    }
+
+    private String generateRandomSuffix(int length) {
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        StringBuilder sb = new StringBuilder();
+        Random rnd = new Random();
+        for (int i = 0; i < length; i++) {
+            sb.append(chars.charAt(rnd.nextInt(chars.length())));
+        }
+        return sb.toString();
     }
 
     @Transactional

@@ -17,6 +17,9 @@ public class Unit {
     @Column(name = "unt_id")
     private Long id;
 
+    @Column(name = "unt_code", nullable = false, unique = true, updatable = false, length = 20)
+    private String code;
+
     @Column(name = "unt_batch", length = 30, nullable = false)
     private String batch;
 
