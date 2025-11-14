@@ -24,6 +24,8 @@ public interface IUnitMapper {
     
     @Mapping(target = "id", ignore = true)
     @Mapping(source = "dto.expiration_date", target = "expirationDate")
+    @Mapping(source = "container", target = "container") 
+    @Mapping(source = "product", target = "product")
     Unit fromInputDTO(InputCreateDTO dto, Product product, Container container);
 
     @Mapping(source = "id", target = "unitId")

@@ -66,7 +66,7 @@ export class ViewProductsComponent implements OnInit, OnDestroy {
     try {
       this.productService.deleteProduct(gtin).subscribe({
         next: () => {
-          this.products = this.products.filter(product => product.gtin !== gtin);
+          this.loadProducts(this.pageNumber, this.searchTerm);
         },
         error: (error) => console.error('Erro ao deletar product:', error)
       });

@@ -2,10 +2,13 @@
     <fa-icon [icon]="icons.faBarcode"></fa-icon>
     <span id="space"></span>
     <input #input type="text" placeholder="Digite o código de barras do produto (Digite Enter ao finalizar)">
+    <button #search class="search-button">Buscar</button>
+
     Escanear Entrada
 </button>
 <button (click)="manualController()">
-    Digitar manualmente
+    <span *ngIf="manualControl == false">Digitar manualmente</span>
+    <span *ngIf="manualControl == true">Usar Scanner</span>
 </button>
 
 <div *ngIf="batchView" class="form-container">

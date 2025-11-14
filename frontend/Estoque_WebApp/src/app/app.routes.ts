@@ -21,7 +21,6 @@ import { CreateCategoryComponent } from './pages/category/create-category/create
 import { ViewCategoriesComponent } from './pages/category/view-categories/view-categories.component';
 import { EditCategoryComponent } from './pages/category/edit-category/edit-category.component';
 import { adminGuard } from './core/guards/admin.guard';
-import { EditMovementsComponent } from './pages/movements/edit/edit-movements.component';
 import { MovementInputComponent } from './pages/movements/movement-input/movement-input.component';
 import { ScannerInputComponent } from './pages/movements/scanner-input/scanner-input.component';
 import { CookDashboardComponent } from './pages/cook-dashboard/cook-dashboard.component';
@@ -72,7 +71,6 @@ export const routes: Routes = [
             {path: 'view/units', component: ViewUnitComponent, pathMatch: 'full'},
             {path: 'edit/unit/:id', component:EditUnitComponent, pathMatch: 'full'},
             {path: 'view/movements', component: ViewMovementsComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
-            {path: 'edit/movements/:id', component: EditMovementsComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
             {path: 'movements/scan', component: ScannerInputComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
             {path: 'movements/input', component: MovementInputComponent, pathMatch: 'full', /*canActivate:[authGuard]*/}
 

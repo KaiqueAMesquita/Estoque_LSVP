@@ -41,4 +41,6 @@ public interface IUnitRepository extends JpaRepository<Unit, Long>  {
 
     Page<Unit> findByBatchContainingIgnoreCase(String batch, Pageable pageable);
 
+    boolean existsByCode(String code);
+
 }
