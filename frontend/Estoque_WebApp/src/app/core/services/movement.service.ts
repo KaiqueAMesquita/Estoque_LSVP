@@ -40,9 +40,5 @@ export class MovementService {
     return this.http.put<Movement>(`${this.movementLink}/${movementId}`, movement);
   }
 
-  // Método para deletar um Movement
-  public deleteMovement(movementId: number): Observable<void> {
-    return this.http.delete<void>(`${this.movementLink}/${movementId}`);
-  }
-  
+
 }

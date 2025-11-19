@@ -16,7 +16,7 @@ import { ViewTemplateComponent } from '../../../shared/components/view-template/
   styleUrl: './view-Movements.component.css'
 })
 export class ViewMovementsComponent implements OnInit, OnDestroy {
-  Movements: Movement[] = [];
+  movements: Movement[] = [];
   private navigationSub?: Subscription;
 
   constructor(
@@ -42,31 +42,22 @@ export class ViewMovementsComponent implements OnInit, OnDestroy {
   private loadMovements(): void {
     this.MovementService.getAllMovements(1, 20).subscribe({ // Exemplo: buscando a primeira página com 20 itens
       next: (page) => {
-        this.Movements = page.content;
+        this.movements = page.content.map((movement: Movement) => {
+          const { unitId, userId, ...rest } = movement;
+          return {
+            ...rest,
+            date: movement.date ? new Date(movement.date) : new Date()
+          };
+        });
       },
       error: (error) => {
         console.error('Erro ao buscar Movimentações:', error);
       }
     });
   }
-
-  DeleteMovement(id: number): void {
-    try {
-      this.MovementService.deleteMovement(id).pipe(first()).subscribe({
-        next: () => {
-          this.Movements = this.Movements.filter(movement => movement.id !== id);
-          console.log('Movimentação deletada com sucesso');
-        },
-        error: (error) => {
-          console.error('Erro ao deletar essa Movimentação!', error);
-        }
-      });
-    } catch (error) {
-      console.error('Erro ao deletar essa Movimentação!', error);
-    }
-  }
-
   EditMovement(id: number): void {
-    this.router.navigate(['manage/edit/movements', id]);
+    this.router.navigate(['manage/edit/Movements', id]);
   }
+
+  
 }

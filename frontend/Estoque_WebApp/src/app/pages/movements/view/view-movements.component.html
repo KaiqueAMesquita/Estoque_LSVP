@@ -1,10 +1,9 @@
 <app-view-template title="Movimentações" createText="Nova Movimentação" (createNewEvent)="router.navigate(['manage/movements/scan'])">
   <app-p-table
     [showSearch]="true"
-    (onDelete)="DeleteMovement($event.id)"
     (onEdit)="EditMovement($event.id)"
-    [data]="Movements"
-    [delete]="true"
+    [data]="movements"
+    [delete]="false"
     [edit]="true"
     [view]="true"
   ></app-p-table>

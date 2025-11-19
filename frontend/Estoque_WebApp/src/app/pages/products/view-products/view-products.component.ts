@@ -33,7 +33,7 @@ export class ViewProductsComponent implements OnInit, OnDestroy {
     this.loadProducts(this.pageNumber);
 
     this.navigationSub = this.navigationWatcher.navigation$.subscribe(() => {
-      if (this.router.url.startsWith('/products')) { // ajuste conforme sua rota
+      if (this.router.url.startsWith('/manage/view/products')) {
         this.loadProducts(this.pageNumber);
       }
     });
@@ -45,20 +45,25 @@ export class ViewProductsComponent implements OnInit, OnDestroy {
 
   private loadProducts(page: number = 0, gtin?: string): void {
     this.productService.getAllProducts(page, 20, 'id,desc', gtin).subscribe({
-      next: (data: Page<Product> ) => {
-        data.totalPages > 1 ? this.pagedView = true : this.pagedView = false;
-        this.pageNumber = data.number;
-        this.totalPages = data.totalPages;
-        this.products = data.content;
-        //delete filed createdAt and updatedAt from products
-      this.products?.forEach(product => {
-        delete product.created_at;
-        delete product.updated_at;
-        });
+      next: (products) => {        
+        products.totalPages > 1 ? this.pagedView = true : this.pagedView = false;
+        this.pageNumber = products.number;
+        this.totalPages = products.totalPages;
+        this.products = products.content.map((product: Product) => ({
+          ...product,
+          
+          
+       
+        }));
       },
       error: (error) => {
         console.error('Erro ao buscar products:', error);
       }
+    });
+    this.products?.forEach(product => {
+      delete product.created_at;
+      delete product.updated_at;
+      delete product.id;
     });
   }
 
@@ -84,7 +89,7 @@ export class ViewProductsComponent implements OnInit, OnDestroy {
     this.loadProducts(page);
   }
 
-  onSearch(term: string): void {
+  onSearch(term: string):  void {
     this.searchTerm = term;
     this.loadProducts(0, this.searchTerm);
   }

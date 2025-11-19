@@ -38,6 +38,7 @@ export const routes: Routes = [
    {path: '', redirectTo: 'dashboard/stock', pathMatch: 'full', /*canActivate:[loginGuard]*/ }, //rota padrão redireciona para o dashboard
    {path: 'dashboard/stock', component: DashboardComponent, pathMatch: 'full', canActivate:[authGuard] }, // }, //rota do dashboard
    {path: 'dashboard/cook', component: CookDashboardComponent, pathMatch: 'full', canActivate:[authGuard] },
+    {path: 'kitchen/request', component: KitchenOrderComponent, pathMatch: 'full' },
 
    //rotas de gerenciamento 
    { path: 'manage', component: ManageLayoutComponent,
@@ -73,6 +74,7 @@ export const routes: Routes = [
             {path: 'view/movements', component: ViewMovementsComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
             {path: 'movements/scan', component: ScannerInputComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
             {path: 'movements/input', component: MovementInputComponent, pathMatch: 'full', /*canActivate:[authGuard]*/}
+
 
         ], /*//*/
      },

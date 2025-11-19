@@ -31,7 +31,7 @@ export const TRANSLATION = {
     measure: 'Medida',
     measureType: 'Tipo de Medida',
     categoryId: 'ID da Categoria',
-    gtin: 'GTIN',
+    gtin: 'Código de Barras (GTIN)',
     containerId: 'ID do Contêiner',
     productId: 'ID do Produto',
     quantity: 'Quantidade',
@@ -44,5 +44,18 @@ export const TRANSLATION = {
     inputMovement: 'Movimentação de Entrada',
     outputMovement: 'Movimentação de Saída',
     sourceType: 'Tipo de Fonte',
+    type: 'Tipo',
+    sourceDetails: 'Sobre a Fonte',
+    price: 'Preço',
+    origin: 'Origem',
+    destiny: 'Destino',
+    date: 'Data',
+    userName: 'Usuário',
+    unitProductGtin: 'Código de Barras(GTIN)',
+    unitBatch : 'Lote',
+    id: 'ID',
+    batch: 'Lote',
+    containerCode: 'Código do Contêiner',
+
   
 }
