@@ -2,6 +2,7 @@ package com.lsvp.InventoryManagement.repository;
 
 import com.lsvp.InventoryManagement.entity.Container;
 import com.lsvp.InventoryManagement.entity.Unit;
+import com.lsvp.InventoryManagement.enums.ContainerType;
 
 import java.util.Optional;
 
@@ -41,6 +42,21 @@ public interface IUnitRepository extends JpaRepository<Unit, Long>  {
 
     Page<Unit> findByBatchContainingIgnoreCase(String batch, Pageable pageable);
 
+    // Find units expiring within X days from today
+    List<Unit> findByExpirationDateBetween(LocalDate startDate, LocalDate endDate);
+
+    Page<Unit> findByContainer_TypeAndQuantityGreaterThanAndExpirationDateBetween(
+            ContainerType containerType,
+            int quantity,
+            LocalDate startDate,
+            LocalDate endDate,
+            Pageable pageable
+    );
+
     boolean existsByCode(String code);
 
 }
+
+    
+
+

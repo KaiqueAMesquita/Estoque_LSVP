@@ -13,4 +13,7 @@ public interface IOrderRepository extends JpaRepository <Order, Long>{
     // Método para buscar pedidos por uma lista de status (paginado)
     Page<Order> findByStatusIn(List<OrderStatus> statuses, Pageable pageable);
 
+    // Find pending or partial orders (notifications for stockers)
+    List<Order> findByStatusIn(List<OrderStatus> statuses);
+
 }

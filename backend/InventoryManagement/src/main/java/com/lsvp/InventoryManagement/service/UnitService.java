@@ -88,7 +88,7 @@ public class UnitService {
             : "0000";
 
         // 3. Sufixo Aleatório (3 caracteres A-Z, 0-9)
-        String randomSuffix = generateRandomSuffix(3);
+        String randomSuffix = generateRandomSuffix(4);
 
         return String.format("%s-%s-%s", catPrefix, gtinPart, randomSuffix);
     }
