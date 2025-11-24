@@ -107,7 +107,7 @@ export class PTableComponent<T> implements OnInit, OnChanges, AfterViewInit {
 
     this.data.sort((a, b) => {
       const valueA = a[column];
-      const valueB = b[column];
+      const valueB = b[column]; 
 
       if (valueA == null && valueB == null) return 0;
       if (valueA == null) return direction === 'asc' ? -1 : 1;

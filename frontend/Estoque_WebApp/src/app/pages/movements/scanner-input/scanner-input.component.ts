@@ -55,10 +55,10 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy, OnInit {
 
   constructor(private userService: UserService, private auth: AuthenticationService, private fb: FormBuilder, private router: Router, private unitService: UnitService, private movementService: MovementService, private productService: ProductService) {
   this.form = this.fb.group({
-      batch: this.fb.control('', Validators.required),
-      price: this.fb.control('', Validators.required),
-      sourceType: this.fb.control('', Validators.required),
-      quantity: this.fb.control('', Validators.required),
+      batch: this.fb.control('', [Validators.required]),
+      price: this.fb.control(null, [Validators.required, Validators.min(0)]),
+      sourceType: this.fb.control('', [Validators.required]),
+      quantity: this.fb.control('', [Validators.required, Validators.min(1)]),
       sourceDetails: this.fb.control('', Validators.required),
     });
 
@@ -132,7 +132,7 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy, OnInit {
 
   onSubmit() {
     if (!this.form.valid || !this.product || !this.currentUser) {
-      this.showModal("Formulário inválido ou dados de produto/usuário ausentes.");
+      this.showModal("Formulário inválido. Verifique se todos os campos obrigatórios foram preenchidos.");
       return;
     }
 
@@ -152,6 +152,7 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy, OnInit {
               sourceType: formValue.sourceType,
               price: formValue.price,
               userId: this.currentUser?.id
+
             }
           };
           // A pequena espera é para o usuário conseguir ler o modal.
@@ -169,18 +170,21 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy, OnInit {
           this.showModal("O lote informado pertence a outro produto. Verifique os dados.");
           return of(null);
         }
+        console.log('Unidade encontrada para o lote:', unit);
 
         const inputMovement: InputMovement = {
           productId: this.product!.id!,
           batch: formValue.batch,
           quantity: formValue.quantity,
-          containerId: unit.containerId!, // O backend espera o containerId
+          containerId: unit.containerId!,
           sourceType: formValue.sourceType,
           sourceDetails: formValue.sourceDetails,
-          expiration_date: unit.expiration_date,
+          expiration_date: unit.expiration_date, 
           price: formValue.price,
           userId: this.currentUser!.id!,
         };
+        //log inputMovement value
+        console.log('Movimento será criado com os seguintes dados:', inputMovement);
         return this.movementService.createInputMovement(inputMovement);
       }),
       takeUntil(this.destroy$)
