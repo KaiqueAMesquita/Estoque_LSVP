@@ -20,6 +20,7 @@ public interface IUnitMapper {
     @Mapping(source = "product.category.description", target = "description")
     @Mapping(source = "product.gtin", target = "gtin")
     @Mapping(source = "expirationDate", target = "expiration_date")
+    @Mapping(source = "container.id", target = "containerId")
     UnitDTO toDTO(Unit unit);
     
     @Mapping(target = "id", ignore = true)

@@ -53,6 +53,22 @@ public interface IUnitRepository extends JpaRepository<Unit, Long>  {
             Pageable pageable
     );
 
+
+    // 1. Soma total de itens no estoque
+    @Query("SELECT COALESCE(SUM(u.quantity), 0) FROM Unit u WHERE u.container.type = :type")
+    Long sumTotalQuantityByContainerType(@Param("type") ContainerType type);
+
+    // 2. Soma total de itens vencendo em um intervalo
+    @Query("SELECT COALESCE(SUM(u.quantity), 0) FROM Unit u " +
+           "WHERE u.container.type = :type " +
+           "AND u.expirationDate BETWEEN :startDate AND :endDate")
+    Long sumExpiringQuantityByContainerType(
+            @Param("type") ContainerType type,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate
+    );
+
+    
     boolean existsByCode(String code);
 
 }

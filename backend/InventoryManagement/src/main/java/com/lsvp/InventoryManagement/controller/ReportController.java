@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lsvp.InventoryManagement.dto.Dashboard.ExpiringProductsTotalDTO;
+import com.lsvp.InventoryManagement.dto.Dashboard.TotalStockDTO;
 import com.lsvp.InventoryManagement.dto.Report.AveragePriceDTO;
 import com.lsvp.InventoryManagement.dto.Report.ExpiringLotDTO;
 import com.lsvp.InventoryManagement.dto.Report.MonthlyStockFlowDTO;
@@ -83,6 +85,29 @@ public class ReportController {
             @RequestParam int endYear
     ) {
         List<MonthlyStockFlowDTO> result = reportService.getMonthlyStockFlow(categoryId, startMonth, startYear, endMonth, endYear);
+        return ResponseEntity.ok(result);
+    }
+
+
+    /**
+     * GET /api/reports/stock-total
+     * Retorna a quantidade total de itens físicos armazenados no estoque principal.
+     */
+    @GetMapping("/stock-total")
+    public ResponseEntity<TotalStockDTO> getTotalStock() {
+        TotalStockDTO result = reportService.getTotalStockInStorage();
+        return ResponseEntity.ok(result);
+    }
+
+    /**
+     * GET /api/reports/expiring-total
+     * Retorna a quantidade total de itens que vão vencer nos próximos X dias.
+     */
+    @GetMapping("/expiring-total")
+    public ResponseEntity<ExpiringProductsTotalDTO> getTotalExpiring(
+            @RequestParam(defaultValue = "30") int days
+    ) {
+        ExpiringProductsTotalDTO result = reportService.getTotalExpiringSoon(days);
         return ResponseEntity.ok(result);
     }
 }

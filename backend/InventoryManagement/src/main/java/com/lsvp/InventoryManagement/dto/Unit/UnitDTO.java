@@ -28,6 +28,9 @@ public class UnitDTO {
     //Nome do container
     private String containerCode; 
 
+    //Id do container
+    private Long containerId;
+    
     //Nome do Produto
     private String description;
 

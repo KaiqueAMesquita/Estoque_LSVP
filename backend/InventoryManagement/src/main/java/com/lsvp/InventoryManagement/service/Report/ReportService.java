@@ -18,6 +18,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lsvp.InventoryManagement.dto.Dashboard.ExpiringProductsTotalDTO;
+import com.lsvp.InventoryManagement.dto.Dashboard.TotalStockDTO;
 import com.lsvp.InventoryManagement.dto.Report.AveragePriceDTO;
 import com.lsvp.InventoryManagement.dto.Report.ExpiringLotDTO;
 import com.lsvp.InventoryManagement.dto.Report.MonthlyStockFlowDTO;
@@ -156,6 +158,29 @@ public class ReportService {
             dtos.add(new MonthlyStockFlowDTO(categoryId, category.getDescription(), year, month, totalIn, totalOut));
         }
         return dtos;
+    }
+
+    // Total geral do estoque, somente com o que esta em container type = Estoque
+    @Transactional(readOnly = true)
+    public TotalStockDTO getTotalStockInStorage() {
+        // Apenas o que está no container do tipo ESTOQUE
+        Long total = unitRepository.sumTotalQuantityByContainerType(ContainerType.ESTOQUE);
+        return new TotalStockDTO(total);
+    }
+
+    // Total produtos acabando a validade
+    @Transactional(readOnly = true)
+    public ExpiringProductsTotalDTO getTotalExpiringSoon(int days) {
+        LocalDate today = LocalDate.now();
+        LocalDate limitDate = today.plusDays(days);
+
+        Long total = unitRepository.sumExpiringQuantityByContainerType(
+                ContainerType.ESTOQUE,
+                today,
+                limitDate
+        );
+
+        return new ExpiringProductsTotalDTO(total, days);
     }
 }
 
