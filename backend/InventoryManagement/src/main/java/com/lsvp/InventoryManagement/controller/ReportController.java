@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lsvp.InventoryManagement.dto.Category.CategoryTotalStockDTO;
 import com.lsvp.InventoryManagement.dto.Dashboard.ExpiringProductsTotalDTO;
 import com.lsvp.InventoryManagement.dto.Dashboard.TotalStockDTO;
 import com.lsvp.InventoryManagement.dto.Report.AveragePriceDTO;
@@ -108,6 +109,18 @@ public class ReportController {
             @RequestParam(defaultValue = "30") int days
     ) {
         ExpiringProductsTotalDTO result = reportService.getTotalExpiringSoon(days);
+        return ResponseEntity.ok(result);
+    }
+
+    /**
+     * GET /api/reports/category-total
+     * Retorna a quantidade total de uma categoria (Estoque + Cozinha).
+     */
+    @GetMapping("/category-total")
+    public ResponseEntity<CategoryTotalStockDTO> getCategoryTotalStock(
+            @RequestParam Long categoryId
+    ) {
+        CategoryTotalStockDTO result = reportService.getTotalStockByCategory(categoryId);
         return ResponseEntity.ok(result);
     }
 }

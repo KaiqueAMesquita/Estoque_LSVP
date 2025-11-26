@@ -14,9 +14,8 @@ public interface IOrderMapper {
 
     Order toEntity(OrderCreateDTO dto);
 
-    @Mapping(source = "product.id", target = "productId")
-    @Mapping(source = "product.category.description", target = "productName") // Assumindo que o nome do produto está na descrição da categoria
-    @Mapping(source = "product.gtin", target = "productGtin")
+    @Mapping(source = "category.id", target = "categoryId")
+    @Mapping(source = "category.description", target = "categoryName") // Assumindo que o nome do produto está na descrição da categoria
     OrderItemDTO itemToDTO(OrderItem orderItem);
 
     @Mapping(source = "user.name", target = "userName")

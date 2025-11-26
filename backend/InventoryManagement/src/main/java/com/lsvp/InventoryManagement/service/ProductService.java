@@ -98,6 +98,8 @@ public class ProductService {
         return new PageImpl<>(dtos, pageable, pageResult.getTotalElements());
     }
 
+        
+
     public ProductDTO updateProduct(Long id, ProductUpdateDTO dto){
         //Gustavo: findById retorna Optionl<User>, sendo obrigatório a tratar caso o usuario não seja encontrado.
         Product productUpdated = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Produto nao encontrado!!"));
