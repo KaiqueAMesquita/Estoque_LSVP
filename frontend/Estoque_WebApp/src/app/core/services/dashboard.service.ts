@@ -4,6 +4,10 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Unit } from '../../shared/models/unit';
 import { Page } from '../../shared/models/page';
+import { ExpiringProducts } from '../../shared/models/expiring-products';
+import { TotalSpent } from '../../shared/models/total-spent';
+import { TotalStock } from '../../shared/models/total-stock';
+import { ExpiringBatchs } from '../../shared/models/expiring-batchs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,32 +16,40 @@ export class DashboardService {
   apiUrl = environment.API_URL;
   constructor(private http: HttpClient) { }
 
-  productInChicken(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/dashboard/kitchen/product-count`);
-  }
-
-  chickenInProductsExpiringSoon(thresholdDays: number = 7, page: number = 1, limit: number = 20): Observable<any> {
-    const pageNumber = page + 1; 
+  //ESTOQUE
+  getTotalExpiringProducts(days: number = 30): Observable<ExpiringProducts> {
     let params = new HttpParams()
-      .set('thresholdDays', thresholdDays.toString())
-      .set('page', pageNumber.toString())
-      .set('limit', limit.toString());
-    return this.http.get<any>(`${this.apiUrl}/kitchen/products-expiring-soon`, { params });
+      .set('days', days.toString());
+    return this.http.get<ExpiringProducts>(`${this.apiUrl}/reports/expiring-total`, { params });
   }
-
-  kitchenUnits(page: number = 1, limit: number = 20): Observable<Page<Unit>> {
-    const pageNumber = page + 1; 
+  
+  getTotalSpent(month: number, year:number): Observable<TotalSpent>{
     let params = new HttpParams()
-      .set('page', pageNumber.toString())
-      .set('limit', limit.toString());
-    return this.http.get<Page<Unit>>(`${this.apiUrl}/kitchen/units`, { params });
+    .set('month', month.toString())
+    .set('year', year.toString());
+
+    return this.http.get<TotalSpent>(`${this.apiUrl}/reports/total-spent`, {params});
+
+  }
+
+  getStockTotal(): Observable<TotalStock>{
+    return this.http.get<TotalStock>(`${this.apiUrl}/reports/stock-total`)
+  }
+
+  getExpringBatchs(days: number, page: number = 1, limit: number=20): Observable<Page<ExpiringBatchs>>{
+    let pageNumber = page + 1;
+    let params = new HttpParams()
+    .set('daysUntilExpiry', days.toString())
+    .set('page',pageNumber.toString())
+    .set('limit', limit.toString());
+
+    return this.http.get<Page<ExpiringBatchs>>(`${this.apiUrl}/reports/expiring-lots`, {params});
   }
 
 
-
-  productInStock(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/dashboard/stock/product-count`);
-  }
+  
+  
+  
 
 
     

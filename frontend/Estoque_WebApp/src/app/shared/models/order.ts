@@ -1,5 +1,5 @@
 export interface Order {
-    id: number;
+    id?: number;
     requesterName: string;
     date: string; 
     status: string;
@@ -7,6 +7,9 @@ export interface Order {
     items: OrderItem[];
 
 }
+
+
+
 
 export interface OrderItem {
     id: number;
