@@ -80,6 +80,9 @@ export class ViewCategoriesComponent implements OnInit, OnDestroy {
   EditCategory(id: number): void {
     this.router.navigate(['/manage/edit/category', id]);
   }
+  ViewCategory(id: number): void {
+    this.router.navigate(['manage/view/category', id])
+  }
 
   onPageChange(page: number): void {
     this.pageNumber = page;

@@ -4,6 +4,7 @@
     [showSearch]="true" 
     (onDelete)="DeleteCategory($event.id)" 
     (onEdit)="EditCategory($event.id)"
+    (onView)="ViewCategory($event.id)"
     (searchEvent)="onSearch($event)" 
     [data]="categories" [delete]="true" 
     [edit]="true" 

@@ -28,6 +28,7 @@ import { KitchenOrderComponent } from './pages/request/kitchen-order/kitchen-ord
 import { ViewUnitComponent } from './pages/units/view-unit/view-unit.component';
 import { EditUnitComponent } from './pages/units/edit-unit/edit-unit.component';
 import { ViewMovementsComponent } from './pages/movements/view/view-movements.component';
+import { ViewCategoryComponent } from './pages/category/view-category/view-category.component';
 
 export const routes: Routes = [
     //[adminGuard] Permite Somente o Acesso a Administradores dessas Funcionalidades
@@ -62,6 +63,7 @@ export const routes: Routes = [
             {path: 'create/container', component: CreateContainerComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
             {path: 'edit/container/:id', component: EditContainerComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
 
+            {path: 'view/category/:id', component: ViewCategoryComponent, pathMatch: 'full', /*canActivate: [authGuard]*/},
             {path: 'view/categories', component: ViewCategoriesComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
             {path: 'create/category', component: CreateCategoryComponent, pathMatch: 'full', /*canActivate:[authGuard]*/ },
             {path: 'edit/category/:id', component: EditCategoryComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},

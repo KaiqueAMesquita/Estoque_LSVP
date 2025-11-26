@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { Observable } from 'rxjs';
 import { Page } from '../../shared/models/page';
+import { AveragePrice } from '../../shared/models/average-price';
 
 @Injectable({
   providedIn: 'root'
@@ -60,4 +61,16 @@ export class CategoryService {
       }
     );
   }
+public getAveragePriceByCategory(categoryId: number, startMonth: number, startYear: number, endMonth: number, endYear: number): Observable<AveragePrice>{
+    let params = new HttpParams()
+    .set('categoryId', categoryId)
+    .set('startMonth', startMonth)
+    .set('startYear', startYear)
+    .set('endMonth', endMonth)
+    .set('endYear', endYear)
+  
+    return this.http.get<AveragePrice>(`${environment.API_URL}/reports/average-price`, {params})
+
+  }
+  
 }

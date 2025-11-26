@@ -1,0 +1,38 @@
+<app-view-template
+createText="Cria nova categoria"
+(createNewEvent)="router.navigate(['manage/create/category'])"
+
+>
+
+  <div class="category-details">
+    <h2 class="title">Categoria: {{category?.description}}</h2>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <span class="label">Tipo Alimentício</span>
+        <span class="value">{{ category?.foodType }}</span>
+      </div>
+
+      <div class="info-card">
+        <span class="label">Estoque Mínimo</span>
+        <span class="value">{{ category?.min_quantity }}</span>
+      </div>
+
+      <div class="info-card">
+        <span class="label">Estoque Máximo</span>
+        <span class="value">{{ category?.max_quantity }}</span>
+      </div>
+    </div>
+
+    <div style="margin-top: 2rem; height: 400px;">
+        <app-grafic 
+            title="Preço Médio (Últimos 12 meses)"
+            type="BARRA" 
+            [data]="chartData" 
+            [collapsible]="true"
+            [colors]="['#0ea5e9']"> </app-grafic>
+    </div>
+
+  </div>
+
+</app-view-template>

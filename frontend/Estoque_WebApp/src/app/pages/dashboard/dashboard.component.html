@@ -6,7 +6,7 @@
         <!-- Cartões do dashboard -->
          <div class="cards-row">
         <app-dashboard-cards
-        [icon]="icons.faBox" headerValue="1500" bodyText="Total de Produtos"
+        [icon]="icons.faBox" [headerValue]="stockTotalQuantity? stockTotalQuantity : 'N/A'" bodyText="Total de Produtos"
         background="#e3f2fd" color="#0d47a1"
         hoverBackground="#0d47a1" hoverColor="#ffffff"
        
@@ -16,15 +16,17 @@
         [icon]="icons.faClock"
         background="#f5c1c1" color="#e60000"
         hoverBackground="#e60000" hoverColor="#ffffff"
-        headerValue="7"
-        bodyText="Lotes com validades próximas"
+        [headerValue]="expiringProducts ? expiringProducts.totalQuantity : 'N/A'"
+        bodyText="Lotes com validade próxima ({{expiringProducts?.daysThreshold}} dias)"
 
         ></app-dashboard-cards>
         <app-dashboard-cards
             [icon]="icons.faCoins"
             background="#fff9c4" color="#f57f17"
             hoverBackground="#fbc02d" hoverColor="#ffffff"
-            headerValue="R$ 250,00"
+            [headerValue]="totalSpentMonth 
+            ? ((totalSpentMonth.totalSpent | currency:'BRL':'symbol':'1.2-2') ?? '0') 
+            : 'N/A'"
             bodyText="Valor total em estoque"
         >
         </app-dashboard-cards>
@@ -32,7 +34,7 @@
         </div>
         
         <!-- Tabela de lotes com validades próximas -->
-        <app-p-table title="Lotes com validades próximas" [data]="expirationBatches" [view]="true"></app-p-table>
+        <app-p-table title="Lotes com validades próximas" [data]="expiringBatches" [view]="true"></app-p-table>
         
         <!-- Tabela das últimas movimentações -->
         <app-p-table title="Últimas movimentações" [data]="lastMovements" [view]="true"></app-p-table>

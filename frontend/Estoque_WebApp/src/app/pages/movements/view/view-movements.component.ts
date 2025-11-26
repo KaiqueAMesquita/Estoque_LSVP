@@ -40,7 +40,7 @@ export class ViewMovementsComponent implements OnInit, OnDestroy {
   }
 
   private loadMovements(): void {
-    this.MovementService.getAllMovements(1, 20).subscribe({ // Exemplo: buscando a primeira página com 20 itens
+    this.MovementService.getAllMovements(1, 20).subscribe({ 
       next: (page) => {
         this.movements = page.content.map((movement: Movement) => {
           const { unitId, userId, ...rest } = movement;

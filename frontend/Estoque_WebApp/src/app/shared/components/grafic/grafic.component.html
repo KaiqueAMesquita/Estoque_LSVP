@@ -1,0 +1,39 @@
+<div class="grafic-container">
+
+  <!-- Header -->
+  <div class="grafic-header" (click)="toggle()" [class.clickable]="collapsible">
+    <h3>{{ title }}</h3>
+
+    <div *ngIf="collapsible" class="arrow" [class.open]="isOpen">⌄</div>
+  </div>
+
+  <!-- Conteúdo -->
+  <div class="grafic-content" *ngIf="isOpen">
+
+    <!-- GRAPH: Barra Vertical -->
+    <ngx-charts-bar-vertical
+      *ngIf="type === 'BARRA'"
+      [results]="data"
+      [scheme]="colorScheme"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="false"
+      [showGridLines]="true"
+      [animations]="true">
+    </ngx-charts-bar-vertical>
+
+    <!-- GRAPH: Linha -->
+    <ngx-charts-line-chart
+      *ngIf="type === 'LINHA'"
+      [scheme]="colorScheme"
+      [results]="data"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="false"
+      [showGridLines]="true"
+      [animations]="true"
+      [autoScale]="true">
+    </ngx-charts-line-chart>
+
+  </div>
+</div>
