@@ -68,6 +68,12 @@ public interface IUnitRepository extends JpaRepository<Unit, Long>  {
             @Param("endDate") LocalDate endDate
     );
 
+    // Busca unidades DE UMA CATEGORIA, em um tipo de container, quantidade > 0, ordenado por validade
+    List<Unit> findByProduct_Category_IdAndContainer_TypeAndQuantityGreaterThanOrderByExpirationDateAsc(
+            Long categoryId, 
+            ContainerType type, 
+            int quantity
+    );
     
     boolean existsByCode(String code);
 
