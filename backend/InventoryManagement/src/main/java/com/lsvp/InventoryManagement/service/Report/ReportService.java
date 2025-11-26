@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lsvp.InventoryManagement.dto.Category.CategoryTotalStockDTO;
 import com.lsvp.InventoryManagement.dto.Dashboard.ExpiringProductsTotalDTO;
 import com.lsvp.InventoryManagement.dto.Dashboard.TotalStockDTO;
 import com.lsvp.InventoryManagement.dto.Report.AveragePriceDTO;
@@ -181,6 +183,19 @@ public class ReportService {
         );
 
         return new ExpiringProductsTotalDTO(total, days);
+    }
+
+    @Transactional(readOnly = true)
+    public CategoryTotalStockDTO getTotalStockByCategory(Long categoryId) {
+        
+        List<ContainerType> validTypes = Arrays.asList(
+                ContainerType.ESTOQUE, 
+                ContainerType.PREPARACAO
+        );
+
+        Long total = unitRepository.sumQuantityByCategoryIdAndContainerTypes(categoryId, validTypes);
+
+        return new CategoryTotalStockDTO(categoryId, total);
     }
 }
 
