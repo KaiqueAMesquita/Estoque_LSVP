@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lsvp.InventoryManagement.dto.Fulfillment.FulfillmentRequestDTO;
+import com.lsvp.InventoryManagement.dto.Fulfillment.FulfillmentSuggestionDTO;
 import com.lsvp.InventoryManagement.dto.Order.OrderCreateDTO;
 import com.lsvp.InventoryManagement.dto.Order.OrderDTO;
 import com.lsvp.InventoryManagement.service.OrderService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
@@ -61,6 +63,13 @@ public class OrderController {
         
         Page<OrderDTO> result = orderService.getAllOrdersSorted(page, limit, sort);
         return ResponseEntity.ok(result);
+    }
+
+    @Operation(summary = "Obter sugestões de atendimento", description = "Retorna quais unidades usar baseando-se na validade (FEFO)")
+    @GetMapping("/{id}/fulfillment-suggestions")
+    public ResponseEntity<List<FulfillmentSuggestionDTO>> getFulfillmentSuggestions(@PathVariable Long id) {
+        List<FulfillmentSuggestionDTO> suggestions = orderService.getFulfillmentSuggestions(id);
+        return ResponseEntity.ok(suggestions);
     }
 
 
