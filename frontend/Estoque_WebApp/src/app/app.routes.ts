@@ -30,6 +30,7 @@ import { EditUnitComponent } from './pages/units/edit-unit/edit-unit.component';
 import { ViewMovementsComponent } from './pages/movements/view/view-movements.component';
 import { ViewCategoryComponent } from './pages/category/view-category/view-category.component';
 import { PedingOrdersComponent } from './pages/request/peding-orders/peding-orders.component';
+import { ViewKitchenUnitsComponent } from './pages/kitchen/view-kitchen-units/view-kitchen-units.component';
 
 export const routes: Routes = [
     //[adminGuard] Permite Somente o Acesso a Administradores dessas Funcionalidades
@@ -42,6 +43,7 @@ export const routes: Routes = [
    {path: 'dashboard/cook', component: CookDashboardComponent, pathMatch: 'full', canActivate:[authGuard] },
    {path: 'kitchen/request', component: KitchenOrderComponent, pathMatch: 'full' },
    {path: 'kitchen/pending', component: PedingOrdersComponent, pathMatch: 'full' },
+   {path: 'kitchen/units/view', component: ViewKitchenUnitsComponent, pathMatch: 'full', canActivate:[authGuard] },
 
    //rotas de gerenciamento 
    { path: 'manage', component: ManageLayoutComponent,

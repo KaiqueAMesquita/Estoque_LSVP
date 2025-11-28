@@ -33,10 +33,7 @@ export class NavBarComponent {
   // 'icons' é o objeto que contém todos os ícones importados do módulo
   icons = icons;
 
-  // 'hasRole' verifica se o usuário tem um papel específico
-  hasRole(role: string): boolean {
-    return this.auth.getToken() === role;
-  }
+  
 
   // 'showDropdown' controla a visibilidade do dropdown de produtos
   showDropdown = false;
@@ -67,6 +64,11 @@ export class NavBarComponent {
   // 'isActive' verifica se o menu está ativo
   isActive(menu: string): boolean {
     return this.activeMenu === menu;
+  }
+
+  getRole = (): string => {
+    console.log(this.auth.getUserRole());
+    return this.auth.getUserRole();
   }
 
 

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { InputMovement } from '../../shared/models/inputMovement';
 import { Movement } from '../../shared/models/movement';
 import { Page } from '../../shared/models/page';
-
+import { Consumption } from '../../shared/models/consumption';
 @Injectable({
   providedIn: 'root'
 })
@@ -33,6 +33,10 @@ export class MovementService {
   // Método para pegar um Movement pelo id
   public getMovementById(movementId: number): Observable<Movement> {
     return this.http.get<Movement>(`${this.movementLink}/${movementId}`);
+  }
+
+  public consumptionMovement(comsuption: Consumption): Observable<Movement> {
+    return this.http.post<Movement>(`${this.movementLink}/consumption`, comsuption);
   }
 
   // Método para atualizar um Movement

@@ -54,25 +54,27 @@ export class ViewCategoriesComponent implements OnInit, OnDestroy {
     return this.auth.getToken();
   }
 
-  // MÉTODO ATUALIZADO
   private loadCategories(page: number = 0, description?: string): void {
-    // Agora passamos this.currentSort dinamicamente
-    this.categoryService.getAllCategories(page, 20, this.currentSort, description).subscribe({
-      next: (categories) => {
-        categories.totalPages > 1 ? this.pagedView = true : this.pagedView = false;
-        this.totalPages = categories.totalPages;
-        this.pageNumber = categories.number;
-        this.categories = categories.content.map((cat: Category) => ({
-          ...cat,
-          created_at: cat.created_at ? new Date(cat.created_at) : undefined,
-          updated_at: cat.updated_at ? new Date(cat.updated_at) : undefined
-        }));
-      },
-      error: (error) => {
-        console.error('Erro carregando categorias:', error);
-      }
-    });
-  }
+  this.categoryService.getAllCategories(page, 20, this.currentSort, description).subscribe({
+    next: (categories) => {
+      categories.totalPages > 1 ? this.pagedView = true : this.pagedView = false;
+      this.totalPages = categories.totalPages;
+      this.pageNumber = categories.number;
+
+      this.categories = categories.content.map((cat: Category) => {
+        const processedCat = { ...cat };
+               
+        delete processedCat.created_at;
+        delete processedCat.updated_at;
+
+        return processedCat;
+      });
+    },
+    error: (error) => {
+      console.error('Erro carregando categorias:', error);
+    }
+  });
+}
 
   // NOVO MÉTODO PARA LHE DAR COM O CLIQUE NA TABELA
   handleSort(sortString: string): void {

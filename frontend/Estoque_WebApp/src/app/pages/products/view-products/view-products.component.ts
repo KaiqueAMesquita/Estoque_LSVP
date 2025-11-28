@@ -47,9 +47,7 @@ export class ViewProductsComponent implements OnInit, OnDestroy {
     this.navigationSub?.unsubscribe();
   }
 
-  // MÉTODO ATUALIZADO
   private loadProducts(page: number = 0, gtin?: string): void {
-    // Passamos this.currentSort dinamicamente
     this.productService.getAllProducts(page, 20, this.currentSort, gtin).subscribe({
       next: (products) => {        
         products.totalPages > 1 ? this.pagedView = true : this.pagedView = false;
@@ -57,18 +55,12 @@ export class ViewProductsComponent implements OnInit, OnDestroy {
         this.totalPages = products.totalPages;
         
         this.products = products.content.map((product: Product) => {
-          // NOTA: Se você deletar o ID aqui, os botões de Editar e Deletar 
-          // podem parar de funcionar, pois eles dependem de product.id.
-          // Mantive conforme seu padrão, mas removendo apenas datas se necessário.
-          
-          /* Se precisar remover campos visuais, faça aqui dentro do map 
-             usando destructuring para não afetar o objeto original se necessário 
-          */
+         
           const processedProduct = { ...product };
-          delete processedProduct.created_at;
-          delete processedProduct.updated_at;
-          // delete processedProduct.id; // Cuidado: Se deletar o ID, o evento (onDelete) não saberá qual ID enviar.
-          
+          processedProduct.createdAt  && (processedProduct.createdAt = new Date(processedProduct.createdAt!));
+          processedProduct.updatedAt && (processedProduct.updatedAt = new Date(processedProduct.updatedAt!));
+         
+       
           return processedProduct;
         });
       },
@@ -78,10 +70,8 @@ export class ViewProductsComponent implements OnInit, OnDestroy {
     });
   }
 
-  // NOVO MÉTODO PARA LHE DAR COM O CLIQUE NA TABELA
   handleSort(sortString: string): void {
     this.currentSort = sortString;
-    // Reinicia na página 0 para evitar inconsistências visuais
     this.loadProducts(0, this.searchTerm); 
   }
 

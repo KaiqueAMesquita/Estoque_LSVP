@@ -69,21 +69,20 @@ th:hover {
   cursor: pointer;
 }
 
-/* Efeito de hover nas linhas do corpo da tabela */
 tbody tr:hover {
   background-color: var(--row-hover-color);
 }
 
-/* --- ESTILO DOS BOTÕES (Tabela e Modal) --- */
+
 button {
   border: none;
   padding: 0.5rem 0.75rem;
   border-radius: var(--border-radius);
   cursor: pointer;
-  display: inline-flex; /* Garante alinhamento icone-texto */
+  display: inline-flex; 
   align-items: center;
   justify-content: center;
-  gap: 0.5rem; /* Espaço entre ícone e texto */
+  gap: 0.5rem; 
   font-size: 1rem;
   line-height: 1.5;
   transition: all 0.15s ease-in-out;
@@ -95,10 +94,10 @@ button:focus {
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-/* Botões da Tabela (Pequenos, apenas ícone) */
+
 .edit-btn, .delete-btn, .view-btn {
   color: white;
-  width: 35px; /* Tamanho fixo para botões só de ícone ficarem quadrados/redondos */
+  width: 35px; 
   height: 35px;
   padding: 0;
 }
@@ -123,6 +122,12 @@ button:focus {
 .delete-btn:hover {
   background-color: var(--danger-hover-color);
 }
+.action-btn {
+  background-color: var(--secondary-color);
+}
+.action-btn:hover {
+  background-color: var(--secondary-hover-color);
+}
 
 /* Linha clicável */
 .view:hover {
@@ -132,9 +137,7 @@ button:focus {
   background-color: #ebebeb !important;
 }
 
-/* --- ESTILOS DO MODAL (Conteúdo interno) --- */
 
-/* Título e Texto do Modal */
 h2 {
     color: var(--text-color);
     margin-top: 0;
@@ -145,14 +148,12 @@ p {
     margin-bottom: 1.5rem;
 }
 
-/* Botões de Ação do Modal */
 .modal-btn {
-  padding: 0.6rem 1.2rem; /* Botões maiores no modal */
+  padding: 0.6rem 1.2rem;
   font-weight: 600;
-  margin: 0.5rem 0.5rem 0.5rem 0; /* Margem direita para separar */
+  margin: 0.5rem 0.5rem 0.5rem 0;
 }
 
-/* Botão Cancelar (Cinza) */
 .cancel-btn {
   background-color: var(--secondary-color);
   color: white;
@@ -171,7 +172,6 @@ p {
   box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
 }
 
-/* Botão OK (Verde) */
 .ok-btn {
   background-color: var(--success-color);
   color: white;
@@ -181,7 +181,6 @@ p {
   box-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
 }
 
-/* --- RESPONSIVIDADE (Mantido igual) --- */
 @media (max-width: 992px) {
   th, td { padding: 0.5rem; }
   caption { padding: 0.5rem 1rem; font-size: 1.1rem; }
@@ -207,7 +206,6 @@ p {
   }
 }
 
-/* Barra de busca */
 .search {
   display: block; width: 90%; margin: 1.5rem auto; padding: 0.75rem 1rem;
   font-size: 1rem; color: var(--text-color); background-color: var(--background-color);
@@ -219,7 +217,6 @@ p {
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-/* Setas de Ordenação */
 .triangle {
   display: inline-block; width: 0; height: 0;
   border-left: 4px solid transparent; border-right: 4px solid transparent;

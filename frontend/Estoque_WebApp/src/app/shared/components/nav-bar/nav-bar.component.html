@@ -6,30 +6,21 @@
   </div>
   
   <ul class="nav-menu-new">
-    <li class="nav-item-new"  [class.active-new]="isActive('home')">
+    <li *ngIf="getRole() !== 'COZINHEIRO'" class="nav-item-new"  [class.active-new]="isActive('home')">
       <a href="dashboard/stock" (click)="setActiveByRoute('home')" class="nav-link-new">
         <fa-icon [icon]="icons.faHome" class="nav-icon-new"></fa-icon>
         <span>Home</span>
       </a>
     </li>
-    <li class="nav-item-new" [class.active-new]="isActive('cozinha')">
-      <div class="nav-link-new" style="cursor: pointer;">
-        <fa-icon [icon]="icons.faBuilding" class="nav-icon-new"></fa-icon>
-        <app-dropdown 
-          [label]="'Cozinha'" 
-          [option]="[
-            { label: 'Painel', route: 'dashboard/cook' },
-            { label: 'Fazer Pedido', route: 'kitchen/request' },
-            { label: 'Pedidos Pendentes', route: 'kitchen/pending' }
-          
-          ]">
-          
-          
-        </app-dropdown>
-      </div>
+    <li  class="nav-item-new"  [class.active-new]="isActive('cozinha')">
+      <a href="dashboard/cook" (click)="setActiveByRoute('cozinha')" class="nav-link-new">
+        <fa-icon [icon]="icons.faUtensils" class="nav-icon-new"></fa-icon>
+        <span>Cozinha</span>
+      </a>
     </li>
+   
     
-    <li class="nav-item-new" [class.active-new]="isActive('gestao')">
+    <li *ngIf="getRole() !== 'COZINHEIRO'" class="nav-item-new" [class.active-new]="isActive('gestao')">
       <div class="nav-link-new" style="cursor: pointer;">
         <fa-icon [icon]="icons.faBuilding" class="nav-icon-new"></fa-icon>
         <app-dropdown 
@@ -40,13 +31,27 @@
             { label: 'Categorias', route: 'manage/view/categories' },
             {label: 'Unidades', route: 'manage/view/units'}
           ]">
-          
-          
+
+        </app-dropdown>
+      </div>
+    </li>
+     <li  class="nav-item-new" [class.active-new]="isActive('gestao-cozinha')">
+      <div class="nav-link-new" style="cursor: pointer;">
+        <fa-icon [icon]="icons.faKitchenSet" class="nav-icon-new"></fa-icon>
+        <app-dropdown 
+          [label]="'Gestão Cozinha'" 
+          [option]="[
+            { label: 'Produtos', route: 'kitchen/units/view' },
+            { label: 'Fazer Pedido', route: 'kitchen/request' },
+            { label: 'Pedidos Pendentes', route: 'kitchen/pending' }
+           
+          ]">
+
         </app-dropdown>
       </div>
     </li>
     
-    <li class="nav-item-new" [class.active-new]="isActive('movimentacoes')">
+    <li *ngIf="getRole() !== 'COZINHEIRO'" class="nav-item-new" [class.active-new]="isActive('movimentacoes')">
       <a href="manage/view/movements" (click)="setActiveByRoute('movimentacoes')" class="nav-link-new">
         <fa-icon [icon]="icons.faArrowsTurnToDots" class="nav-icon-new"></fa-icon>
         <span>Movimentações</span>
@@ -54,7 +59,7 @@
     </li>
 
     
-    <li class="nav-item-new" [class.active-new]="isActive('usuarios')">
+    <li *ngIf="getRole() ===  'ADMINISTRADOR'" class="nav-item-new" [class.active-new]="isActive('usuarios')">
       <a href="manage/view/users" (click)="setActiveByRoute('usuarios')" class="nav-link-new">
         <fa-icon [icon]="icons.faList" class="nav-icon-new"></fa-icon>
         <span>Usuários</span>
@@ -62,7 +67,7 @@
     </li>
    
   
-    <li class="nav-item-new" [class.active-new]="isActive('relatorios')">
+    <li *ngIf="getRole() !== 'COZINHEIRO'" class="nav-item-new" [class.active-new]="isActive('relatorios')">
       <a href="manage" (click)="setActiveByRoute('relatorios')" class="nav-link-new">
         <fa-icon [icon]="icons.faChartLine" class="nav-icon-new"></fa-icon>
         <span>Relatórios</span>

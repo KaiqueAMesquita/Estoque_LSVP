@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment.development';
 import { Observable } from 'rxjs';
 import { Page } from '../../shared/models/page';
 import { AveragePrice } from '../../shared/models/average-price';
+import { CategoryTotal } from '../../shared/models/category-total';
 
 @Injectable({
   providedIn: 'root'
@@ -72,5 +73,9 @@ public getAveragePriceByCategory(categoryId: number, startMonth: number, startYe
     return this.http.get<AveragePrice>(`${environment.API_URL}/reports/average-price`, {params})
 
   }
-  
+  public getTotalQuantityByCategory(categoryId: number): Observable<CategoryTotal>{
+    let params = new HttpParams()
+    .set('categoryId', categoryId.toString())
+    return this.http.get<CategoryTotal>(`${environment.API_URL}/reports/category-total`, {params});
+  }
 }

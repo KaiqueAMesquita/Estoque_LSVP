@@ -6,7 +6,7 @@
 
     <div class="cards-container">
       <app-dashboard-cards
-        [headerValue]="totalKitchenProducts ? totalKitchenProducts.toString() : 'N/A'"
+        [headerValue]="totalKitchenProducts ? totalKitchenProducts.toString() : '0'"
         bodyText="Produtos na Cozinha"
         [icon]="faKitchenSet"
         background="#28a745"
@@ -15,7 +15,7 @@
       ></app-dashboard-cards>
 
       <app-dashboard-cards
-        [headerValue]="totalExpiringProducts ? totalExpiringProducts.toString() : 'N/A'"
+        [headerValue]="totalExpiringProducts ? totalExpiringProducts.toString() : '0'"
         bodyText="Produtos perto do Vencimento"
         [icon]="faClock"
         background="#ff2222"
@@ -24,7 +24,7 @@
       ></app-dashboard-cards>
 
       <app-dashboard-cards
-        [headerValue]="totalPendingOrders ? totalPendingOrders.toString() : 'N/A'"
+        [headerValue]="totalPendingOrders ? totalPendingOrders.toString() : '0'"
         bodyText="Pedidos Pendentes"
         [icon]="faSpinner"
         background="#ffc107"

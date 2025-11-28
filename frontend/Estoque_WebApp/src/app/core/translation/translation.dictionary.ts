@@ -1,3 +1,4 @@
+
 export const TRANSLATION = {
     manage: 'Gerenciar',
     view: 'Visualizar',
@@ -61,6 +62,10 @@ export const TRANSLATION = {
     requesterName: 'Nome do Solicitante',
     status: 'Status',
     kitchen: 'Cozinha',
-
+    foodType: 'Tipo de Alimento',
+    units: 'Unidades',
+    unitId: 'ID da Unidade',
+    productGtin: 'Código de Barras do Produto',
+    kitchenUnits: 'Unidades da Cozinha',
   
 }

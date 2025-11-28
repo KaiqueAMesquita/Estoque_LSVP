@@ -24,14 +24,12 @@ export class PTableComponent<T> implements OnInit, OnChanges, AfterViewInit {
   @Input() delete: boolean = false;
   @Input() view: boolean = false;
   @Input() select: boolean = false;
-
   @Output() onEdit = new EventEmitter<T>();
   @Output() onDelete = new EventEmitter<T>();
   @Output() onView = new EventEmitter<T>();
   @Output() onSelect = new EventEmitter<T | undefined>();
   @Output() searchEvent = new EventEmitter<string>();
   
-  // NOVA SAÍDA: Emite o padrão "campo,direcao"
   @Output() onSort = new EventEmitter<string>(); 
 
   rowSelected?: T;
@@ -104,19 +102,13 @@ export class PTableComponent<T> implements OnInit, OnChanges, AfterViewInit {
     this.onDelete.emit(row);
   }
 
-  // MÉTODO TOTALMENTE MODIFICADO PARA SERVER-SIDE SORT
   public orderBy(column: string): void {
-    // 1. Inverte a direção atual ou define como 'asc' se for o primeiro clique
     this.sortDirection[column] = this.sortDirection[column] === 'asc' ? 'desc' : 'asc';
     
-    // 2. Cria a string no formato que o Spring Boot (pageable) geralmente aceita
     const direction = this.sortDirection[column];
     const sortPayload = `${column},${direction}`;
 
-    // 3. Emite o evento para o componente pai buscar os dados novos
     this.onSort.emit(sortPayload);
 
-    // NOTA: Removemos a lógica antiga de this.data.sort(). 
-    // Agora a tabela espera que o pai atualize o Input [data].
   }
 }

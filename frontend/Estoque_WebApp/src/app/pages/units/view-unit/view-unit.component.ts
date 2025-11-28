@@ -48,29 +48,34 @@ export class ViewUnitComponent implements OnInit, OnDestroy {
   private loadUnits(page: number = 0, batch?: string): void {
     this.unitService.getAllUnits(page, 20, 'id,desc', undefined, batch).subscribe({
       next: (response) => {
-        response.totalPages > 1 ? this.pagedView = true : this.pagedView = false;
+        // Configurações de paginação
+        this.pagedView = response.totalPages > 1;
         this.totalPages = response.totalPages;
         this.pageNumber = response.number;
-        this.units = response.content.map((unit: Unit) => ({
-          ...unit,
-          //delete 
 
-          expiration_date: unit.expiration_date ? new Date(unit.expiration_date) : new Date(),
-          
-        }));
+        // Mapeamento e Limpeza de dados (Tudo dentro do next)
+        this.units = response.content.map((unit: Unit) => {
+          // 1. Cria uma cópia do objeto para não mutar a referência original inesperadamente
+          const newUnit = {
+            ...unit,
+            expiration_date: unit.expiration_date ? new Date(unit.expiration_date) : new Date(),
+          };
+
+      
+          return newUnit;
+        });
       },
       error: (error) => console.error('Erro ao carregar unidades:', error)
     });
-     this.units?.forEach(unit => {
-          delete unit.containerId;
-          delete unit.id;
-        });
   }
 
-
-
   EditUnit(id: number): void {
-    this.router.navigate(['/manage/edit/unit', id]);
+    console.log('Tentando editar ID:', id); 
+    if (id) {
+      this.router.navigate(['/manage/edit/unit', id]);
+    } else {
+      console.error('ID inválido para edição');
+    }
   }
 
   onPageChange(page: number): void {

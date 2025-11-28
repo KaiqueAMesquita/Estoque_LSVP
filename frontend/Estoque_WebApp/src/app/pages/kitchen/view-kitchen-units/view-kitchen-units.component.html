@@ -1,0 +1,95 @@
+<app-manage-layout></app-manage-layout>
+
+<app-view-template 
+  [createText]="'Fazer Pedido'" 
+  [isPagedView]="pagedView" 
+  [pageNumber]="pageNumber" 
+  [totalPages]="totalPages" 
+  (pageChangeEvent)="onPageChange($event)">
+
+  <app-p-table
+    title="Estoque da Cozinha"
+    [data]="units"
+    [showSearch]="false"
+    [delete]="false"
+    [edit]="false"
+    [view]="true"
+    (onView)="openConsumeAction($event)"
+  >
+    </app-p-table>
+
+</app-view-template>
+
+
+<app-modal #consumptionModal>
+  <div class="modal-body-custom" *ngIf="selectedUnit">
+    
+    <div class="modal-header">
+      <h2>Registrar Baixa</h2>
+      <p class="subtitle">Informe a quantidade utilizada na cozinha.</p>
+    </div>
+
+    <div class="item-info-card">
+      <div class="info-row">
+        <span class="label">ID da Unidade:</span>
+        <span class="value">#{{ selectedUnit.unitId || selectedUnit.id }}</span>
+      </div>
+      
+      <div class="info-row" *ngIf="selectedUnit.gtin">
+        <span class="label">GTIN/Código:</span>
+        <span class="value">{{ selectedUnit.gtin }}</span>
+      </div>
+
+      <div class="info-row highlight">
+        <span class="label">Estoque Atual:</span>
+        <span class="value">{{ selectedUnit.quantity }} un.</span>
+      </div>
+    </div>
+
+    <form [formGroup]="consumptionForm" (ngSubmit)="confirmConsumption()" class="consume-form">
+      <div class="form-group">
+        <label for="qtdInput">Quantidade a Consumir:</label>
+        <input 
+          id="qtdInput" 
+          type="number" 
+          formControlName="quantity" 
+          placeholder="Ex: 2.5"
+          step="0.01"
+          [class.input-error]="consumptionForm.get('quantity')?.invalid && consumptionForm.get('quantity')?.touched"
+        />
+
+        <div class="error-container" *ngIf="consumptionForm.get('quantity')?.touched && consumptionForm.get('quantity')?.invalid">
+          <small *ngIf="consumptionForm.get('quantity')?.errors?.['required']">
+            Informe a quantidade.
+          </small>
+          <small *ngIf="consumptionForm.get('quantity')?.errors?.['min']">
+            O valor deve ser maior que zero.
+          </small>
+          <small *ngIf="consumptionForm.get('quantity')?.errors?.['max']">
+            Não há estoque suficiente (Máx: {{ selectedUnit.quantity }}).
+          </small>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" (click)="consumptionModal.toggle()">
+          Cancelar
+        </button>
+        <button type="submit" class="btn-confirm" [disabled]="consumptionForm.invalid">
+          Confirmar
+        </button>
+      </div>
+    </form>
+
+  </div>
+</app-modal>
+
+
+<app-modal #successModal>
+  <div class="success-content">
+    <div class="success-icon">✓</div>
+    <h2>Consumo Registrado!</h2>
+    <p>O estoque foi atualizado com sucesso.</p>
+    <button (click)="successModal.toggle()" class="btn-ok">OK</button>
+  </div>
+</app-modal>

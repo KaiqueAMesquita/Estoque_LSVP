@@ -41,7 +41,9 @@ import {
   faCircleInfo,
   faT,
   faCheckCircle,
-  faCheck
+  faCheck,
+  faKitchenSet,
+  faClipboardCheck
 
 
   
@@ -91,8 +93,9 @@ export const icons = {
   faTriangleExclamation,
   faCircleInfo,
   faCheckCircle,
-  faCheck
-
+  faCheck,
+  faKitchenSet,
+  faClipboardCheck
 };
 
 @NgModule({
