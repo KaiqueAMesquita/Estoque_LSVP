@@ -32,10 +32,10 @@ public class UnitController {
             @RequestParam(defaultValue = "20") int limit,
             @RequestParam(defaultValue = "id,desc") String sort,
             @RequestParam(required = false) Long productId,
-            @RequestParam(required = false) String batch,
+            @RequestParam(required = false) String code,
             @RequestParam(required = false) Long containerId 
     ) {
-        Page<UnitDTO> result = unitService.getAllUnitsSorted(page, limit, sort, productId, batch, containerId);
+        Page<UnitDTO> result = unitService.getAllUnitsSorted(page, limit, sort, productId, code, containerId);
         return ResponseEntity.ok(result);
     }
     
