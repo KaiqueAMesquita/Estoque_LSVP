@@ -206,7 +206,7 @@ public class MovementService {
         movement.setQuantity(dto.getQuantityConsumed());
         movement.setDate(LocalDateTime.now());
         movement.setOrigin(unit.getContainer().getCode()); // Origem é o código da cozinha
-        movement.setDestiny(null); // Consumido
+        movement.setDestiny("CONSUMIDO"); // Consumido
 
         return mapper.toDTO(repository.save(movement));
     }

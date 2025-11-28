@@ -319,7 +319,7 @@ public class PdfService {
         return out.toByteArray();
     }
 
-    // 6. Relatório Detalhado de Doações (O pedido do Decio)
+    // 6. Relatório Detalhado de Doações
     public byte[] generateDonationListReport(String title, List<DonationDetailDTO> items) throws IOException {
         Document document = new Document(PageSize.A4);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
