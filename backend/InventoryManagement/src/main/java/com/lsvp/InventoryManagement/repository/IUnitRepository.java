@@ -1,5 +1,6 @@
 package com.lsvp.InventoryManagement.repository;
 
+import com.lsvp.InventoryManagement.dto.ReportFile.CategoryStockReportDTO;
 import com.lsvp.InventoryManagement.entity.Container;
 import com.lsvp.InventoryManagement.entity.Unit;
 import com.lsvp.InventoryManagement.enums.ContainerType;
@@ -81,6 +82,34 @@ public interface IUnitRepository extends JpaRepository<Unit, Long>  {
     Long sumQuantityByCategoryIdAndContainerTypes(
             @Param("categoryId") Long categoryId,
             @Param("types") List<ContainerType> types
+    );
+    
+    @Query("SELECT new com.lsvp.InventoryManagement.dto.ReportFile.CategoryStockReportDTO(" +
+           "c.description, " +
+           "COALESCE(SUM(u.quantity), 0), " +
+           "c.min_quantity, " +
+           "c.max_quantity, " +
+           "'CALCULAR', " + // Status calcularemos no Java
+           "CAST(c.foodType AS string)) " + // Converte Enum para String
+           "FROM Category c " +
+           "LEFT JOIN c.products p " +
+           "LEFT JOIN p.units u ON u.container.type = :containerType " + // Filtra local
+           "GROUP BY c.id, c.description, c.min_quantity, c.max_quantity, c.foodType " +
+           "ORDER BY c.description")
+    List<CategoryStockReportDTO> getStockByCategoryAndContainerType(@Param("containerType") ContainerType type);
+
+    Page<Unit> findByContainerId(Long containerId, Pageable pageable);
+
+    // Query robusta para filtrar por tudo ao mesmo tempo (ou nada)
+    @Query("SELECT u FROM Unit u WHERE " +
+           "(:productId IS NULL OR u.product.id = :productId) AND " +
+           "(:containerId IS NULL OR u.container.id = :containerId) AND " +
+           "(:batch IS NULL OR LOWER(u.batch) LIKE LOWER(CONCAT('%', :batch, '%')))")
+    Page<Unit> searchUnits(
+            @Param("productId") Long productId,
+            @Param("containerId") Long containerId,
+            @Param("batch") String batch,
+            Pageable pageable
     );
     
     boolean existsByCode(String code);

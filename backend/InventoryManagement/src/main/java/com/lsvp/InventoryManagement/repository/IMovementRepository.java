@@ -85,6 +85,52 @@ public interface IMovementRepository extends JpaRepository <Movement, Long> {
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate
     );
+
+
+    // Calcula média de consumo diário nos últimos 30 dias por Categoria
+    @Query("SELECT c.id, SUM(m.quantity) / 30.0 " +
+           "FROM Movement m " +
+           "JOIN m.unit.product.category c " +
+           "WHERE m.type = 'CONSUMO' " +
+           "AND m.date >= :startDate " +
+           "GROUP BY c.id")
+    List<Object[]> getAverageDailyConsumptionByCategory(@Param("startDate") LocalDateTime startDate);
+    
+    // Calcula totais por Origem (Doação vs Compra) para o relatório 4
+    @Query("SELECT m.sourceType, SUM(m.quantity) " +
+           "FROM Movement m " +
+           "WHERE m.type = 'ENTRADA' " +
+           "AND m.date BETWEEN :start AND :end " +
+           "GROUP BY m.sourceType")
+    List<Object[]> getTotalsBySourceType(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+
+    // Soma consumo dos últimos 30 dias por Categoria
+    @Query("SELECT c.id, c.description, COALESCE(SUM(m.quantity), 0) " +
+           "FROM Movement m " +
+           "JOIN m.unit.product.category c " +
+           "WHERE m.type = 'CONSUMO' " +
+           "AND m.date >= :startDate " +
+           "GROUP BY c.id, c.description")
+    List<Object[]> sumConsumptionLast30DaysByCategory(@Param("startDate") LocalDateTime startDate);
+
+    // Soma entradas por tipo de origem (Doação/Compra) em um período
+    @Query("SELECT m.sourceType, COALESCE(SUM(m.quantity), 0) " +
+           "FROM Movement m " +
+           "WHERE m.type = 'ENTRADA' " +
+           "AND m.date BETWEEN :start AND :end " +
+           "GROUP BY m.sourceType")
+    List<Object[]> sumEntriesBySourceType(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+
+    // Agrupa entradas por Categoria E por Origem
+    @Query("SELECT c.description, m.sourceType, COALESCE(SUM(m.quantity), 0) " +
+           "FROM Movement m " +
+           "JOIN m.unit.product.category c " +
+           "WHERE m.type = 'ENTRADA' " +
+           "AND m.date BETWEEN :start AND :end " +
+           "GROUP BY c.description, m.sourceType " +
+           "ORDER BY c.description")
+    List<Object[]> sumEntriesByCategoryAndSource(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+
 }
 
 
