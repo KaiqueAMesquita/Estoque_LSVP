@@ -4,7 +4,9 @@ import com.lowagie.text.*;
 import com.lowagie.text.pdf.*;
 import com.lsvp.InventoryManagement.dto.ReportFile.CategorySourceReportDTO;
 import com.lsvp.InventoryManagement.dto.ReportFile.CategoryStockReportDTO;
+import com.lsvp.InventoryManagement.dto.ReportFile.DonationDetailDTO;
 import com.lsvp.InventoryManagement.dto.ReportFile.GeneralStatsDTO;
+import com.lsvp.InventoryManagement.dto.ReportFile.MonthlyExpenseDTO;
 import com.lsvp.InventoryManagement.dto.ReportFile.RiskAnalysisDTO;
 import com.lsvp.InventoryManagement.dto.ReportFile.SourceComparasionDTO;
 import com.lsvp.InventoryManagement.dto.ReportFile.StockCoverageDTO;
@@ -271,5 +273,99 @@ public class PdfService {
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         table.addCell(cell);
+    }
+
+    // 5. Relatório Financeiro (Custos Mensais)
+    public byte[] generateExpenseReport(String title, List<MonthlyExpenseDTO> items) throws IOException {
+        Document document = new Document(PageSize.A4);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        
+        try {
+            PdfWriter.getInstance(document, out);
+            document.open();
+            addHeader(document, title);
+
+            PdfPTable table = new PdfPTable(new float[]{2, 3});
+            table.setWidthPercentage(80); // Tabela mais centralizada
+            
+            Color headerBg = new Color(70, 70, 70); // Cinza escuro
+            Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, Color.WHITE);
+
+            addStyledCell(table, "MÊS", headerFont, headerBg);
+            addStyledCell(table, "VALOR GASTO (R$)", headerFont, headerBg);
+
+            long totalAno = 0;
+            String[] meses = {"Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"};
+
+            for (MonthlyExpenseDTO item : items) {
+                totalAno += item.getTotalValue();
+                
+                String valorFormatado = String.format("R$ %.2f", item.getTotalValue() / 100.0);
+                String nomeMes = meses[item.getMonth() - 1];
+
+                addStyledCell(table, nomeMes, FontFactory.getFont(FontFactory.HELVETICA), Color.WHITE);
+                addStyledCell(table, valorFormatado, FontFactory.getFont(FontFactory.HELVETICA), Color.WHITE);
+            }
+            
+            // Linha de Total
+            addStyledCell(table, "TOTAL ANUAL", headerFont, Color.GRAY);
+            addStyledCell(table, String.format("R$ %.2f", totalAno / 100.0), headerFont, Color.GRAY);
+
+            document.add(table);
+            document.close();
+        } catch (DocumentException e) {
+            throw new IOException("Erro PDF", e);
+        }
+        return out.toByteArray();
+    }
+
+    // 6. Relatório Detalhado de Doações
+    public byte[] generateDonationListReport(String title, List<DonationDetailDTO> items) throws IOException {
+        Document document = new Document(PageSize.A4);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        
+        try {
+            PdfWriter.getInstance(document, out);
+            document.open();
+            addHeader(document, title);
+
+            PdfPTable table = new PdfPTable(new float[]{2, 3, 3, 2, 3}); // Data, Categoria, Produto, Qtd, Doador
+            table.setWidthPercentage(100);
+            
+            Color headerBg = new Color(0, 100, 0); // Verde Escuro (Doação)
+            Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 11, Color.WHITE);
+
+            addStyledCell(table, "DATA", headerFont, headerBg);
+            addStyledCell(table, "CATEGORIA", headerFont, headerBg);
+            addStyledCell(table, "PRODUTO/CÓD.", headerFont, headerBg);
+            addStyledCell(table, "QTD", headerFont, headerBg);
+            addStyledCell(table, "DOADOR", headerFont, headerBg);
+
+            boolean alternate = false;
+            Color lightGreen = new Color(230, 255, 230);
+
+            for (DonationDetailDTO item : items) {
+                Color rowColor = alternate ? lightGreen : Color.WHITE;
+                
+                String dataFormatada = item.getDate().format(DateTimeFormatter.ofPattern("dd/MM HH:mm"));
+                
+                addStyledCell(table, dataFormatada, FontFactory.getFont(FontFactory.HELVETICA, 10), rowColor);
+                addStyledCell(table, item.getCategoryName(), FontFactory.getFont(FontFactory.HELVETICA, 10), rowColor);
+                addStyledCell(table, item.getProductDescription() + "\n(" + item.getUnitCode() + ")", FontFactory.getFont(FontFactory.HELVETICA, 9), rowColor);
+                addStyledCell(table, String.valueOf(item.getQuantity()), FontFactory.getFont(FontFactory.HELVETICA, 10), rowColor);
+                addStyledCell(table, item.getSourceDetails() != null ? item.getSourceDetails() : "-", FontFactory.getFont(FontFactory.HELVETICA, 10), rowColor);
+
+                alternate = !alternate;
+            }
+            
+            // Rodapé com total de itens
+            document.add(table);
+            document.add(new Paragraph("\nTotal de registros: " + items.size()));
+            
+            document.close();
+        } catch (DocumentException e) {
+            throw new IOException("Erro PDF", e);
+        }
+        return out.toByteArray();
     }
 }

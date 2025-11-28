@@ -32,7 +32,9 @@ import com.lsvp.InventoryManagement.dto.Report.MonthlyStockFlowDTO;
 import com.lsvp.InventoryManagement.dto.Report.TotalSpentDTO;
 import com.lsvp.InventoryManagement.dto.ReportFile.CategorySourceReportDTO;
 import com.lsvp.InventoryManagement.dto.ReportFile.CategoryStockReportDTO;
+import com.lsvp.InventoryManagement.dto.ReportFile.DonationDetailDTO;
 import com.lsvp.InventoryManagement.dto.ReportFile.GeneralStatsDTO;
+import com.lsvp.InventoryManagement.dto.ReportFile.MonthlyExpenseDTO;
 import com.lsvp.InventoryManagement.dto.ReportFile.RiskAnalysisDTO;
 import com.lsvp.InventoryManagement.dto.ReportFile.SourceComparasionDTO;
 import com.lsvp.InventoryManagement.dto.ReportFile.StockCoverageDTO;
@@ -438,6 +440,43 @@ public class ReportService {
     }
 
 
+    // Relatório de Custos (Evolução Anual)
+    public byte[] generateAnnualExpenseReport(int year) {
+        // Busca os dados brutos
+        List<Object[]> rawData = movementRepository.findMonthlyExpensesByYear(year);
+        
+        // Preenche os 12 meses (mesmo os que não tiveram gasto, para o gráfico ficar bonito)
+        List<MonthlyExpenseDTO> reportData = new ArrayList<>();
+        Map<Integer, Long> mapData = new HashMap<>();
+        
+        for (Object[] row : rawData) {
+            mapData.put(((Number) row[0]).intValue(), ((Number) row[1]).longValue());
+        }
+
+        for (int i = 1; i <= 12; i++) {
+            reportData.add(new MonthlyExpenseDTO(i, mapData.getOrDefault(i, 0L)));
+        }
+
+        try {
+            return pdfService.generateExpenseReport("Relatório de Custos - Ano " + year, reportData);
+        } catch (IOException e) {
+            throw new RuntimeException("Erro PDF", e);
+        }
+    }
+
+    // Relatório Detalhado de Doações
+    public byte[] generateDonationDetailReport(int month, int year) {
+        LocalDateTime start = YearMonth.of(year, month).atDay(1).atStartOfDay();
+        LocalDateTime end = YearMonth.of(year, month).atEndOfMonth().atTime(23, 59, 59);
+
+        List<DonationDetailDTO> reportData = movementRepository.findDonationsDetail(start, end);
+
+        try {
+            return pdfService.generateDonationListReport("Extrato de Doações - " + month + "/" + year, reportData);
+        } catch (IOException e) {
+            throw new RuntimeException("Erro PDF", e);
+        }
+    }
     
 }
 
