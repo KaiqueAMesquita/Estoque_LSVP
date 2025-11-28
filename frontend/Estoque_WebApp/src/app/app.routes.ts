@@ -29,6 +29,7 @@ import { ViewUnitComponent } from './pages/units/view-unit/view-unit.component';
 import { EditUnitComponent } from './pages/units/edit-unit/edit-unit.component';
 import { ViewMovementsComponent } from './pages/movements/view/view-movements.component';
 import { ViewCategoryComponent } from './pages/category/view-category/view-category.component';
+import { PedingOrdersComponent } from './pages/request/peding-orders/peding-orders.component';
 
 export const routes: Routes = [
     //[adminGuard] Permite Somente o Acesso a Administradores dessas Funcionalidades
@@ -39,7 +40,8 @@ export const routes: Routes = [
    {path: '', redirectTo: 'dashboard/stock', pathMatch: 'full', /*canActivate:[loginGuard]*/ }, //rota padrão redireciona para o dashboard
    {path: 'dashboard/stock', component: DashboardComponent, pathMatch: 'full', canActivate:[authGuard] }, // }, //rota do dashboard
    {path: 'dashboard/cook', component: CookDashboardComponent, pathMatch: 'full', canActivate:[authGuard] },
-    {path: 'kitchen/request', component: KitchenOrderComponent, pathMatch: 'full' },
+   {path: 'kitchen/request', component: KitchenOrderComponent, pathMatch: 'full' },
+   {path: 'kitchen/pending', component: PedingOrdersComponent, pathMatch: 'full' },
 
    //rotas de gerenciamento 
    { path: 'manage', component: ManageLayoutComponent,
@@ -75,7 +77,9 @@ export const routes: Routes = [
             {path: 'edit/unit/:id', component:EditUnitComponent, pathMatch: 'full'},
             {path: 'view/movements', component: ViewMovementsComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
             {path: 'movements/scan', component: ScannerInputComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
-            {path: 'movements/input', component: MovementInputComponent, pathMatch: 'full', /*canActivate:[authGuard]*/}
+            {path: 'movements/input', component: MovementInputComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
+
+        
 
 
         ], /*//*/

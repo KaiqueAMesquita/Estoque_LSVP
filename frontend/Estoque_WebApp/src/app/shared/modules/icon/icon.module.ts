@@ -37,7 +37,11 @@ import {
   faForward,
   faBackwardFast,
   faForwardFast,
-  faF
+  faTriangleExclamation,
+  faCircleInfo,
+  faT,
+  faCheckCircle,
+  faCheck
 
 
   
@@ -83,7 +87,11 @@ export const icons = {
   faBackward,
   faForward,
   faBackwardFast,
-  faForwardFast
+  faForwardFast,
+  faTriangleExclamation,
+  faCircleInfo,
+  faCheckCircle,
+  faCheck
 
 };
 

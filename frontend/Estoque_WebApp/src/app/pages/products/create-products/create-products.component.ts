@@ -33,7 +33,8 @@ export class CreateProductsComponent extends BaseCreateComponent implements OnIn
     { label: 'Quilo(s)', value: 0 },
     { label: 'Grama(s)', value: 1 },
     { label: 'Litro(s)', value: 2 },
-    { label: 'Mililitro(s)', value: 3 }
+    { label: 'Mililitro(s)', value: 3 },
+    { label: 'Unidade(s)', value: 4 }
   ];
 
   constructor(

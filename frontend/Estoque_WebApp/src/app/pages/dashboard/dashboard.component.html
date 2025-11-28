@@ -34,10 +34,11 @@
         </div>
         
         <!-- Tabela de lotes com validades próximas -->
-        <app-p-table title="Lotes com validades próximas" [data]="expiringBatches" [view]="true"></app-p-table>
+        <app-p-table title="Lotes com validades próximas" [data]="expiringBatches" [view]="false"></app-p-table>
         
         <!-- Tabela das últimas movimentações -->
-        <app-p-table title="Últimas movimentações" [data]="lastMovements" [view]="true"></app-p-table>
+        <app-p-table title="Últimas movimentações" [data]="lastMovements" [view]="false"></app-p-table>
+        
     </div>
     
     <!-- Ações do dashboard -->

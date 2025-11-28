@@ -22,11 +22,12 @@
     [formTitle]="'Registrar Lote'"
     [formGroup]="form"
     [submitText]="'Salvar'"
-    [cancelText]="'Cancelar'"
+    [cancelText]="'Cancelar / Novo Scan'"
     (formSubmit)="onSubmit()"
+    (cancel)="resetProcess()" 
 >
+<h3>Produto: {{product?.description}}</h3>
 
-    <!-- Campo para o Lote -->
     <app-input
         [control]="getControl('batch')"
         type="text"
@@ -34,7 +35,6 @@
         placeholder="Digite o lote do produto"
     ></app-input>
 
-    <!-- Campo para a Quantidade -->
     <app-input
         [control]="getControl('quantity')"
         type="number"
@@ -42,7 +42,6 @@
         placeholder="Digite a quantidade"
     ></app-input>
 
-    <!--Campo para o tipo de origem-->
     <app-input
         [control]="getControl('sourceType')"
         type="select"
@@ -51,7 +50,6 @@
         placeholder="Selecione o tipo de origem">
     </app-input>
 
-    <!-- Campo para Detalhes da Origem -->
     <app-input
         [control]="getControl('sourceDetails')"
         type="text"
@@ -59,7 +57,6 @@
         placeholder="Ex: Nome do Fornecedor, Nota Fiscal"
     ></app-input>
 
-    <!-- Campo para o Preço -->
     <app-input 
         [control]="getControl('price')"
         type="number"

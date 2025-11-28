@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
+// Icons
 import {
-  faBoxOpen,
   faCartPlus,
   faCheckCircle,
   faClipboardList,
@@ -9,73 +11,112 @@ import {
   faKitchenSet,
   faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
+import { faClock } from '@fortawesome/free-regular-svg-icons';
+
+// Components & Modules
 import { PTableComponent } from '../../shared/components/p-table/p-table.component';
 import { DashboardCardsComponent } from '../../shared/components/dashboard/dashboard-cards/dashboard-cards.component';
 import { IconModule } from '../../shared/modules/icon/icon.module';
 import { NavBarComponent } from '../../shared/components/nav-bar/nav-bar.component';
-import { faClock } from '@fortawesome/free-regular-svg-icons';
+
+// Services & Models
+import { OrderService } from '../../core/services/order.service';
+import { DashboardCookService } from '../../core/services/dashboard-cook.service';
+import { Order } from '../../shared/models/order';
+import { KitchenUnit } from '../../shared/models/kitchen-unit';
 
 @Component({
   selector: 'app-cook-dashboard',
   templateUrl: './cook-dashboard.component.html',
-  imports: [PTableComponent, DashboardCardsComponent, IconModule, NavBarComponent],
-styleUrls: ['./cook-dashboard.component.css'],
+  styleUrls: ['./cook-dashboard.component.css'],
   standalone: true,
+  imports: [PTableComponent, DashboardCardsComponent, IconModule, NavBarComponent, CommonModule],
 })
 export class CookDashboardComponent implements OnInit {
-  // Ícones para os cards
+  // Icons
   faClipboardList = faClipboardList;
   faKitchenSet = faKitchenSet;
   faSpinner = faSpinner;
-
-  // Ícones para as ações
   faCartPlus = faCartPlus;
   faFileAlt = faFileAlt;
   faCheckCircle = faCheckCircle;
   faClock = faClock;
 
-  constructor(private router: Router) {}
+  totalKitchenProducts: number = 0;
+  totalExpiringProducts: number = 0;
+  totalPendingOrders: number = 0;
 
-  // Dados mocados para as tabelas
-  ultimosPedidos: any[] = [];
-  produtosNaCozinha: any[] = [];
+  lastOrders: any[] = [];
+  kitchenInventory: Partial<KitchenUnit>[] = [];
 
-  // Colunas para as tabelas
-  colunasUltimosPedidos = ['id', 'solicitante', 'data', 'status'];
-  colunasProdutosNaCozinha = ['produto', 'quantidade', 'status'];
+  private currentOrderSort: string = 'date,desc';
+
+  constructor(
+    private router: Router,
+    private orderService: OrderService,
+    private dashboardCookService: DashboardCookService
+  ) {}
 
   ngOnInit(): void {
-    // Mock de dados para a tabela de "Últimos Pedidos"
-    this.ultimosPedidos = [
-      { id: 101, solicitante: 'Chef Ana', data: new Date(), status: 'Pendente' },
-      { id: 102, solicitante: 'Chef Bruno', data: new Date(), status: 'Em andamento' },
-      { id: 103, solicitante: 'Chef Carla', data: new Date(), status: 'Concluído' },
-      { id: 104, solicitante: 'Chef Daniel', data: new Date(), status: 'Pendente' },
-    ];
+    this.loadCardMetrics();
+    this.loadLastOrders();
+    this.loadKitchenInventory();
+  }
 
-    // Mock de dados para a tabela de "Produtos na Cozinha"
-    this.produtosNaCozinha = [
-      {
-        produto: 'Tomate',
-        quantidade: '10 kg',
-        status: 'Disponível',
+  loadCardMetrics(): void {
+    this.dashboardCookService.kitchenUnits(0, 1).subscribe({
+      next: (page) => {
+        this.totalKitchenProducts = page.totalElements;
       },
-      {
-        produto: 'Arroz',
-        quantidade: '25 kg',
-        status: 'Disponível',
+      error: (err) => console.error('Error fetching total kitchen products', err)
+    });
+
+    this.dashboardCookService.chickenInProductsExpiringSoon(7, 0, 1).subscribe({
+      next: (page) => {
+        this.totalExpiringProducts = page.totalElements || 0;
       },
-      {
-        produto: 'Carne Bovina',
-        quantidade: '15 kg',
-        status: 'Abaixo do estoque',
+      error: (err) => console.error('Error fetching expiring products', err)
+    });
+
+    this.orderService.getAllPedingOrders(0, 1).subscribe({
+      next: (page) => {
+        this.totalPendingOrders = page.totalElements;
       },
-      {
-        produto: 'Farinha de Trigo',
-        quantidade: '5 kg',
-        status: 'Crítico',
+      error: (err) => console.error('Error fetching pending orders', err)
+    });
+  }
+
+  loadLastOrders(): void {
+    this.orderService.getAllOrders(0, 5, this.currentOrderSort).subscribe({
+      next: (page) => {
+        this.lastOrders = page.content.map((order: Order) => {
+          const { items, userName, ...rest } = order; 
+          
+          return {
+            ...rest,
+            date: order.date ? new Date(order.date) : new Date() 
+          };
+        });
       },
-    ];
+      error: (err) => console.error('Error fetching orders', err)
+    });
+  }
+  loadKitchenInventory(): void {
+    this.dashboardCookService.kitchenUnits(0, 5).subscribe({
+      next: (page) => {
+        this.kitchenInventory = page.content.map((unit: KitchenUnit) => {
+          // Destructuring: removing internal IDs for the table view
+          const { unitId, productId, productGtin, ...rest } = unit;
+          return rest;
+        });
+      },
+      error: (err) => console.error('Error fetching kitchen inventory', err)
+    });
+  }
+
+  handleOrderSort(sortString: string): void {
+    this.currentOrderSort = sortString;
+    this.loadLastOrders();
   }
 
   navigateTo(route: string): void {

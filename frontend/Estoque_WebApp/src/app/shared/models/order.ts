@@ -3,7 +3,7 @@ export interface Order {
     requesterName: string;
     date: string; 
     status: string;
-    userName: string;
+    userName?: string;
     items: OrderItem[];
 
 }
@@ -13,9 +13,8 @@ export interface Order {
 
 export interface OrderItem {
     id: number;
-    productId: number;
-    productName: string;
-    productGtin: string;
+    categoryId: number;
+    categoryName: string;
     quantityRequested: number;
     quantityFulfilled: number;
    

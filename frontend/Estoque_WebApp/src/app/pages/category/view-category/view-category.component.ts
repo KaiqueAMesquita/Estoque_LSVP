@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryService } from '../../../core/services/category.service';
 import { Category } from './../../../shared/models/category';
-import { NavBarComponent } from '../../../shared/components/nav-bar/nav-bar.component';
 import { ViewTemplateComponent } from '../../../shared/components/view-template/view-template.component';
 import { AveragePrice } from './../../../shared/models/average-price';
 import { GraficComponent } from '../../../shared/components/grafic/grafic.component';
@@ -11,7 +10,7 @@ import { GraficComponent } from '../../../shared/components/grafic/grafic.compon
 @Component({
   selector: 'app-view-category',
   standalone: true, 
-  imports: [NavBarComponent, ViewTemplateComponent, GraficComponent],
+  imports: [ViewTemplateComponent, GraficComponent],
   templateUrl: './view-category.component.html',
   styleUrl: './view-category.component.css'
 })

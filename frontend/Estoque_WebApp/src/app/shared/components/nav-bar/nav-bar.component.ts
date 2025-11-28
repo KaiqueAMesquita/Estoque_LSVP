@@ -48,14 +48,19 @@ export class NavBarComponent {
   // então, troquei pra força bruta com essa função. XD
   // Só acrescentar mais rotas ou opções aqui
   setActiveByRoute(url: string) {
-    if (url.includes('dashboard')) {
+    if (url.includes('dashboard/stock')) {
       this.activeMenu = 'home';
     }else if(url.includes('users')){
       this.activeMenu = 'usuarios'
+    }else  if (url.includes('movements')){
+        this.activeMenu = 'movimentacoes';
     }else if (url.includes('manage')) {
       this.activeMenu = 'gestao';
+       
     } else if (url.includes('relatorios')) {
       this.activeMenu = 'relatorios';
+    } else if (url.includes('cook') || url.includes('kitchen')) {
+      this.activeMenu = 'cozinha';
     }
   }
 

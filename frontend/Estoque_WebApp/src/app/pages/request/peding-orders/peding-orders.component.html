@@ -1,0 +1,24 @@
+<app-nav-bar></app-nav-bar>
+
+<app-view-template 
+    [isPagedView]="pagedView" 
+    [pageNumber]="pageNumber" 
+    [totalPages]="totalPages" 
+    (pageChangeEvent)="onPageChange($event)">
+    
+    <!-- 
+      Configurações solicitadas:
+      delete="false"
+      edit="false"
+      view="true"
+    -->
+    <app-p-table 
+        [showSearch]="false" 
+        [data]="orders" 
+        [delete]="false" 
+        [edit]="false" 
+        [view]="true"
+
+        (onView)="ViewOrder($event.id)">
+    </app-p-table>
+</app-view-template>

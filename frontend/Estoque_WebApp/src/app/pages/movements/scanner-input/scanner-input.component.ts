@@ -19,6 +19,7 @@ import { UserService } from '../../../core/services/user.service';
 import { User } from '../../../shared/models/user';
 import { ModalComponent } from '../../../shared/components/modal/modal.component';
 import { ModalModule } from '../../../shared/modules/modal/modal.module';
+
 @Component({
   selector: 'app-scanner-input',
   imports: [IconModule, FormsModule, NavBarComponent, InputComponent, FormTemplateComponent, CommonModule, ModalModule],
@@ -32,7 +33,7 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy, OnInit {
   private timeout: any;
   batchView: boolean = false;
   form: FormGroup;
-  private product: Product | undefined;
+  public product: Product | undefined;
   private destroy$ = new Subject<void>();
   public manualControl: boolean = false;
   private currentUser: User | null = null;
@@ -50,20 +51,25 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy, OnInit {
   sourceOptions = [
     { label: 'Doação', value: 0 },
     { label: 'Compra', value: 1 },
-  
   ];
 
-  constructor(private userService: UserService, private auth: AuthenticationService, private fb: FormBuilder, private router: Router, private unitService: UnitService, private movementService: MovementService, private productService: ProductService) {
-  this.form = this.fb.group({
+  constructor(
+    private userService: UserService, 
+    private auth: AuthenticationService, 
+    private fb: FormBuilder, 
+    private router: Router, 
+    private unitService: UnitService, 
+    private movementService: MovementService, 
+    private productService: ProductService
+  ) {
+    this.form = this.fb.group({
       batch: this.fb.control('', [Validators.required]),
       price: this.fb.control(null, [Validators.required, Validators.min(0)]),
       sourceType: this.fb.control('', [Validators.required]),
       quantity: this.fb.control('', [Validators.required, Validators.min(1)]),
       sourceDetails: this.fb.control('', Validators.required),
     });
-
-
-   }
+  }
 
   ngOnInit(): void {
     const userName = this.auth.getUserName();
@@ -78,7 +84,7 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy, OnInit {
 
   ngAfterViewInit(): void {
      this.input.nativeElement.focus();
-    }
+  }
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -86,6 +92,24 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy, OnInit {
     if (this.timeout) clearTimeout(this.timeout);
   }
   
+  // Função para limpar o estado e recomeçar o processo
+  resetProcess() {
+    this.batchView = false;      // Esconde o formulário
+    this.product = undefined;    // Remove o produto atual da memória
+    this.form.reset();           // Limpa os campos do formulário
+    this.buffer = '';            // Limpa o buffer do scanner
+
+    // Se estiver no modo manual, limpa o input e foca novamente
+    if (this.manualControl && this.input && this.input.nativeElement) {
+        this.input.nativeElement.value = '';
+        this.input.nativeElement.focus();
+    }
+    // Se estiver no modo scanner, foca no input escondido ou corpo para garantir a leitura
+    if (!this.manualControl && this.input) {
+        this.input.nativeElement.focus();
+    }
+  }
+
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     if (this.manualControl) {
@@ -96,8 +120,10 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy, OnInit {
 
     if (event.key === 'Enter') {
       // código finalizado
-      this.onBarcodeScanned(this.buffer);
-      this.buffer = '';
+      if (this.buffer.length > 0) {
+          this.onBarcodeScanned(this.buffer);
+          this.buffer = '';
+      }
     } else {
       this.buffer += event.key;
     }
@@ -107,10 +133,18 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy, OnInit {
       this.buffer = '';
     }, 300);
   }
+
   getControl(field: string): FormControl {
     return this.form.get(field) as FormControl;
   }
+
   onBarcodeScanned(code: string) {
+    // Se já existe um formulário aberto, limpamos os dados dele para receber o novo produto
+    // sem fechar a view abruptamente, dando sensação de fluidez.
+    if (this.batchView) {
+        this.form.reset();
+    }
+
     this.productService.getProductByGtin(code)
     .pipe(takeUntil(this.destroy$))
     .subscribe({
@@ -119,12 +153,14 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy, OnInit {
           this.product = data;
           this.batchView = true;
         } else {
-          this.batchView = false;
+          // Produto não encontrado (retornou null/undefined): Reseta tudo
+          this.resetProcess();
           this.showModal("Produto não encontrado para o código de barras informado.");
         }
       },
       error: () => {
-        this.batchView = false;
+        // Erro na requisição: Reseta tudo
+        this.resetProcess();
         this.showModal("Produto não encontrado. Verifique o código e tente novamente.");
       }
     });
@@ -139,7 +175,6 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy, OnInit {
     const formValue = this.form.value;
 
     this.unitService.getUnitByBatch(formValue.batch).pipe(
-      // Se getUnitByBatch falhar (404), o catchError redireciona para a criação completa.
       catchError(error => {
         if (error.status === 404) {
           this.showModal('Lote não encontrado. Redirecionando para cadastro completo...');
@@ -150,27 +185,24 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy, OnInit {
               batch: formValue.batch,
               quantity: formValue.quantity,
               sourceType: formValue.sourceType,
+              sourceDetails: formValue.sourceDetails,
               price: formValue.price,
               userId: this.currentUser?.id
-
             }
           };
-          // A pequena espera é para o usuário conseguir ler o modal.
           setTimeout(() => this.router.navigate(['manage/movements/input'], navigationData), 2000);
         } else {
           this.showModal(`Erro ao buscar lote: ${error.message}`);
         }
-        return of(null); // Retorna um observable nulo para parar a cadeia.
+        return of(null); 
       }),
-      // Se getUnitByBatch tiver sucesso, continua para criar o movimento.
       switchMap(unit => {
-        if (!unit) return of(null); // Para a execução se o catchError foi acionado.
+        if (!unit) return of(null); 
 
         if (unit.gtin !== this.product?.gtin) {
           this.showModal("O lote informado pertence a outro produto. Verifique os dados.");
           return of(null);
         }
-        console.log('Unidade encontrada para o lote:', unit);
 
         const inputMovement: InputMovement = {
           productId: this.product!.id!,
@@ -183,7 +215,6 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy, OnInit {
           price: formValue.price,
           userId: this.currentUser!.id!,
         };
-        //log inputMovement value
         console.log('Movimento será criado com os seguintes dados:', inputMovement);
         return this.movementService.createInputMovement(inputMovement);
       }),
@@ -191,9 +222,13 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy, OnInit {
     ).subscribe(response => {
       if (response) {
         this.showModal("Movimento de entrada criado com sucesso!");
-        setTimeout(() => this.router.navigate(['/manage/view/movements']), 2000);
+        // Após sucesso, reseta o processo para permitir nova leitura imediata
+        // Se preferir navegar para fora, mantenha o router.navigate
+        setTimeout(() => {
+            this.resetProcess(); 
+            // this.router.navigate(['/manage/view/movements']); // Descomente se quiser sair da página
+        }, 2000);
       }
-      // Se response for nulo, o erro já foi tratado e o modal exibido.
     });
   }
 
@@ -211,21 +246,17 @@ export class ScannerInputComponent implements AfterViewInit, OnDestroy, OnInit {
 
   manualController(): void{
     this.manualControl = !this.manualControl;
+    
+    // Sempre reseta o estado visual anterior ao trocar de modo
+    this.resetProcess();
+    // Reverte a flag batchView pois o resetProcess a coloca como false, 
+    // mas a lógica visual será controlada pelo html e manualControl agora.
+
+    // Ajusta o foco
     if (this.manualControl) {
-      setTimeout(() => this.input.nativeElement.focus(), 0);
+      setTimeout(() => this.input.nativeElement.focus(), 100);
     } else {
-      this.input.nativeElement.value = '';
-      this.batchView = false; // Esconde o formulário ao voltar para o modo scanner
-      this.input.nativeElement.blur(); // Remove o foco ao voltar para o modo scanner
+      this.input.nativeElement.blur(); 
     }
-  
   }
 }
-
-
-
-        
-                   
-        
-         
- 

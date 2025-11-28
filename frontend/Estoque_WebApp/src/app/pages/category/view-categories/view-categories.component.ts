@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { AuthenticationService } from './../../../core/authentication/authentication.service';
 import { NavigationWatcherService } from '../../../core/services/navigation-watcher.service';
 import { ViewTemplateComponent } from '../../../shared/components/view-template/view-template.component';
+
 @Component({
   selector: 'app-view-categories',
   imports: [PTableComponent, CommonModule, ViewTemplateComponent],
@@ -16,12 +17,15 @@ import { ViewTemplateComponent } from '../../../shared/components/view-template/
   standalone: true
 })
 export class ViewCategoriesComponent implements OnInit, OnDestroy {
-  categories: Category[] = []; // Mesmo esquema de usuários, Array para armazenar as categorias.
+  categories: Category[] = [];
   private navigationSub?: Subscription;
   pagedView: boolean = false;
   pageNumber: number = 0;
   totalPages: number = 0;
+  
   private searchTerm: string = '';
+  // NOVA PROPRIEDADE: Define a ordenação padrão inicial
+  private currentSort: string = 'id,desc'; 
 
   constructor(
     private categoryService: CategoryService,
@@ -35,6 +39,8 @@ export class ViewCategoriesComponent implements OnInit, OnDestroy {
 
     this.navigationSub = this.navigationWatcher.navigation$.subscribe(() => {
       if (this.router.url.startsWith('/manage/view/categories')) {
+        // Ao recarregar via navegação, mantemos a página e sort atuais ou resetamos? 
+        // Aqui mantive resetando apenas se necessário, mas usando o estado atual.
         this.loadCategories(this.pageNumber);
       }
     });
@@ -48,8 +54,10 @@ export class ViewCategoriesComponent implements OnInit, OnDestroy {
     return this.auth.getToken();
   }
 
+  // MÉTODO ATUALIZADO
   private loadCategories(page: number = 0, description?: string): void {
-    this.categoryService.getAllCategories(page, 20, 'id,desc', description).subscribe({
+    // Agora passamos this.currentSort dinamicamente
+    this.categoryService.getAllCategories(page, 20, this.currentSort, description).subscribe({
       next: (categories) => {
         categories.totalPages > 1 ? this.pagedView = true : this.pagedView = false;
         this.totalPages = categories.totalPages;
@@ -58,14 +66,19 @@ export class ViewCategoriesComponent implements OnInit, OnDestroy {
           ...cat,
           created_at: cat.created_at ? new Date(cat.created_at) : undefined,
           updated_at: cat.updated_at ? new Date(cat.updated_at) : undefined
-         
-        
         }));
       },
       error: (error) => {
         console.error('Erro carregando categorias:', error);
       }
     });
+  }
+
+  // NOVO MÉTODO PARA LHE DAR COM O CLIQUE NA TABELA
+  handleSort(sortString: string): void {
+    this.currentSort = sortString;
+    // Quando mudamos a ordenação, é boa prática voltar para a página 0
+    this.onPageChange(0);
   }
 
   DeleteCategory(id: number): void {
@@ -80,13 +93,15 @@ export class ViewCategoriesComponent implements OnInit, OnDestroy {
   EditCategory(id: number): void {
     this.router.navigate(['/manage/edit/category', id]);
   }
+  
   ViewCategory(id: number): void {
     this.router.navigate(['manage/view/category', id])
   }
 
   onPageChange(page: number): void {
     this.pageNumber = page;
-    this.loadCategories(page);
+    // Passamos o searchTerm atual para não perder o filtro ao mudar de página
+    this.loadCategories(page, this.searchTerm);
   }
 
   onSearch(term: string): void {

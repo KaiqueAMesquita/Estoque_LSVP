@@ -1,12 +1,11 @@
-import { OrderItem } from "./order";
 
 export interface OrderRequest{
     requesterName: string;
     userId: number;
-    items: orderItemRequest[]
+    items: OrderItemRequest[]
 }
 
-export interface orderItemRequest{
-    productId: number
+export interface OrderItemRequest{
+    categoryId: number
     quantityRequested: number;
 }

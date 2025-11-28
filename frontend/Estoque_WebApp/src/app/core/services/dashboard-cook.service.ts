@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { Page } from './../../shared/models/page';
 import { Unit } from './../../shared/models/unit';
+import { KitchenUnit } from '../../shared/models/kitchen-unit';
 
 @Injectable({
   providedIn: 'root'
@@ -25,15 +26,15 @@ export class DashboardCookService {
       .set('thresholdDays', thresholdDays.toString())
       .set('page', pageNumber.toString())
       .set('limit', limit.toString());
-    return this.http.get<any>(`${this.apiUrl}/kitchen/products-expiring-soon`, { params });
+    return this.http.get<any>(`${this.apiUrl}/kitchen/units/expiring-soon`, { params });
   }
 
-  kitchenUnits(page: number = 1, limit: number = 20): Observable<Page<Unit>> {
+  kitchenUnits(page: number = 1, limit: number = 20): Observable<Page<KitchenUnit>> {
     const pageNumber = page + 1; 
     let params = new HttpParams()
       .set('page', pageNumber.toString())
       .set('limit', limit.toString());
-    return this.http.get<Page<Unit>>(`${this.apiUrl}/kitchen/units`, { params });
+    return this.http.get<Page<KitchenUnit>>(`${this.apiUrl}/kitchen/units`, { params });
   }
 
 

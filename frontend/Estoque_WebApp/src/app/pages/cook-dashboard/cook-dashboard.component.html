@@ -4,11 +4,9 @@
   <div class="main-content">
     <h1 class="dashboard-title">Cozinha</h1>
 
-    <!-- Seção de Cards -->
-    
-  <div class="cards-container">
+    <div class="cards-container">
       <app-dashboard-cards
-        headerValue="56"
+        [headerValue]="totalKitchenProducts ? totalKitchenProducts.toString() : 'N/A'"
         bodyText="Produtos na Cozinha"
         [icon]="faKitchenSet"
         background="#28a745"
@@ -16,10 +14,9 @@
         hoverBackground="#218838"
       ></app-dashboard-cards>
 
-    
       <app-dashboard-cards
-        headerValue="25"
-        bodyText="Produtos na cozinha perto do Vencimento"
+        [headerValue]="totalExpiringProducts ? totalExpiringProducts.toString() : 'N/A'"
+        bodyText="Produtos perto do Vencimento"
         [icon]="faClock"
         background="#ff2222"
         color="#fff"
@@ -27,8 +24,8 @@
       ></app-dashboard-cards>
 
       <app-dashboard-cards
-        headerValue="8"
-        bodyText="Pedidos em Andamento"
+        [headerValue]="totalPendingOrders ? totalPendingOrders.toString() : 'N/A'"
+        bodyText="Pedidos Pendentes"
         [icon]="faSpinner"
         background="#ffc107"
         color="#333"
@@ -36,28 +33,36 @@
       ></app-dashboard-cards>
     </div>
 
-    <!-- Seção de Tabelas -->
     <div class="tables-container">
-      <app-p-table title="Últimos Pedidos" [data]="ultimosPedidos" [view]="true"></app-p-table>
-      <app-p-table title="Produtos na Cozinha" [data]="produtosNaCozinha" [showSearch]="true"></app-p-table>
+      <app-p-table 
+        title="Últimos Pedidos" 
+        [data]="lastOrders" 
+        [view]="false"
+        (onSort)="handleOrderSort($event)">
+      </app-p-table>
+
+      <app-p-table 
+        title="Produtos na Cozinha" 
+        [data]="kitchenInventory" 
+        [showSearch]="true">
+      </app-p-table>
     </div>
   </div>
 
-  <!-- Ações do dashboard -->
   <div class="dashboard-actions">
     <div class="list-container">
       <div class="list-actions">
         <div class="list-item" (click)="navigateTo('kitchen/request')">
           <span class="item-icon"><fa-icon id="fazer-pedido" [icon]="faCartPlus"></fa-icon></span>
-          <span class="item-text">Fazer Pedido</span>
+          <span class="item-text">Pedidos</span>
         </div>
         <div class="list-item" (click)="navigateTo('kitchen/reports')">
           <span class="item-icon"><fa-icon id="gerar-relatorio" [icon]="faFileAlt"></fa-icon></span>
           <span class="item-text">Gerar Relatórios</span>
         </div>
-        <div class="list-item" (click)="navigateTo('kitchen/finish-order')">
-          <span class="item-icon"><fa-icon id="finalizar-pedido" [icon]="faCheckCircle"></fa-icon></span>
-          <span class="item-text">Finalizar Pedido</span>
+        <div class="list-item" (click)="navigateTo('kitchen/pending')">
+          <span class="item-icon"><fa-icon id="pedidos-pendentes" [icon]="faSpinner"></fa-icon></span>
+          <span class="item-text">Pedidos Pendentes</span>
         </div>
       </div>
     </div>

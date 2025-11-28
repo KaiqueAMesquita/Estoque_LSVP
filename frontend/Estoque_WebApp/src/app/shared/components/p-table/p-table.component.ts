@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, SimpleChanges, Component, Input, OnChanges, OnInit, Output, ViewChild, AfterViewInit, EventEmitter } from '@angular/core'; // <-- MUDANÇA: Adicionado EventEmitter
+import { ChangeDetectionStrategy, SimpleChanges, Component, Input, OnChanges, OnInit, Output, ViewChild, AfterViewInit, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconModule, icons } from '../../modules/icon/icon.module';
 import { ModalModule } from '../../modules/modal/modal.module';
@@ -28,8 +28,11 @@ export class PTableComponent<T> implements OnInit, OnChanges, AfterViewInit {
   @Output() onEdit = new EventEmitter<T>();
   @Output() onDelete = new EventEmitter<T>();
   @Output() onView = new EventEmitter<T>();
-  @Output() onSelect = new EventEmitter<T | undefined>(); // <-- MUDANÇA: Novo EventEmitter para a seleção
+  @Output() onSelect = new EventEmitter<T | undefined>();
   @Output() searchEvent = new EventEmitter<string>();
+  
+  // NOVA SAÍDA: Emite o padrão "campo,direcao"
+  @Output() onSort = new EventEmitter<string>(); 
 
   rowSelected?: T;
   sortDirection: { [key: string]: 'asc' | 'desc' } = {};
@@ -48,8 +51,8 @@ export class PTableComponent<T> implements OnInit, OnChanges, AfterViewInit {
     this.updateColumns();
 
     this.searchSubject.pipe(
-      debounceTime(300), // espera 300ms após a última emissão
-      distinctUntilChanged() // só emite se o valor mudou
+      debounceTime(300),
+      distinctUntilChanged()
     ).subscribe(searchTerm => {
       this.searchEvent.emit(searchTerm);
     });
@@ -63,7 +66,7 @@ export class PTableComponent<T> implements OnInit, OnChanges, AfterViewInit {
     } else {
       this.rowSelected = row;
     }
-    this.onSelect.emit(this.rowSelected); // <-- MUDANÇA: Emite o evento com a linha selecionada ou undefined
+    this.onSelect.emit(this.rowSelected);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -101,27 +104,19 @@ export class PTableComponent<T> implements OnInit, OnChanges, AfterViewInit {
     this.onDelete.emit(row);
   }
 
+  // MÉTODO TOTALMENTE MODIFICADO PARA SERVER-SIDE SORT
   public orderBy(column: string): void {
+    // 1. Inverte a direção atual ou define como 'asc' se for o primeiro clique
     this.sortDirection[column] = this.sortDirection[column] === 'asc' ? 'desc' : 'asc';
+    
+    // 2. Cria a string no formato que o Spring Boot (pageable) geralmente aceita
     const direction = this.sortDirection[column];
+    const sortPayload = `${column},${direction}`;
 
-    this.data.sort((a, b) => {
-      const valueA = a[column];
-      const valueB = b[column]; 
+    // 3. Emite o evento para o componente pai buscar os dados novos
+    this.onSort.emit(sortPayload);
 
-      if (valueA == null && valueB == null) return 0;
-      if (valueA == null) return direction === 'asc' ? -1 : 1;
-      if (valueB == null) return direction === 'asc' ? 1 : -1;
-
-      if (typeof valueA === 'number' && typeof valueB === 'number') {
-        return direction === 'asc' ? valueA - valueB : valueB - valueA;
-      }
-
-      const strA = valueA.toString().toLowerCase();
-      const strB = valueB.toString().toLowerCase();
-      if (strA < strB) return direction === 'asc' ? -1 : 1;
-      if (strA > strB) return direction === 'asc' ? 1 : -1;
-      return 0;
-    });
+    // NOTA: Removemos a lógica antiga de this.data.sort(). 
+    // Agora a tabela espera que o pai atualize o Input [data].
   }
 }

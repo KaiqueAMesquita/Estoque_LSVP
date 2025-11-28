@@ -57,7 +57,10 @@ export const TRANSLATION = {
     batch: 'Lote',
     containerCode: 'Código do Contêiner',
     productName: 'Produto',
-    daysUntilExpiry : 'Dias para expirar a validade'
+    daysUntilExpiry : 'Dias para expirar a validade',
+    requesterName: 'Nome do Solicitante',
+    status: 'Status',
+    kitchen: 'Cozinha',
 
   
 }
