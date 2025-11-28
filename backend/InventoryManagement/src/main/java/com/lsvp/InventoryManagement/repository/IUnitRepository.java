@@ -104,11 +104,11 @@ public interface IUnitRepository extends JpaRepository<Unit, Long>  {
     @Query("SELECT u FROM Unit u WHERE " +
            "(:productId IS NULL OR u.product.id = :productId) AND " +
            "(:containerId IS NULL OR u.container.id = :containerId) AND " +
-           "(:batch IS NULL OR LOWER(u.batch) LIKE LOWER(CONCAT('%', :batch, '%')))")
+           "(:code IS NULL OR LOWER(u.code) LIKE LOWER(CONCAT('%', :code, '%')))")
     Page<Unit> searchUnits(
             @Param("productId") Long productId,
             @Param("containerId") Long containerId,
-            @Param("batch") String batch,
+            @Param("code") String code,
             Pageable pageable
     );
     

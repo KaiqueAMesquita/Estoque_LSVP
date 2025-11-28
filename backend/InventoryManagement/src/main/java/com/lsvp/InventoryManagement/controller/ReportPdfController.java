@@ -81,4 +81,21 @@ public class ReportPdfController {
                 .headers(headers)
                 .body(pdfBytes);
     }
+
+    @Operation(summary = "Relatório de Custos Mensais", description = "Evolução de gastos mês a mês em um ano")
+    @GetMapping("/expenses-report")
+    public ResponseEntity<byte[]> getExpenseReportPdf(@RequestParam int year) {
+        byte[] pdf = reportService.generateAnnualExpenseReport(year);
+        return createPdfResponse(pdf, "custos_ano_" + year + ".pdf");
+    }
+
+    @Operation(summary = "Extrato Detalhado de Doações", description = "Lista item a item para declaração")
+    @GetMapping("/donations-report")
+    public ResponseEntity<byte[]> getDonationsReportPdf(
+            @RequestParam int month,
+            @RequestParam int year
+    ) {
+        byte[] pdf = reportService.generateDonationDetailReport(month, year);
+        return createPdfResponse(pdf, "extrato_doacoes_" + month + "_" + year + ".pdf");
+    }
 }
