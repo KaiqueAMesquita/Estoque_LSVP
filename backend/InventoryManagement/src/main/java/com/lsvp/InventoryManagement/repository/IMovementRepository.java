@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.lsvp.InventoryManagement.dto.ReportFile.DonationDetailDTO;
 import com.lsvp.InventoryManagement.entity.Movement;
 import com.lsvp.InventoryManagement.enums.MovementType;
 import com.lsvp.InventoryManagement.enums.ProductSource;
@@ -131,6 +132,32 @@ public interface IMovementRepository extends JpaRepository <Movement, Long> {
            "ORDER BY c.description")
     List<Object[]> sumEntriesByCategoryAndSource(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
+    // 1. Agrupa gastos (COMPRA_PROPRIA) por mês em um ano específico
+    @Query("SELECT EXTRACT(MONTH FROM m.date) as mes, SUM(m.quantity * m.unit.price) " +
+           "FROM Movement m " +
+           "WHERE m.type = 'ENTRADA' " +
+           "AND m.sourceType = 'COMPRA_PROPRIA' " +
+           "AND EXTRACT(YEAR FROM m.date) = :year " +
+           "GROUP BY EXTRACT(MONTH FROM m.date) " +
+           "ORDER BY mes")
+    List<Object[]> findMonthlyExpensesByYear(@Param("year") int year);
+
+    // 2. Busca detalhada de todas as doações em um período
+    @Query("SELECT new com.lsvp.InventoryManagement.dto.ReportFile.DonationDetailDTO(" +
+           "m.date, " +
+           "m.unit.product.category.description, " +
+           "m.unit.product.gtin, " + // ou description se tiver
+           "m.unit.code, " +
+           "m.quantity, " +
+           "m.sourceDetails) " +
+           "FROM Movement m " +
+           "WHERE m.type = 'ENTRADA' " +
+           "AND m.sourceType = 'DOACAO' " +
+           "AND m.date BETWEEN :start AND :end " +
+           "ORDER BY m.date DESC")
+    List<DonationDetailDTO> findDonationsDetail(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+
+    
 }
 
 
