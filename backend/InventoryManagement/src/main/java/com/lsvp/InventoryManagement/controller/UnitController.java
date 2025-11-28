@@ -7,8 +7,6 @@ import jakarta.validation.Valid;
 
 import java.util.List;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,9 +32,10 @@ public class UnitController {
             @RequestParam(defaultValue = "20") int limit,
             @RequestParam(defaultValue = "id,desc") String sort,
             @RequestParam(required = false) Long productId,
-            @RequestParam(required = false) String batch
-    ){
-        Page<UnitDTO> result = unitService.getAllUnitsSorted(page, limit, sort, productId, batch);
+            @RequestParam(required = false) String batch,
+            @RequestParam(required = false) Long containerId 
+    ) {
+        Page<UnitDTO> result = unitService.getAllUnitsSorted(page, limit, sort, productId, batch, containerId);
         return ResponseEntity.ok(result);
     }
     

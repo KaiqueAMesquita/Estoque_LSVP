@@ -12,7 +12,7 @@ import com.lsvp.InventoryManagement.repository.IContainerRepository;
 import com.lsvp.InventoryManagement.repository.IProductRepository;
 import com.lsvp.InventoryManagement.repository.IUnitRepository;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -122,30 +122,28 @@ public class UnitService {
         return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
     }
 
-    @Transactional()
-    public Page<UnitDTO> getAllUnitsSorted(int page, int limit, String sortParam, Long productId, String batch) {
+    @Transactional(readOnly = true) // Boa prática: readOnly=true para buscas
+    public Page<UnitDTO> getAllUnitsSorted(int page, int limit, String sortParam, Long productId, String batch, Long containerId) {
+        
         if (page < 1) page = 1;
 
-        String[] sortParts = sortParam != null ? sortParam.split(",") : new String[]{"id","desc"};
+        String[] sortParts = (sortParam != null && !sortParam.isBlank()) ? sortParam.split(",") : new String[]{"id","desc"};
         String property = sortParts[0];
+        
+        // Pequena correção: Se o front mandar "expiration_date" (snake), converte para "expirationDate" (camel) para o JPA não quebrar
+        if ("expiration_date".equals(property)) property = "expirationDate";
+
         Sort.Direction direction = (sortParts.length > 1 && sortParts[1].equalsIgnoreCase("asc"))
                 ? Sort.Direction.ASC : Sort.Direction.DESC;
 
         Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(direction, property));
 
-        Page<Unit> pageResult;
-
-        if (productId != null && batch != null && !batch.isBlank()) {
-            pageResult = repository.findByProduct_IdAndBatchContainingIgnoreCase(productId, batch, pageable);
-        } else if (productId != null) {
-            pageResult = repository.findByProduct_Id(productId, pageable);
-        } else if (batch != null && !batch.isBlank()) {
-            pageResult = repository.findByBatchContainingIgnoreCase(batch, pageable);
-        } else {
-            pageResult = repository.findAll(pageable);
-        }
+        // --- AQUI MUDA: Chamamos a query inteligente ---
+        // Passamos todos os parâmetros. O que for null, a query ignora.
+        Page<Unit> pageResult = repository.searchUnits(productId, containerId, batch, pageable);
 
         List<UnitDTO> dtos = pageResult.stream().map(mapper::toDTO).collect(Collectors.toList());
+        
         return new PageImpl<>(dtos, pageable, pageResult.getTotalElements());
     }
 
@@ -171,5 +169,7 @@ public class UnitService {
 
 
     }
+
+    
 
 }
