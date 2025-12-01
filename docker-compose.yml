@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  # --- 1. Banco de Dados PostgreSQL ---
+  postgres:
+    image: postgres:15-alpine
+    container_name: lsvp-postgres  # <-- NOME ATUALIZADO
+    environment:
+      POSTGRES_DB: estoque_lsvp
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: lsvp_secure_password_2025 # Sugestão de senha segura
+      # Configuração de locale pt-BR (muito importante para a ONG)
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=pt_BR.UTF-8 --lc-ctype=pt_BR.UTF-8"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - lsvp-network  # <-- REDE ATUALIZADA
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d estoque_lsvp"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # --- 2. Backend (Spring Boot) ---
+  backend:
+    build: 
+      context: ./backend/InventoryManagement
+      dockerfile: Dockerfile
+    container_name: lsvp-backend  # <-- NOME ATUALIZADO
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      # Conexão com o banco
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/estoque_lsvp
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 123
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update 
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - lsvp-network
+    restart: unless-stopped
+
+  # --- 3. Frontend (Angular + Nginx) ---
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: lsvp-frontend  # <-- NOME ATUALIZADO
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - lsvp-network
+    restart: unless-stopped
+
+networks:
+  lsvp-network:  # <-- REDE DEFINIDA AQUI
+    driver: bridge
+
+volumes:
+  postgres-data:
+    driver: local
