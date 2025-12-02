@@ -123,7 +123,7 @@ public class UnitService {
     }
 
     @Transactional(readOnly = true) // Boa prática: readOnly=true para buscas
-    public Page<UnitDTO> getAllUnitsSorted(int page, int limit, String sortParam, Long productId, String code, Long containerId) {
+    public Page<UnitDTO> getAllUnitsSorted(int page, int limit, String sortParam, Long productId, Long containerId) {
         
         if (page < 1) page = 1;
 
@@ -140,7 +140,7 @@ public class UnitService {
 
         // --- AQUI MUDA: Chamamos a query inteligente ---
         // Passamos todos os parâmetros. O que for null, a query ignora.
-        Page<Unit> pageResult = repository.searchUnits(productId, containerId, code, pageable);
+        Page<Unit> pageResult = repository.searchUnits(productId, containerId, pageable);
 
         List<UnitDTO> dtos = pageResult.stream().map(mapper::toDTO).collect(Collectors.toList());
         

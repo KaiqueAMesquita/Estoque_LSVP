@@ -103,12 +103,10 @@ public interface IUnitRepository extends JpaRepository<Unit, Long>  {
     // Query robusta para filtrar por tudo ao mesmo tempo (ou nada)
     @Query("SELECT u FROM Unit u WHERE " +
            "(:productId IS NULL OR u.product.id = :productId) AND " +
-           "(:containerId IS NULL OR u.container.id = :containerId) AND " +
-           "(:code IS NULL OR LOWER(u.code) LIKE LOWER(CONCAT('%', :code, '%')))")
+           "(:containerId IS NULL OR u.container.id = :containerId)")
     Page<Unit> searchUnits(
             @Param("productId") Long productId,
             @Param("containerId") Long containerId,
-            @Param("code") String code,
             Pageable pageable
     );
     
