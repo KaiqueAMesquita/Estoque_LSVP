@@ -67,5 +67,9 @@ export const TRANSLATION = {
     unitId: 'ID da Unidade',
     productGtin: 'Código de Barras do Produto',
     kitchenUnits: 'Unidades da Cozinha',
+    pending: 'Pedidos Pendentes',
+    fulfill: 'Cumprir Pedido',
+    order: 'Pedido',
+    reports: 'Relatórios',
   
 }

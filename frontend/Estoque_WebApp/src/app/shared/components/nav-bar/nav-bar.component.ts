@@ -54,8 +54,11 @@ export class NavBarComponent {
     }else if (url.includes('manage')) {
       this.activeMenu = 'gestao';
        
-    } else if (url.includes('relatorios')) {
+    } else if (url.includes('reports')) {
       this.activeMenu = 'relatorios';
+    } else if (url.includes('kitchen/units') || url.includes('kitchen/pending') || url.includes('kitchen/request')) {
+      this.activeMenu = 'gestao-cozinha';
+  
     } else if (url.includes('cook') || url.includes('kitchen')) {
       this.activeMenu = 'cozinha';
     }

@@ -13,11 +13,12 @@ import { Order } from '../../../shared/models/order';
 import { ViewTemplateComponent } from '../../../shared/components/view-template/view-template.component';
 import { PTableComponent } from '../../../shared/components/p-table/p-table.component';
 import { NavBarComponent } from "../../../shared/components/nav-bar/nav-bar.component";
+import { ManageLayoutComponent } from '../../../shared/layouts/manage-layout/manage-layout.component';
 
 @Component({
   selector: 'app-peding-orders',
   standalone: true,
-  imports: [ViewTemplateComponent, PTableComponent, CommonModule, NavBarComponent],
+  imports: [ViewTemplateComponent, PTableComponent, CommonModule, NavBarComponent, ManageLayoutComponent],
   templateUrl: './peding-orders.component.html',
   styleUrl: './peding-orders.component.css'
 })
@@ -74,8 +75,7 @@ export class PedingOrdersComponent implements OnInit, OnDestroy {
   }
 
   ViewOrder(id: number): void {
-    // Navega para a tela de detalhes do pedido
-    this.router.navigate(['manage/view/orders', id]);
+    this.router.navigate(['fullfill/order', id]);
   }
 
   onPageChange(page: number): void {
@@ -83,7 +83,6 @@ export class PedingOrdersComponent implements OnInit, OnDestroy {
     this.loadOrders(page);
   }
 
-  // O método de refresh pode ser útil se tiver um botão de atualizar manual
   refresh(): void {
     this.loadOrders(this.pageNumber);
   }

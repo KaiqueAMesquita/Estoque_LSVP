@@ -31,6 +31,8 @@ import { ViewMovementsComponent } from './pages/movements/view/view-movements.co
 import { ViewCategoryComponent } from './pages/category/view-category/view-category.component';
 import { PedingOrdersComponent } from './pages/request/peding-orders/peding-orders.component';
 import { ViewKitchenUnitsComponent } from './pages/kitchen/view-kitchen-units/view-kitchen-units.component';
+import { FinishOrderComponent } from './pages/request/finish-order/finish-order.component';
+import { ReportComponent } from './pages/report/report.component';
 
 export const routes: Routes = [
     //[adminGuard] Permite Somente o Acesso a Administradores dessas Funcionalidades
@@ -44,7 +46,8 @@ export const routes: Routes = [
    {path: 'kitchen/request', component: KitchenOrderComponent, pathMatch: 'full' },
    {path: 'kitchen/pending', component: PedingOrdersComponent, pathMatch: 'full' },
    {path: 'kitchen/units/view', component: ViewKitchenUnitsComponent, pathMatch: 'full', canActivate:[authGuard] },
-
+   {path: 'fulfill/order/:id', component: FinishOrderComponent, pathMatch: 'full' },
+    {path: 'reports', component:ReportComponent, pathMatch:'full'},
    //rotas de gerenciamento 
    { path: 'manage', component: ManageLayoutComponent,
     //filhos da rota de gerenciamento

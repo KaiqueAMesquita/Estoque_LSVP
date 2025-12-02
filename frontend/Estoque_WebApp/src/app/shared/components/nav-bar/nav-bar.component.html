@@ -68,7 +68,7 @@
    
   
     <li *ngIf="getRole() !== 'COZINHEIRO'" class="nav-item-new" [class.active-new]="isActive('relatorios')">
-      <a href="manage" (click)="setActiveByRoute('relatorios')" class="nav-link-new">
+      <a href="reports" (click)="setActiveByRoute('relatorios')" class="nav-link-new">
         <fa-icon [icon]="icons.faChartLine" class="nav-icon-new"></fa-icon>
         <span>Relatórios</span>
       </a>

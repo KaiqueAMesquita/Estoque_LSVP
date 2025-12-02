@@ -1,0 +1,160 @@
+<app-manage-layout></app-manage-layout>
+
+  <div class="content-wrapper">
+    
+    <!-- Cabeçalho -->
+    <header class="page-header">
+      <div class="header-title">
+        <fa-icon [icon]="icons.faFilePdf" class="header-icon"></fa-icon>
+        <h2>Relatórios do Sistema</h2>
+      </div>
+      <p class="header-subtitle">Emissão de documentos de análise de dados em formato PDF.</p>
+    </header>
+
+    <div class="reports-grid">
+
+      <div class="report-card">
+        <div class="card-icon stock">
+          <fa-icon [icon]="icons.faBoxesStacked"></fa-icon>
+        </div>
+        <div class="card-content">
+          <h3>Posição de Estoque</h3>
+          <p>Listagem completa de itens, lotes e saldos atuais por local.</p>
+          
+          <div class="card-form">
+            <app-input
+              type="select"
+              [control]="getControl(stockForm, 'location')"
+              [options]="locationOptions"
+              label="Local"
+              placeholder="Selecione o local"
+            ></app-input>
+          </div>
+
+          <button class="btn-generate" (click)="downloadStockReport()" [disabled]="loading['stock'] || stockForm.invalid">
+            <fa-icon [icon]="loading['stock'] ? icons.faSpinner : icons.faDownload"></fa-icon>
+            {{ loading['stock'] ? 'Gerando...' : 'Baixar PDF' }}
+          </button>
+        </div>
+      </div>
+
+      <div class="report-card">
+        <div class="card-icon source">
+          <fa-icon [icon]="icons.faRightLeft"></fa-icon>
+        </div>
+        <div class="card-content">
+          <h3>Relatório de Origem</h3>
+          <p>Comparativo mensal entre itens adquiridos via Compra vs Doação.</p>
+          
+          <div class="card-form row-inputs">
+            <app-input
+              type="select"
+              [control]="getControl(sourceForm, 'month')"
+              [options]="monthOptions"
+              label="Mês"
+            ></app-input>
+            <app-input
+              type="select"
+              [control]="getControl(sourceForm, 'year')"
+              [options]="yearOptions"
+              label="Ano"
+            ></app-input>
+          </div>
+
+          <button class="btn-generate" (click)="downloadSourceReport()" [disabled]="loading['source'] || sourceForm.invalid">
+            <fa-icon [icon]="loading['source'] ? icons.faSpinner : icons.faDownload"></fa-icon>
+            {{ loading['source'] ? 'Gerando...' : 'Baixar PDF' }}
+          </button>
+        </div>
+      </div>
+
+      <div class="report-card">
+        <div class="card-icon risk">
+          <fa-icon [icon]="icons.faTriangleExclamation"></fa-icon>
+        </div>
+        <div class="card-content">
+          <h3>Risco e Vencimentos</h3>
+          <p>Projeção de desperdício e itens próximos do vencimento ou vencidos.</p>
+          
+          <div class="spacer"></div> 
+
+          <button class="btn-generate btn-risk" (click)="downloadRiskReport()" [disabled]="loading['risk']">
+            <fa-icon [icon]="loading['risk'] ? icons.faSpinner : icons.faDownload"></fa-icon>
+            {{ loading['risk'] ? 'Gerando...' : 'Baixar PDF' }}
+          </button>
+        </div>
+      </div>
+
+      <div class="report-card">
+        <div class="card-icon expenses">
+          <fa-icon [icon]="icons.faChartLine"></fa-icon>
+        </div>
+        <div class="card-content">
+          <h3>Custos Mensais</h3>
+          <p>Evolução financeira e gastos acumulados mês a mês.</p>
+          
+          <div class="card-form">
+            <app-input
+              type="select"
+              [control]="getControl(expensesForm, 'year')"
+              [options]="yearOptions"
+              label="Ano de Referência"
+            ></app-input>
+          </div>
+
+          <button class="btn-generate" (click)="downloadExpensesReport()" [disabled]="loading['expenses'] || expensesForm.invalid">
+            <fa-icon [icon]="loading['expenses'] ? icons.faSpinner : icons.faDownload"></fa-icon>
+            {{ loading['expenses'] ? 'Gerando...' : 'Baixar PDF' }}
+          </button>
+        </div>
+      </div>
+
+      <div class="report-card">
+        <div class="card-icon donations">
+          <fa-icon [icon]="icons.faHandHoldingHeart"></fa-icon>
+        </div>
+        <div class="card-content">
+          <h3>Extrato de Doações</h3>
+          <p>Lista detalhada de itens doados para declaração ou auditoria.</p>
+          
+          <div class="card-form row-inputs">
+            <app-input
+              type="select"
+              [control]="getControl(donationsForm, 'month')"
+              [options]="monthOptions"
+              label="Mês"
+            ></app-input>
+            <app-input
+              type="select"
+              [control]="getControl(donationsForm, 'year')"
+              [options]="yearOptions"
+              label="Ano"
+            ></app-input>
+          </div>
+
+          <button class="btn-generate" (click)="downloadDonationsReport()" [disabled]="loading['donations'] || donationsForm.invalid">
+            <fa-icon [icon]="loading['donations'] ? icons.faSpinner : icons.faDownload"></fa-icon>
+            {{ loading['donations'] ? 'Gerando...' : 'Baixar PDF' }}
+          </button>
+        </div>
+      </div>
+
+      <div class="report-card">
+        <div class="card-icon coverage">
+          <fa-icon [icon]="icons.faShieldHalved"></fa-icon>
+        </div>
+        <div class="card-content">
+          <h3>Cobertura de Estoque</h3>
+          <p>Análise de dias de duração estimados para cada item do estoque.</p>
+          
+          <div class="spacer"></div>
+
+          <button class="btn-generate" (click)="downloadCoverageReport()" [disabled]="loading['coverage']">
+            <fa-icon [icon]="loading['coverage'] ? icons.faSpinner : icons.faDownload"></fa-icon>
+            {{ loading['coverage'] ? 'Gerando...' : 'Baixar PDF' }}
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>

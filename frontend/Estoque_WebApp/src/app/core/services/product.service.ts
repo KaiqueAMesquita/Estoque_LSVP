@@ -50,8 +50,8 @@ export class ProductService {
   }
 
   //Método para atualizar um Produto
-  public updateProduct(productId: number, product: Partial<Product>): Observable<Partial<Product>> { 
-     return this.http.put<Product>(this.productLink + "/" + productId, product);
+  public updateProduct(productId: number, product: ProductCreate): Observable<ProductCreate> { 
+     return this.http.put<ProductCreate>(this.productLink + "/" + productId, product);
   }
     //Método para deletar um Produto
   public deleteProduct(productId: string): Observable<void> {	

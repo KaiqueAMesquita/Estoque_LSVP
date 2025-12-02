@@ -12,6 +12,7 @@ import { Category } from '../../../shared/models/category';
 import { forkJoin } from 'rxjs';
 import { onlyNumbersValidator } from '../../../core/validators/custom-validators';
 import { IconModule, icons } from '../../../shared/modules/icon/icon.module';
+import { ProductCreate } from '../../../shared/models/product-create';
 
 @Component({
   selector: 'app-edit-product',
@@ -134,11 +135,11 @@ export class EditProductsComponent extends BaseCreateComponent implements OnInit
   onSubmit(): void {
     const idN = Number.parseInt(this.id);
 
-    const product: Partial<Product> = {
+    const product: ProductCreate = {
       gtin: this.form.value.gtin,
       measure: this.form.value.measure,
-      measure_type: this.form.value.measureType,
-      category_id: this.form.value.category_id
+      measureType: this.form.value.measureType,
+      categoryId: this.form.value.category_id
     };
 
     this.productService.updateProduct(idN, product).subscribe({

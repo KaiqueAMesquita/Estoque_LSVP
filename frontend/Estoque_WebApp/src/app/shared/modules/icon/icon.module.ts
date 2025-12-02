@@ -43,7 +43,16 @@ import {
   faCheckCircle,
   faCheck,
   faKitchenSet,
-  faClipboardCheck
+  faClipboardCheck,
+  faSpinner,
+  faCalendar,
+  faArrowLeft,
+  faChevronDown,
+  faDownload,
+  faFilePdf,
+  faRightLeft,
+  faHandHoldingHeart,
+  faShieldHalved
 
 
   
@@ -95,7 +104,16 @@ export const icons = {
   faCheckCircle,
   faCheck,
   faKitchenSet,
-  faClipboardCheck
+  faClipboardCheck,
+  faSpinner,
+  faCalendar,
+  faArrowLeft,
+  faChevronDown,
+  faDownload,
+  faFilePdf,
+  faRightLeft,
+  faHandHoldingHeart,
+  faShieldHalved
 };
 
 @NgModule({
