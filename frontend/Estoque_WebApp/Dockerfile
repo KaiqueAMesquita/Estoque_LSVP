@@ -24,7 +24,7 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 # ATENÇÃO: Verifique se o caminho 'dist/nome-do-seu-projeto/browser' está correto.
 # Em versões mais novas do Angular (17+), costuma ser dist/nome-do-projeto/browser.
 # Em versões antigas, era apenas dist/nome-do-projeto.
-COPY --from=build /app/dist/inventory-management/browser /usr/share/nginx/html
+COPY --from=build /app/dist/estoque-web-app/browser /usr/share/nginx/html
 
 # Expõe a porta 80 (padrão web)
 EXPOSE 4200
