@@ -12,8 +12,8 @@ import { ViewTemplateComponent } from '../../../shared/components/view-template/
   selector: 'app-view-Movements',
   imports: [PTableComponent, CommonModule, ViewTemplateComponent],
   standalone: true,
-  templateUrl: './view-Movements.component.html',
-  styleUrl: './view-Movements.component.css'
+  templateUrl: './view-movements.component.html',
+  styleUrl: './view-movements.component.css'
 })
 export class ViewMovementsComponent implements OnInit, OnDestroy {
   movements: Movement[] = [];
