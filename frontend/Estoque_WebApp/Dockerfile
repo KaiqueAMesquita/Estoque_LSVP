@@ -27,7 +27,7 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/dist/estoque-web-app/browser /usr/share/nginx/html
 
 # Expõe a porta 80 (padrão web)
-EXPOSE 4200
+EXPOSE 80
 
 # Inicia o Nginx
 CMD ["nginx", "-g", "daemon off;"]

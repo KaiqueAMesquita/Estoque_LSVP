@@ -24,9 +24,9 @@ public interface IUnitRepository extends JpaRepository<Unit, Long>  {
 
      Optional<Unit> findByBatch(String batch);
 
-     //Query pra contar produtos distintos na cozinha
-    @Query("SELECT COUNT(DISTINCT u.product.id) FROM Unit u WHERE u.container = :container AND u.quantity > 0")
-    long countDistinctProductsByContainerAndQuantityGreaterThan(@Param("container") Container container);
+     //Query pra contar unidades(e a quantidade daquela) na cozinha
+    @Query("SELECT COALESCE(SUM(u.quantity), 0) FROM Unit u WHERE u.container = :container")
+    long sumTotalQuantityByContainer(@Param("container") Container container);
 
     // Para listar unidades na cozinha, por paginação
     Page<Unit> findByContainerAndQuantityGreaterThan(Container container, int quantity, Pageable pageable);
