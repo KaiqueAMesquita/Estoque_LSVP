@@ -3,6 +3,7 @@ package com.lsvp.InventoryManagement.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +23,7 @@ public class KitchenController {
     @Autowired
     private KitchenService kitchenService;
 
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'COZINHEIRO', 'ESTOQUISTA')")
     @GetMapping("/units")
     public ResponseEntity<Page<KitchenUnitDTO>> getKitchenUnits(
             @RequestParam(defaultValue = "1") int page,
@@ -30,6 +32,7 @@ public class KitchenController {
         return ResponseEntity.ok(result);
     }
 
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'COZINHEIRO', 'ESTOQUISTA')")
     @GetMapping("/units/expiring-soon")
     public ResponseEntity<Page<KitchenUnitDTO>> getExpiringSoonUnits(
             @RequestParam(defaultValue = "7") int thresholdDays,

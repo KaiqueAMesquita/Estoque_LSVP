@@ -9,11 +9,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @Tag(name = "Conteiners", description = "Gerenciamento dos Conteiners")
@@ -26,6 +26,7 @@ public class ContainerController {
 
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
     public ResponseEntity<ContainerDTO> createContainer(@Valid @RequestBody ContainerCreateDTO dto){
         return ResponseEntity.ok(containerService.createContainer(dto));
     }
@@ -48,11 +49,13 @@ public class ContainerController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
     public ResponseEntity<ContainerDTO> updateContainer(@PathVariable Long id, @Valid @RequestBody ContainerUpdateDTO dto){
         return ResponseEntity.ok(containerService.updateContainer(id, dto));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
     public ResponseEntity<Void> deleteContainer(@PathVariable Long id){
 
         containerService.deleteContainer(id);
