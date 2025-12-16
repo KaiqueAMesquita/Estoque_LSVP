@@ -43,6 +43,6 @@ export class MovementService {
   public updateMovement(movementId: number, movement: Partial<Movement>): Observable<Movement> {
     return this.http.put<Movement>(`${this.movementLink}/${movementId}`, movement);
   }
-
+ 
 
 }

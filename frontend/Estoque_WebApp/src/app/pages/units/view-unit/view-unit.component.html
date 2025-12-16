@@ -3,6 +3,7 @@
   <app-p-table 
     [showSearch]="true" 
     (onEdit)="EditUnit($event.id)"
+    (onView)="openTransferAction($event)"
     (searchEvent)="onSearch($event)" 
     [data]="units" 
     [delete]="false" 
@@ -10,4 +11,80 @@
     [view]="true">
   </app-p-table>
 </app-view-template>
+
+<!-- Modal de Transferência -->
+<app-modal #transferModal>
+  <div class="modal-body-custom" *ngIf="selectedUnit">
+
+    <div class="modal-header">
+      <h2>Transferência de Unidade</h2>
+      <p class="subtitle">Selecione o container de destino e informe a quantidade a transferir.</p>
+    </div>
+
+    <div class="item-info-card">
+      <div class="info-row">
+        <span class="label">ID da Unidade:</span>
+        <span class="value">#{{ selectedUnit.unitId || selectedUnit.id }}</span>
+      </div>
+
+      <div class="info-row" *ngIf="selectedUnit.gtin">
+        <span class="label">GTIN/Código:</span>
+        <span class="value">{{ selectedUnit.gtin }}</span>
+      </div>
+
+      <div class="info-row highlight">
+        <span class="label">Estoque Atual:</span>
+        <span class="value">{{ selectedUnit.quantity }} un.</span>
+      </div>
+    </div>
+
+    <form [formGroup]="transferForm" (ngSubmit)="confirmTransfer()" class="transfer-form">
+
+      <div class="form-group">
+        <label for="containerSelect">Container de Destino:</label>
+        <select id="containerSelect" formControlName="destinyContainerId">
+          <option value="">Selecione...</option>
+          <option *ngFor="let c of containers" [value]="c.id">{{ c.code || c.description || c.id }}</option>
+        </select>
+        <div class="error-container" *ngIf="transferForm.get('destinyContainerId')?.touched && transferForm.get('destinyContainerId')?.invalid">
+          <small *ngIf="transferForm.get('destinyContainerId')?.errors?.['required']">Selecione um container de destino.</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="qtdInput">Quantidade a Transferir:</label>
+        <input 
+          id="qtdInput" 
+          type="number" 
+          formControlName="quantity" 
+          placeholder="Ex: 2.5"
+          step="0.01"
+          [class.input-error]="transferForm.get('quantity')?.invalid && transferForm.get('quantity')?.touched"
+        />
+
+        <div class="error-container" *ngIf="transferForm.get('quantity')?.touched && transferForm.get('quantity')?.invalid">
+          <small *ngIf="transferForm.get('quantity')?.errors?.['required']">Informe a quantidade.</small>
+          <small *ngIf="transferForm.get('quantity')?.errors?.['min']">O valor deve ser maior que zero.</small>
+          <small *ngIf="transferForm.get('quantity')?.errors?.['max']">Não há estoque suficiente (Máx: {{ selectedUnit.quantity }}).</small>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" (click)="transferModal.toggle()">Cancelar</button>
+        <button type="submit" class="btn-confirm" [disabled]="transferForm.invalid">Confirmar</button>
+      </div>
+
+    </form>
+
+  </div>
+</app-modal>
+
+<app-modal #successTransferModal>
+  <div class="success-content">
+    <div class="success-icon">✓</div>
+    <h2>Transferência Registrada!</h2>
+    <p>A transferência foi processada com sucesso.</p>
+    <button (click)="successTransferModal.toggle()" class="btn-ok">OK</button>
+  </div>
+</app-modal>
 
