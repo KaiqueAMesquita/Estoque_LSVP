@@ -45,7 +45,7 @@ export class CreateProductsComponent extends BaseCreateComponent implements OnIn
   ) {
     super(router, fb);
     this.form = fb.group({
-      gtin: this.fb.control('', [Validators.required, onlyNumbersValidator(), exactLengthValidator(13)]),
+      gtin: this.fb.control('', [Validators.required, onlyNumbersValidator()]),
       measure: this.fb.control('', [Validators.required, onlyNumbersValidator()]),
       measureType: this.fb.control('', Validators.required),
       categoryId: this.fb.control('', Validators.required)

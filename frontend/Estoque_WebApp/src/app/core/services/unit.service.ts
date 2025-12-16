@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment.prod';
 import { Observable } from 'rxjs';
 import { Unit } from '../../shared/models/unit';
 import { Page } from '../../shared/models/page';
+import { Transfer } from './../../shared/models/transfer';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +48,11 @@ export class UnitService {
 
   public deleteUnit(id: number): Observable<void> {
     return this.http.delete<void>(`${this.unitLink}/${id}`);
+  }
+
+  public transferUnit(transfer: Transfer): Observable<Unit> {
+   
+    return this.http.post<Unit>(`${environment.API_URL}/movement/transfers`, transfer);
   }
 
 
