@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { Page } from './../../shared/models/page';
 import { Unit } from './../../shared/models/unit';
 import { KitchenUnit } from '../../shared/models/kitchen-unit';
@@ -12,7 +12,7 @@ import { KitchenUnit } from '../../shared/models/kitchen-unit';
 export class DashboardCookService {
   apiUrl = ''
   constructor(private http: HttpClient) {
-    this.apiUrl = environment.API_URL;
+    this.apiUrl = environment.api_url;
    }
 
   //COZINHA

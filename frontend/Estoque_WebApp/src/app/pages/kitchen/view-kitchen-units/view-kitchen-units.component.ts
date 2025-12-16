@@ -10,6 +10,11 @@ import { ModalComponent } from '../../../shared/components/modal/modal.component
 import { ModalModule } from '../../../shared/modules/modal/modal.module';
 import { MovementService } from '../../../core/services/movement.service';
 import { Consumption } from '../../../shared/models/consumption';
+import { lastValueFrom } from 'rxjs';
+import { UnitService } from '../../../core/services/unit.service';
+import { ContainerService } from '../../../core/services/container.service';
+import { icons } from '../../../shared/modules/icon/icon.module';
+import { Container } from '../../../shared/models/container';
 @Component({
   selector: 'app-view-kitchen-units',
   imports: [
@@ -38,14 +43,31 @@ export class ViewKitchenUnitsComponent implements OnInit {
   
   @ViewChild('consumptionModal') consumptionModal!: ModalComponent;
   @ViewChild('successModal') successModal!: ModalComponent;
+  @ViewChild('transferModal') transferModal!: ModalComponent;
+  @ViewChild('successTransferModal') successTransferModal!: ModalComponent;
+
+  transferForm: FormGroup;
+  containers: Container[] = [];
+
+  unitActions: Array<{ key: string; icon: keyof typeof icons; color?: string; title?: string }> = [
+    { key: 'transfer', icon: 'faRightLeft', color: '#007bff', title: 'Transferência' },
+    { key: 'consume', icon: 'faUtensils', color: '#dc3545', title: 'Registrar Baixa' }
+  ];
 
   constructor(
     private cookService: DashboardCookService,
     private movementService: MovementService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private unitService: UnitService,
+    private containerService: ContainerService
   ) {
     // Inicializa formulário com validação básica
     this.consumptionForm = this.fb.group({
+      quantity: [null, [Validators.required, Validators.min(0.01)]]
+    });
+
+    this.transferForm = this.fb.group({
+      destinyContainerId: [null, [Validators.required]],
       quantity: [null, [Validators.required, Validators.min(0.01)]]
     });
   }
@@ -67,6 +89,15 @@ export class ViewKitchenUnitsComponent implements OnInit {
         }));
       },
       error: (error) => console.error('Erro ao carregar unidades da cozinha:', error)
+    });
+  }
+
+  private loadContainers(page: number = 0): void {
+    this.containerService.getAllContainers(page, 50).subscribe({
+      next: (response) => {
+        this.containers = response.content || [];
+      },
+      error: (err) => console.error('Erro ao carregar containers:', err)
     });
   }
 
@@ -97,6 +128,66 @@ export class ViewKitchenUnitsComponent implements OnInit {
     this.consumptionForm.controls['quantity'].updateValueAndValidity();
 
     this.consumptionModal.toggle();
+  }
+
+  onTableAction(event: { key: string; row: any }): void {
+    if (event.key === 'transfer') {
+      this.openTransferAction(event.row);
+    } else if (event.key === 'consume') {
+      this.openConsumeAction(event.row);
+    } else {
+      console.warn('Ação desconhecida:', event.key);
+    }
+  }
+
+  openTransferAction(unit: any): void {
+    this.selectedUnit = unit;
+
+    const currentStock = unit.quantity || 0;
+
+    this.transferForm.reset();
+    this.transferForm.controls['quantity'].setValidators([
+      Validators.required,
+      Validators.min(0.01),
+      Validators.max(currentStock)
+    ]);
+    this.transferForm.controls['quantity'].updateValueAndValidity();
+
+    this.loadContainers();
+
+    try {
+      this.transferModal.toggle();
+    } catch (e) {
+      console.error('Erro ao abrir modal de transferência', e);
+    }
+  }
+
+  async confirmTransfer(): Promise<void> {
+    if (this.transferForm.invalid || !this.selectedUnit) {
+      this.transferForm.markAllAsTouched();
+      return;
+    }
+
+    const qtd = this.transferForm.value.quantity;
+    const destinyContainerId = this.transferForm.value.destinyContainerId;
+    const id = this.selectedUnit.unitId || this.selectedUnit.id;
+
+    const transfer = {
+      unitId: id,
+      quantity: qtd,
+      destinyContainerId: destinyContainerId,
+      userId: 1 // TODO: obter userId real via AuthenticationService
+    };
+
+    try {
+      await lastValueFrom(this.unitService.transferUnit(transfer));
+      try { this.transferModal.toggle(); } catch {}
+      try { this.successTransferModal.toggle(); } catch {}
+      this.loadUnits(this.pageNumber);
+    } catch (err) {
+      console.error('Erro na transferência', err);
+      alert('Ocorreu um erro ao realizar a transferência.');
+    }
   }
 
   confirmConsumption(): void {

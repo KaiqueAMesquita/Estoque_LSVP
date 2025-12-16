@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Unit } from '../../shared/models/unit';
@@ -13,7 +13,7 @@ import { ExpiringBatchs } from '../../shared/models/expiring-batchs';
   providedIn: 'root'
 })
 export class DashboardService {
-  apiUrl = environment.API_URL;
+  apiUrl = environment.api_url;
   constructor(private http: HttpClient) { }
 
   //ESTOQUE

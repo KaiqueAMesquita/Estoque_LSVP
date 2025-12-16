@@ -4,7 +4,7 @@ import { UnitService } from '../../../core/services/unit.service';
 import { Unit } from '../../../shared/models/unit';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, lastValueFrom } from 'rxjs';
 import { AuthenticationService } from '../../../core/authentication/authentication.service';
 import { NavigationWatcherService } from '../../../core/services/navigation-watcher.service';
 import { ViewTemplateComponent } from '../../../shared/components/view-template/view-template.component';
@@ -13,6 +13,7 @@ import { ModalModule } from '../../../shared/modules/modal/modal.module';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ContainerService } from '../../../core/services/container.service';
 import { Container } from '../../../shared/models/container';
+import { icons } from '../../../shared/modules/icon/icon.module';
 
 @Component({
   selector: 'app-view-unit',
@@ -35,6 +36,10 @@ export class ViewUnitComponent implements OnInit, OnDestroy {
   @ViewChild('transferModal') transferModal!: ModalComponent;
   @ViewChild('successTransferModal') successTransferModal!: ModalComponent;
 
+  unitActions: Array<{ key: string; icon: keyof typeof icons; color?: string; title?: string }> = [
+    { key: 'transfer', icon: 'faRightLeft', color: '#007bff', title: 'Transferência' }
+  ];
+
   constructor(
     private unitService: UnitService,
     private auth: AuthenticationService,
@@ -47,6 +52,14 @@ export class ViewUnitComponent implements OnInit, OnDestroy {
       destinyContainerId: [null, [Validators.required]],
       quantity: [null, [Validators.required, Validators.min(0.01)]]
     });
+  }
+
+  onTableAction(event: { key: string; row: any }): void {
+    if (event.key === 'transfer') {
+      this.openTransferAction(event.row);
+    } else {
+      console.warn('Ação desconhecida:', event.key);
+    }
   }
 
   ngOnInit(): void {
@@ -134,7 +147,7 @@ export class ViewUnitComponent implements OnInit, OnDestroy {
     }
   }
 
-  confirmTransfer(): void {
+  async confirmTransfer(): Promise<void> {
     if (this.transferForm.invalid || !this.selectedUnit) {
       this.transferForm.markAllAsTouched();
       return;
@@ -151,17 +164,15 @@ export class ViewUnitComponent implements OnInit, OnDestroy {
       userId: 1 // TODO: obter userId real via AuthenticationService
     };
 
-    this.unitService.transferUnit(transfer).subscribe({
-      next: (res) => {
-        this.transferModal.toggle();
-        this.successTransferModal.toggle();
-        this.loadUnits(this.pageNumber);
-      },
-      error: (err) => {
-        console.error('Erro na transferência', err);
-        alert('Ocorreu um erro ao realizar a transferência.');
-      }
-    });
+    try {
+      await lastValueFrom(this.unitService.transferUnit(transfer));
+      try { this.transferModal.toggle(); } catch {}
+      try { this.successTransferModal.toggle(); } catch {}
+      this.loadUnits(this.pageNumber);
+    } catch (err) {
+      console.error('Erro na transferência', err);
+      alert('Ocorreu um erro ao realizar a transferência.');
+    }
   }
 
   onPageChange(page: number): void {

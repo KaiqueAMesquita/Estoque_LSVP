@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { Unit } from '../../shared/models/unit';
 import { Page } from '../../shared/models/page';
@@ -14,7 +14,7 @@ export class UnitService {
    unitLink: string  = "";
 
   constructor(private http: HttpClient) { 
-    this.unitLink = environment.API_URL+"/unit"
+    this.unitLink = environment.api_url + "/unit"
   }
 
   public getAllUnits(page : number = 0, limit: number = 20, sort: string = 'id,desc', productId?: number, batch?: string): Observable<Page<Unit>> {
@@ -52,7 +52,7 @@ export class UnitService {
 
   public transferUnit(transfer: Transfer): Observable<Unit> {
    
-    return this.http.post<Unit>(`${environment.API_URL}/movement/transfers`, transfer);
+    return this.http.post<Unit>(`${environment.api_url}/movement/transfers`, transfer);
   }
 
 

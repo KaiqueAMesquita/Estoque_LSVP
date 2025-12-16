@@ -3,12 +3,13 @@
   <app-p-table 
     [showSearch]="true" 
     (onEdit)="EditUnit($event.id)"
-    (onView)="openTransferAction($event)"
+    (onAction)="onTableAction($event)"
     (searchEvent)="onSearch($event)" 
     [data]="units" 
     [delete]="false" 
     [edit]="true" 
-    [view]="true">
+    [view]="false"
+    [actions]="unitActions">
   </app-p-table>
 </app-view-template>
 

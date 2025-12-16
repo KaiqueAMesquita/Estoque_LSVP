@@ -75,7 +75,7 @@ export class PedingOrdersComponent implements OnInit, OnDestroy {
   }
 
   ViewOrder(id: number): void {
-    this.router.navigate(['fullfill/order', id]);
+    this.router.navigate(['/fulfill/order', id]);
   }
 
   onPageChange(page: number): void {

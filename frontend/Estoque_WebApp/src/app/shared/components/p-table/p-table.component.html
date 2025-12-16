@@ -1,4 +1,4 @@
-<div class="table-container">
+<div class="table-container" [style.--scale-factor]="scale">
   <input
     *ngIf="showSearch"
     type="text"
@@ -22,6 +22,7 @@
         <th *ngIf="view">Visualizar</th>
         <th *ngIf="edit">Editar</th>
         <th *ngIf="delete">Deletar</th>
+        <th *ngIf="actions?.length">Ações</th>
       </tr>
     </thead>
 
@@ -36,23 +37,40 @@
 
         <!-- Novo botão de Visualizar -->
         <td *ngIf="view" data-label="Visualizar">
-          <button class="view-btn" (click)="onView.emit(row)" title="Visualizar">
+          <button class="view-btn" (click)="$event.stopPropagation(); onView.emit(row)" title="Visualizar">
             <fa-icon [icon]="icons.faEye"></fa-icon>
           </button>
         </td>
 
         <td *ngIf="edit" data-label="Editar">
-          <button class="edit-btn" (click)="onEdit.emit(row)" title="Editar">
+          <button class="edit-btn" (click)="$event.stopPropagation(); onEdit.emit(row)" title="Editar">
             <fa-icon [icon]="icons.faPenToSquare"></fa-icon>
           </button>
         </td>
 
         <td *ngIf="delete" data-label="Deletar">
           <!-- Botão de deletar -->
-          <button class="delete-btn" (click)="modal.toggle()" title="Excluir">
+          <button class="delete-btn" (click)="$event.stopPropagation(); modal.toggle()" title="Excluir">
             <fa-icon [icon]="icons.faTrash"></fa-icon>
           </button>
-          </td>
+        </td>
+
+        <td *ngIf="actions?.length" data-label="Ações">
+          <ng-container *ngFor="let action of actions">
+            <button
+              class="action-btn"
+              (click)="$event.stopPropagation(); onAction.emit({ key: action.key, row: row })"
+              [title]="action.title || action.key"
+              [ngStyle]="{
+                'background-color': '#ffffff',
+                'color': action.color || 'var(--secondary-color)',
+                'border': action.color ? ('1px solid ' + action.color) : '1px solid var(--border-color)'
+              }"
+            >
+              <fa-icon [icon]="icons[action.icon]"></fa-icon>
+            </button>
+          </ng-container>
+        </td>
 
         
 

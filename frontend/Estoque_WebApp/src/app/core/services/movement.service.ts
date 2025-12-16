@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, Input } from '@angular/core';
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { InputMovement } from '../../shared/models/inputMovement';
 import { Movement } from '../../shared/models/movement';
@@ -12,7 +12,7 @@ import { Consumption } from '../../shared/models/consumption';
 export class MovementService {
   movementLink: string = '';
   constructor(private http: HttpClient) { 
-    this.movementLink = environment.API_URL+"/movement"
+    this.movementLink = environment.api_url + "/movement"
   }
 
   createInputMovement(movement: InputMovement): Observable<InputMovement> {

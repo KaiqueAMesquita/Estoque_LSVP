@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Container } from '../../shared/models/container';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { Page } from '../../shared/models/page';
 
@@ -13,7 +13,7 @@ export class ContainerService {
   containerLink: string = '';
 
   constructor(private http: HttpClient) {
-    this.containerLink = environment.API_URL + "/container";
+    this.containerLink = environment.api_url + "/container";
   }
 
   // Método para registrar um container

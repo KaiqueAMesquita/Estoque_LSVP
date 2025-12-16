@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { Order } from '../../shared/models/order';
 import { Page } from '../../shared/models/page';
@@ -15,7 +15,7 @@ import { FulfillSuggestion } from '../../shared/models/fulfill-suggestions';
 export class OrderService {
  orderLink: string = '';
   constructor(private http: HttpClient) { 
-    this.orderLink = environment.API_URL+"/orders"
+    this.orderLink = environment.api_url + "/orders"
   
 }
 

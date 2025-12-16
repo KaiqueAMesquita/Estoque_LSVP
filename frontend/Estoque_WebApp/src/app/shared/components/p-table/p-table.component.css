@@ -1,23 +1,25 @@
 /* Váriaveis de Tema para um estilo limpo e customizável */
 :host {
-  --primary-color: #007bff;
-  --primary-hover-color: #0056b3;
+  --primary-color: #0d6efd;
+  --primary-hover-color: #0b5ed7;
   --danger-color: #dc3545;
   --danger-hover-color: #c82333;
   --success-color: #28a745;
   --success-hover-color: #218838;
   --info-color: #17a2b8;
   --info-hover-color: #138496;
-  --secondary-color: #6c757d;
-  --secondary-hover-color: #5a6268;
+  --secondary-color: #495057;
+  --secondary-hover-color: #343a40;
   --background-color: #ffffff;
-  --header-background-color: #f8f9fa;
-  --row-hover-color: #f1f3f5;
+  --header-background-color: #f1f3f5;
+  --row-hover-color: #f8f9fa;
   --border-color: #dee2e6;
   --text-color: #212529;
   --text-muted-color: #6c757d;
-  --shadow-color: rgba(0, 0, 0, 0.075);
-  --border-radius: 0.25rem;
+  --shadow-color: rgba(0, 0, 0, 0.06);
+  --border-radius: 0.35rem;
+  /* scale factor applied dynamically via inline style: --scale-factor */
+  --scale-factor: 1;
 }
 
 /* Container principal da tabela com scroll horizontal */
@@ -39,8 +41,8 @@ table {
 
 /* Título da tabela */
 caption {
-  padding: 0.75rem 1.25rem;
-  font-size: 1.25rem;
+  padding: calc(0.75rem * var(--scale-factor)) calc(1.25rem * var(--scale-factor));
+  font-size: calc(1.25rem * var(--scale-factor));
   font-weight: 600;
   color: var(--text-color);
   background-color: var(--header-background-color);
@@ -50,7 +52,7 @@ caption {
 
 /* Células do cabeçalho e do corpo da tabela */
 th, td {
-  padding: 0.75rem;
+  padding: calc(0.75rem * var(--scale-factor));
   vertical-align: middle;
   border-top: 1px solid var(--border-color);
 }
@@ -76,14 +78,14 @@ tbody tr:hover {
 
 button {
   border: none;
-  padding: 0.5rem 0.75rem;
+  padding: calc(0.5rem * var(--scale-factor)) calc(0.75rem * var(--scale-factor));
   border-radius: var(--border-radius);
   cursor: pointer;
   display: inline-flex; 
   align-items: center;
   justify-content: center;
-  gap: 0.5rem; 
-  font-size: 1rem;
+  gap: calc(0.5rem * var(--scale-factor)); 
+  font-size: calc(1rem * var(--scale-factor));
   line-height: 1.5;
   transition: all 0.15s ease-in-out;
   font-family: inherit;
@@ -97,8 +99,8 @@ button:focus {
 
 .edit-btn, .delete-btn, .view-btn {
   color: white;
-  width: 35px; 
-  height: 35px;
+  width: calc(35px * var(--scale-factor));
+  height: calc(35px * var(--scale-factor));
   padding: 0;
 }
 
@@ -123,10 +125,15 @@ button:focus {
   background-color: var(--danger-hover-color);
 }
 .action-btn {
-  background-color: var(--secondary-color);
+  background-color: #ffffff; /* teto branco */
+  color: var(--secondary-color);
+  width: calc(35px * var(--scale-factor));
+  height: calc(35px * var(--scale-factor));
+  padding: 0;
+  border: 1px solid var(--border-color);
 }
 .action-btn:hover {
-  background-color: var(--secondary-hover-color);
+  filter: brightness(0.95);
 }
 
 /* Linha clicável */
@@ -149,7 +156,7 @@ p {
 }
 
 .modal-btn {
-  padding: 0.6rem 1.2rem;
+  padding: calc(0.6rem * var(--scale-factor)) calc(1.2rem * var(--scale-factor));
   font-weight: 600;
   margin: 0.5rem 0.5rem 0.5rem 0;
 }
@@ -219,8 +226,8 @@ p {
 
 .triangle {
   display: inline-block; width: 0; height: 0;
-  border-left: 4px solid transparent; border-right: 4px solid transparent;
-  border-top: 6px solid var(--text-muted-color); margin-left: 0.5rem;
+  border-left: calc(4px * var(--scale-factor)) solid transparent; border-right: calc(4px * var(--scale-factor)) solid transparent;
+  border-top: calc(6px * var(--scale-factor)) solid var(--text-muted-color); margin-left: calc(0.5rem * var(--scale-factor));
   vertical-align: middle; transition: transform 0.2s ease-in-out, border-top-color 0.2s ease-in-out;
 }
 th:hover .triangle { border-top-color: var(--text-color); }
