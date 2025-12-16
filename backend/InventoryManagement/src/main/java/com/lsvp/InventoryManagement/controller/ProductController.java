@@ -16,10 +16,9 @@ import jakarta.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -35,6 +34,7 @@ public class ProductController {
     private StockReportService stockReportService;
 
         @PostMapping
+        @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
         public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductCreateDTO dto){
 
             return ResponseEntity.ok(productService.createProduct(dto));
@@ -63,12 +63,14 @@ public class ProductController {
         }
 
         @PutMapping("/{id}")
+        @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
         public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductUpdateDTO dto){
 
             return ResponseEntity.ok(productService.updateProduct(id, dto));
         }
 
         @DeleteMapping("/{id}")
+        @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
         public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
 
             productService.deleteProduct(id);
