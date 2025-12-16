@@ -1,18 +1,18 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, Input } from '@angular/core';
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { InputMovement } from '../../shared/models/inputMovement';
 import { Movement } from '../../shared/models/movement';
 import { Page } from '../../shared/models/page';
-
+import { Consumption } from '../../shared/models/consumption';
 @Injectable({
   providedIn: 'root'
 })
 export class MovementService {
   movementLink: string = '';
   constructor(private http: HttpClient) { 
-    this.movementLink = environment.API_URL+"/movement"
+    this.movementLink = environment.api_url + "/movement"
   }
 
   createInputMovement(movement: InputMovement): Observable<InputMovement> {
@@ -35,14 +35,14 @@ export class MovementService {
     return this.http.get<Movement>(`${this.movementLink}/${movementId}`);
   }
 
+  public consumptionMovement(comsuption: Consumption): Observable<Movement> {
+    return this.http.post<Movement>(`${this.movementLink}/consumption`, comsuption);
+  }
+
   // Método para atualizar um Movement
   public updateMovement(movementId: number, movement: Partial<Movement>): Observable<Movement> {
     return this.http.put<Movement>(`${this.movementLink}/${movementId}`, movement);
   }
+ 
 
-  // Método para deletar um Movement
-  public deleteMovement(movementId: number): Observable<void> {
-    return this.http.delete<void>(`${this.movementLink}/${movementId}`);
-  }
-  
 }

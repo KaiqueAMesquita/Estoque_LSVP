@@ -8,7 +8,7 @@ import lombok.Data;
 public class OrderItemCreateDTO {
 
     @NotNull 
-    private Long productId;
+    private Long categoryId;
 
     @Min(1)
     private int quantityRequested;

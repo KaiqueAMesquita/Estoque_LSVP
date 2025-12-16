@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Category } from '../../shared/models/category';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { Page } from '../../shared/models/page';
+import { AveragePrice } from '../../shared/models/average-price';
+import { CategoryTotal } from '../../shared/models/category-total';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ import { Page } from '../../shared/models/page';
 export class CategoryService {
   categoryLink: string = '';
   constructor(private http: HttpClient) { 
-    this.categoryLink = environment.API_URL + "/category";
+    this.categoryLink = environment.api_url + "/category";
   }
 
   // Método para registrar uma categoria
@@ -59,5 +61,21 @@ export class CategoryService {
         console.error('Erro ao deletar categoria:', error);
       }
     );
+  }
+public getAveragePriceByCategory(categoryId: number, startMonth: number, startYear: number, endMonth: number, endYear: number): Observable<AveragePrice>{
+    let params = new HttpParams()
+    .set('categoryId', categoryId)
+    .set('startMonth', startMonth)
+    .set('startYear', startYear)
+    .set('endMonth', endMonth)
+    .set('endYear', endYear)
+  
+    return this.http.get<AveragePrice>(`${environment.api_url}/reports/average-price`, {params})
+
+  }
+  public getTotalQuantityByCategory(categoryId: number): Observable<CategoryTotal>{
+    let params = new HttpParams()
+    .set('categoryId', categoryId.toString())
+    return this.http.get<CategoryTotal>(`${environment.api_url}/reports/category-total`, {params});
   }
 }

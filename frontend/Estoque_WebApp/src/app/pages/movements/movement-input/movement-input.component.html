@@ -9,14 +9,6 @@
     [cancelText]="'Cancelar'"
     (formSubmit)="onSubmit()"
 >
-    <!-- Campo para o ID do Produto -->
-    <app-input
-        [control]="getControl('productId')"
-        type="text"
-        label="ID do Produto"
-        placeholder="Digite o ID ou código do produto"
-    ></app-input>
-
     <!-- Campo para o Lote -->
     <app-input
         [control]="getControl('batch')"
@@ -31,14 +23,6 @@
         type="number"
         label="Quantidade"
         placeholder="Digite a quantidade"
-    ></app-input>
-
-    <!-- Campo para o ID do Contêiner/Local de Armazenamento -->
-    <app-input
-        [control]="getControl('containerId')"
-        type="text"
-        label="ID do Contêiner"
-        placeholder="Digite o ID do contêiner ou local"
     ></app-input>
 
     <!-- Campo para o Tipo de Origem -->
@@ -74,12 +58,15 @@
         placeholder="Digite o preço unitário"
     ></app-input>
 
-    <!-- Campo para o ID do Usuário que está registrando -->
-    <app-input
-        [control]="getControl('userId')"
-        type="text"
-        label="ID do Usuário"
-        placeholder="ID do usuário responsável"
-    ></app-input>
+    <!-- Tabela para seleção de Contêiner -->
+    <app-p-table
+      [data]="containers"
+      [title]="'Selecione um Contêiner'"
+      [select]="true"
+      [showSearch]="true"
+      (onSelect)="handleContainerSelection($event)"
+      (searchEvent)="onContainerSearch($event)" >
+    </app-p-table>
+
 
 </app-form-template>

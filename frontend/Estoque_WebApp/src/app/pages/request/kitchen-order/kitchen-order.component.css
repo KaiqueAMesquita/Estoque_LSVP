@@ -1,29 +1,219 @@
-.order-paper{
-    border: 1px solid #cccccc;
-    border-radius: 1px;
-    padding: 5px;
-    margin: 5px;
-    justify-content: center;
-    align-items: center;
-    width: 90%;
-}
-.order-items{
+/* --- Layout Principal --- */
+.container {
     display: flex;
     flex-direction: column;
-    padding: 5px;
-    margin: 5px;
+    gap: 2rem;
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
-.x{
-    cursor: pointer;
-    color: rgb(158, 158, 158);
+
+/* Em telas grandes, coloca lado a lado */
+@media (min-width: 992px) {
+    .container {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .form-section {
+        flex: 1; /* Ocupa o espaço que sobrar */
+        position: sticky;
+        top: 20px;
+    }
+
+    .order-paper-container {
+        flex: 1;
+        min-width: 350px;
+        max-width: 500px; /* Limita a largura do papel para não ficar esticado demais */
+    }
 }
-ul{
-    list-style-type: none;
+
+/* --- O Papel (Container) --- */
+.order-paper {
+    background-color: #fffdf8; /* Off-white */
+    width: 100%;
+    min-height: 500px; /* Altura mínima boa */
+    padding: 2rem;
+    
+    /* Sombra de pilha de papel */
+    box-shadow: 
+        0 1px 1px rgba(0,0,0,0.15), 
+        0 10px 0 -5px #eee, 
+        0 10px 1px -4px rgba(0,0,0,0.15), 
+        0 20px 0 -10px #eee, 
+        0 20px 1px -9px rgba(0,0,0,0.15);
+    
+    border-radius: 2px;
+    border: 1px solid #e0e0e0;
+    
+    /* Flex para empurrar o rodapé para baixo */
+    display: flex;
+    flex-direction: column; 
+    position: relative;
+}
+
+/* Título */
+.order-paper h3 {
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 2px dashed #333;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+/* --- Lista de Itens --- */
+.order-items {
+    flex-grow: 1; /* Faz a lista crescer e empurrar o rodapé */
+    display: flex;
+    flex-direction: column;
     padding: 0;
+    margin: 0;
+    list-style-type: none;
 }
-li{
+
+/* Itens individuais */
+.order-items li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #cccccc;
+    border-bottom: 1px solid #a8caff; /* Linha de caderno azul */
+    padding: 12px 5px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.1rem;
+    color: #2c3e50;
+}
+
+/* Quantidade destaque */
+.quantity {
+    font-weight: bold;
+    margin-right: 8px;
+    background-color: #eee;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.95rem;
+}
+
+/* Botão X (remover) */
+.x {
+    cursor: pointer;
+    color: #ff6b6b;
+    opacity: 0.6;
+    transition: all 0.2s;
+    font-size: 1.2rem;
+    padding: 5px;
+}
+
+.x:hover {
+    color: #ff0000;
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* --- Paginação do Form (Estilo existente) --- */
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    padding: 0;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem; 
+}
+
+.pagination .list-item {
+    margin: 0 0.8rem;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #919191;
+    transition: color 0.2s ease-in-out;
+}
+
+.pagination .list-item:hover {
+    color: #333;
+}
+
+.pagination .list-item#page-number {
+    cursor: default;
+    font-weight: bold;
+    color: #000000;
+}
+
+/* --- Rodapé do Papel (Novos Botões) --- */
+.paper-footer {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px dashed #333; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.total-info {
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: bold;
+}
+
+.paper-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* Botão Limpar */
+.btn-clear {
+    background: transparent;
+    border: 1px solid #ff6b6b;
+    color: #ff6b6b;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+.btn-clear:hover {
+    background-color: #fff0f0;
+    color: #d32f2f;
+}
+
+.btn-clear:disabled {
+    opacity: 0.3;
+    cursor: default;
+    background: none;
+}
+
+/* Botão Confirmar (Estilo Carimbo) */
+.btn-confirm {
+    background-color: #2e7d32; /* Verde */
+    color: white;
+    border: 2px solid #1b5e20;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+    transition: all 0.2s;
+}
+
+.btn-confirm:hover {
+    background-color: #388e3c;
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.2);
+}
+
+.btn-confirm:disabled {
+    background-color: #ccc;
+    border-color: #999;
+    color: #888;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
 }

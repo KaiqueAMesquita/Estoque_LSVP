@@ -79,7 +79,7 @@
 /* Cores específicas para os ícones */
 #fazer-pedido { color: #28a745; }
 #gerar-relatorio { color: #17a2b8; }
-#finalizar-pedido { color: #007bff; }
+#pedidos-pendentes { color: #ffc107; }
 
 
 @media (max-width: 992px) {

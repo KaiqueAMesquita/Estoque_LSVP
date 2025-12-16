@@ -28,8 +28,9 @@ public class DashboardService {
     @Transactional(readOnly = true)
     public KitchenProductCountDTO getKitchenProductCount() {
         Container kitchen = getKitchenContainer();
-        long count = unitRepository.countDistinctProductsByContainerAndQuantityGreaterThan(kitchen);
-        return new KitchenProductCountDTO(count);
+
+        long totalQuantity = unitRepository.sumTotalQuantityByContainer(kitchen);
+        return new KitchenProductCountDTO(totalQuantity);
     }
 
 

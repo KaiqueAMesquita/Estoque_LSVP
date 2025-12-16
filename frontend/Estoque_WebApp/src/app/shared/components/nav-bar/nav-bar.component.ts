@@ -33,10 +33,7 @@ export class NavBarComponent {
   // 'icons' é o objeto que contém todos os ícones importados do módulo
   icons = icons;
 
-  // 'hasRole' verifica se o usuário tem um papel específico
-  hasRole(role: string): boolean {
-    return this.auth.getToken() === role;
-  }
+  
 
   // 'showDropdown' controla a visibilidade do dropdown de produtos
   showDropdown = false;
@@ -48,20 +45,33 @@ export class NavBarComponent {
   // então, troquei pra força bruta com essa função. XD
   // Só acrescentar mais rotas ou opções aqui
   setActiveByRoute(url: string) {
-    if (url.includes('dashboard')) {
+    if (url.includes('dashboard/stock')) {
       this.activeMenu = 'home';
     }else if(url.includes('users')){
       this.activeMenu = 'usuarios'
+    }else  if (url.includes('movements')){
+        this.activeMenu = 'movimentacoes';
     }else if (url.includes('manage')) {
       this.activeMenu = 'gestao';
-    } else if (url.includes('relatorios')) {
+       
+    } else if (url.includes('reports')) {
       this.activeMenu = 'relatorios';
+    } else if (url.includes('kitchen/units') || url.includes('kitchen/pending') || url.includes('kitchen/request')) {
+      this.activeMenu = 'gestao-cozinha';
+  
+    } else if (url.includes('cook') || url.includes('kitchen')) {
+      this.activeMenu = 'cozinha';
     }
   }
 
   // 'isActive' verifica se o menu está ativo
   isActive(menu: string): boolean {
     return this.activeMenu === menu;
+  }
+
+  getRole = (): string => {
+    console.log(this.auth.getUserRole());
+    return this.auth.getUserRole();
   }
 
 

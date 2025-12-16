@@ -1,0 +1,135 @@
+<app-manage-layout></app-manage-layout>
+
+  <app-nav-bar></app-nav-bar>
+
+  <div class="content-wrapper">
+    
+    <header class="page-header">
+      <div class="header-left">
+        <button class="btn-back" (click)="goBack()">
+          <fa-icon [icon]="icons.faArrowLeft"></fa-icon> Voltar
+        </button>
+        <h2>Finalizar Pedido #{{ orderId }}</h2>
+      </div>
+      <div class="header-info" *ngIf="order">
+        <span><fa-icon [icon]="icons.faUser"></fa-icon> Solicitante: <strong>{{ order.requesterName }}</strong></span>
+        <span><fa-icon [icon]="icons.faCalendar"></fa-icon> {{ order.date | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+    </header>
+
+    <div *ngIf="isLoading" class="loading-container">
+      <fa-icon [icon]="icons.faSpinner"  size="3x"></fa-icon>
+      <p>Carregando...</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+      
+      <div class="destination-card">
+        <h3 class="section-title">1. Selecione o Destino (Preparação)</h3>
+        
+        <div class="selected-display" [class.has-value]="selectedContainerDescription">
+          <label>Destino Selecionado:</label>
+          <input 
+            type="text" 
+            [value]="selectedContainerDescription || 'Clique na tabela abaixo para selecionar...'" 
+            readonly
+            [class.invalid]="form.get('destination')?.invalid && form.get('destination')?.touched"
+          >
+        </div>
+
+        <div class="small-table-wrapper">
+          <app-p-table
+              [data]="containersData"
+              [select]="true"
+              [showSearch]="true"
+              title="Locais Disponíveis"
+              (searchEvent)="onContainerSearch($event)"
+              (onSelect)="onContainerSelect($event)"
+          >
+          </app-p-table>
+
+          <div *ngIf="containerTotalPages > 1">
+              <ul class="pagination">
+                  <li class="list-item" (click)="changeContainerPage(0)">
+                      <fa-icon [icon]="icons.faBackwardFast"></fa-icon>
+                  </li>
+                  <li class="list-item" (click)="changeContainerPage(containerPage - 1)">
+                      <fa-icon [icon]="icons.faBackward"></fa-icon>
+                  </li>
+                  <li class="list-item" id="page-number">
+                      {{ containerPage + 1 }}
+                  </li>
+                  <li class="list-item" (click)="changeContainerPage(containerPage + 1)">
+                      <fa-icon [icon]="icons.faForward"></fa-icon>
+                  </li>
+                  <li class="list-item" (click)="changeContainerPage(containerTotalPages - 1)">
+                      <fa-icon [icon]="icons.faForwardFast"></fa-icon>
+                  </li>
+              </ul>
+          </div>
+        </div>
+
+        <small *ngIf="form.get('destination')?.invalid && form.get('destination')?.touched" class="error-msg">
+            É obrigatório selecionar um container de destino na tabela.
+        </small>
+      </div>
+
+      <div class="items-card">
+        <h3 class="section-title">2. Conferência de Itens</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Produto</th>
+                <th>Lote</th>
+                <th>Validade</th>
+                <th>Estoque</th>
+                <th style="width: 150px;">Qtd. Enviar</th>
+              </tr>
+            </thead>
+            <tbody formArrayName="fulfillments">
+              <tr *ngFor="let item of fulfillmentsArray.controls; let i = index" [formGroupName]="i" 
+                  [class.row-invalid]="item.invalid && item.touched">
+                
+                <td data-label="Produto"><strong>{{ item.get('productName')?.value }}</strong></td>
+                <td data-label="Lote"><span class="badge-batch">{{ item.get('batch')?.value }}</span></td>
+                <td data-label="Validade">
+                  <span [ngClass]="getExpiryClass(item.get('expirationDate')?.value)">
+                    {{ item.get('expirationDate')?.value | date:'dd/MM/yyyy' }}
+                  </span>
+                </td>
+                <td data-label="Disp.">{{ item.get('available')?.value }}</td>
+                <td data-label="Qtd.">
+                  <input type="number" formControlName="quantity" class="qty-input" [class.error]="item.get('quantity')?.invalid">
+                  <small *ngIf="item.get('quantity')?.hasError('max')" class="error-msg">Máx: {{ item.get('available')?.value }}</small>
+                </td>
+              </tr>
+              <tr *ngIf="fulfillmentsArray.controls.length === 0">
+                <td colspan="5" class="empty-msg">Nenhuma sugestão de estoque.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="goBack()">Cancelar</button>
+        <button type="submit" class="btn-confirm" [disabled]="!isFormValid() || isSubmitting">
+          <fa-icon [icon]="icons.faCheck" *ngIf="!isSubmitting"></fa-icon>
+          <fa-icon [icon]="icons.faSpinner"  *ngIf="isSubmitting"></fa-icon>
+          <span>{{ isSubmitting ? 'Processando...' : 'CONFIRMAR BAIXA' }}</span>
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+<app-modal #feedbackModal>
+  <div class="modal-body text-center">
+    <fa-icon [icon]="modalType === 'success' ? icons.faCheckCircle : icons.faTriangleExclamation" 
+             [style.color]="modalType === 'success' ? '#28a745' : '#dc3545'" size="3x" class="mb-3 d-block"></fa-icon>
+    <h3>{{ modalType === 'success' ? 'Sucesso!' : 'Atenção' }}</h3>
+    <p>{{ modalMessage }}</p>
+    <button class="btn-modal" (click)="onModalConfirm()">OK</button>
+  </div>
+</app-modal>

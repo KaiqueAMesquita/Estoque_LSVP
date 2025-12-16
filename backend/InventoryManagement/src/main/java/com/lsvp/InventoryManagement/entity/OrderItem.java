@@ -32,6 +32,6 @@ public class OrderItem {
     private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_tbl_product_pdt_id", nullable = false)
-    private Product product;
+    @JoinColumn(name = "fk_tbl_category_cat_id", nullable = false)
+    private Category category;
 }

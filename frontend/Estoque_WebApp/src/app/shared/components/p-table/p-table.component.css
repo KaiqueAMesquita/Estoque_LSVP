@@ -1,43 +1,48 @@
-
 /* Váriaveis de Tema para um estilo limpo e customizável */
 :host {
-  --primary-color: #007bff;
-  --primary-hover-color: #0056b3;
+  --primary-color: #0d6efd;
+  --primary-hover-color: #0b5ed7;
   --danger-color: #dc3545;
   --danger-hover-color: #c82333;
   --success-color: #28a745;
   --success-hover-color: #218838;
+  --info-color: #17a2b8;
+  --info-hover-color: #138496;
+  --secondary-color: #495057;
+  --secondary-hover-color: #343a40;
   --background-color: #ffffff;
-  --header-background-color: #f8f9fa;
-  --row-hover-color: #f1f3f5;
+  --header-background-color: #f1f3f5;
+  --row-hover-color: #f8f9fa;
   --border-color: #dee2e6;
   --text-color: #212529;
   --text-muted-color: #6c757d;
-  --shadow-color: rgba(0, 0, 0, 0.075);
-  --border-radius: 0.25rem;
+  --shadow-color: rgba(0, 0, 0, 0.06);
+  --border-radius: 0.35rem;
+  /* scale factor applied dynamically via inline style: --scale-factor */
+  --scale-factor: 1;
 }
 
 /* Container principal da tabela com scroll horizontal */
 .table-container {
-  width: 90%; /* Alinhado com a barra de busca para consistência */
+  width: 90%;
   overflow-x: auto;
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
   box-shadow: 0 0.125rem 0.25rem var(--shadow-color);
-  margin: 1.5rem auto 0; /* Centraliza o container na página */
+  margin: 1.5rem auto 0;
 }
 
 /* Estilo base da tabela */
 table {
   width: 100%;
   border-collapse: collapse;
-  text-align: left; /* Alinhamento à esquerda para melhor legibilidade */
+  text-align: left;
 }
 
 /* Título da tabela */
 caption {
-  padding: 0.75rem 1.25rem;
-  font-size: 1.25rem;
+  padding: calc(0.75rem * var(--scale-factor)) calc(1.25rem * var(--scale-factor));
+  font-size: calc(1.25rem * var(--scale-factor));
   font-weight: 600;
   color: var(--text-color);
   background-color: var(--header-background-color);
@@ -47,7 +52,7 @@ caption {
 
 /* Células do cabeçalho e do corpo da tabela */
 th, td {
-  padding: 0.75rem;
+  padding: calc(0.75rem * var(--scale-factor));
   vertical-align: middle;
   border-top: 1px solid var(--border-color);
 }
@@ -66,23 +71,24 @@ th:hover {
   cursor: pointer;
 }
 
-/* Efeito de hover nas linhas do corpo da tabela */
 tbody tr:hover {
   background-color: var(--row-hover-color);
 }
 
-/* Botões de ação */
+
 button {
   border: none;
-  padding: 0.5rem 0.75rem;
+  padding: calc(0.5rem * var(--scale-factor)) calc(0.75rem * var(--scale-factor));
   border-radius: var(--border-radius);
   cursor: pointer;
-  display: inline-flex;
+  display: inline-flex; 
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  gap: calc(0.5rem * var(--scale-factor)); 
+  font-size: calc(1rem * var(--scale-factor));
   line-height: 1.5;
-  transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: all 0.15s ease-in-out;
+  font-family: inherit;
 }
 
 button:focus {
@@ -90,18 +96,24 @@ button:focus {
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-.table-icon {
-  font-size: 1rem;
+
+.edit-btn, .delete-btn, .view-btn {
+  color: white;
+  width: calc(35px * var(--scale-factor));
+  height: calc(35px * var(--scale-factor));
+  padding: 0;
 }
 
-.edit-btn, .delete-btn {
-  color: white;
+.view-btn {
+  background-color: var(--info-color);
+}
+.view-btn:hover {
+  background-color: var(--info-hover-color);
 }
 
 .edit-btn {
   background-color: var(--primary-color);
 }
-
 .edit-btn:hover {
   background-color: var(--primary-hover-color);
 }
@@ -109,165 +121,115 @@ button:focus {
 .delete-btn {
   background-color: var(--danger-color);
 }
-
 .delete-btn:hover {
   background-color: var(--danger-hover-color);
+}
+.action-btn {
+  background-color: #ffffff; /* teto branco */
+  color: var(--secondary-color);
+  width: calc(35px * var(--scale-factor));
+  height: calc(35px * var(--scale-factor));
+  padding: 0;
+  border: 1px solid var(--border-color);
+}
+.action-btn:hover {
+  filter: brightness(0.95);
 }
 
 /* Linha clicável */
 .view:hover {
   cursor: pointer;
 }
+.selected {
+  background-color: #ebebeb !important;
+}
 
-/* Botões de Modal */
+
+h2 {
+    color: var(--text-color);
+    margin-top: 0;
+}
+
+p {
+    color: var(--text-muted-color);
+    margin-bottom: 1.5rem;
+}
+
 .modal-btn {
-  padding: 0.5rem 1rem;
+  padding: calc(0.6rem * var(--scale-factor)) calc(1.2rem * var(--scale-factor));
   font-weight: 600;
-  margin: 0.5rem;
-  background-color: #e9ecef;
-  color: var(--text-color);
+  margin: 0.5rem 0.5rem 0.5rem 0;
 }
 
-.modal-btn:hover {
-  background-color: #ced4da;
+.cancel-btn {
+  background-color: var(--secondary-color);
+  color: white;
+}
+.cancel-btn:hover {
+  background-color: var(--secondary-hover-color);
 }
 
+/* Botão Excluir (Vermelho) */
 .exclude-btn {
   background-color: var(--danger-color);
   color: white;
 }
-
 .exclude-btn:hover {
   background-color: var(--danger-hover-color);
+  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
 }
 
 .ok-btn {
   background-color: var(--success-color);
   color: white;
 }
-
 .ok-btn:hover {
   background-color: var(--success-hover-color);
-}
-.selected {
-  background-color: #ebebeb !important; /* Cor de fundo diferente para a linha selecionada */
+  box-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
 }
 
-/* Responsividade */
 @media (max-width: 992px) {
-  th, td {
-    padding: 0.5rem;
-  }
-  caption {
-    padding: 0.5rem 1rem;
-    font-size: 1.1rem;
-  }
+  th, td { padding: 0.5rem; }
+  caption { padding: 0.5rem 1rem; font-size: 1.1rem; }
 }
 
 @media (max-width: 768px) {
-  .table-container {
-    width: 95%; /* Ocupa mais espaço em telas menores */
-    border: none;
-    box-shadow: none;
-  }
-
-  .search {
-    width: 95%; /* Alinha com a tabela em telas menores */
-  }
-
-  table, thead, tbody, th, td, tr {
-    display: block;
-  }
-
-  table {
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-  }
-
-  thead {
-    display: none;
-  }
-
-  tr {
-    border-top: 1px solid var(--border-color);
-  }
-  tr:first-child {
-    border-top: none;
-  }
-
+  .table-container { width: 95%; border: none; box-shadow: none; }
+  .search { width: 95%; }
+  table, thead, tbody, th, td, tr { display: block; }
+  table { border: 1px solid var(--border-color); border-radius: var(--border-radius); }
+  thead { display: none; }
+  tr { border-top: 1px solid var(--border-color); }
+  tr:first-child { border-top: none; }
   td {
-    position: relative;
-    padding-left: 50%;
-    text-align: right;
-    border: none;
-    border-bottom: 1px solid #f1f3f5;
-    min-height: 2.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+    position: relative; padding-left: 50%; text-align: right; border: none;
+    border-bottom: 1px solid #f1f3f5; min-height: 2.5rem; display: flex;
+    align-items: center; justify-content: flex-end;
   }
-
-  td:last-child {
-    border-bottom: none;
-  }
-
+  td:last-child { border-bottom: none; }
   td:before {
-    content: attr(data-label);
-    position: absolute;
-    left: 0.75rem;
-    width: 45%;
-    padding-right: 0.5rem;
-    white-space: nowrap;
-    font-weight: bold;
-    color: var(--text-color);
-    text-align: left;
+    content: attr(data-label); position: absolute; left: 0.75rem; width: 45%;
+    padding-right: 0.5rem; white-space: nowrap; font-weight: bold; color: var(--text-color); text-align: left;
   }
 }
 
-/* Estilo da barra de busca */
 .search {
-  display: block; /* Garante o comportamento de bloco para centralização */
-  box-sizing: border-box; /* Garante que padding e borda não afetem a largura total */
-  width: 90%;
-  margin: 1.5rem auto; /* Centraliza na página */
-  padding: 0.75rem 1rem; /* Deixa o campo mais alto e arejado */
-  font-size: 1rem;
-  line-height: 1.5;
-  color: var(--text-color);
-  background-color: var(--background-color);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  -webkit-appearance: none; /* Remove estilos padrão em navegadores WebKit */
+  display: block; width: 90%; margin: 1.5rem auto; padding: 0.75rem 1rem;
+  font-size: 1rem; color: var(--text-color); background-color: var(--background-color);
+  border: 1px solid var(--border-color); border-radius: var(--border-radius);
+  transition: all 0.15s ease-in-out;
 }
-
 .search:focus {
-  outline: 0;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Efeito de foco consistente */
+  outline: 0; border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-/* Indicadores de ordenação */
 .triangle {
-  display: inline-block;
-  width: 0;
-  height: 0;
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-top: 6px solid var(--text-muted-color);
-  margin-left: 0.5rem;
-  vertical-align: middle;
-  transition: transform 0.2s ease-in-out, border-top-color 0.2s ease-in-out;
+  display: inline-block; width: 0; height: 0;
+  border-left: calc(4px * var(--scale-factor)) solid transparent; border-right: calc(4px * var(--scale-factor)) solid transparent;
+  border-top: calc(6px * var(--scale-factor)) solid var(--text-muted-color); margin-left: calc(0.5rem * var(--scale-factor));
+  vertical-align: middle; transition: transform 0.2s ease-in-out, border-top-color 0.2s ease-in-out;
 }
-
-th:hover .triangle {
-  border-top-color: var(--text-color);
-}
-
-.triangle-up {
-  transform: rotate(180deg);
-}
-
-.triangle-down {
-  transform: rotate(0deg);
-}
+th:hover .triangle { border-top-color: var(--text-color); }
+.triangle-up { transform: rotate(180deg); }
+.triangle-down { transform: rotate(0deg); }

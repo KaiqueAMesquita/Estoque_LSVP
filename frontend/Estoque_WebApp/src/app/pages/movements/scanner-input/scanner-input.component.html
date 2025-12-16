@@ -1,26 +1,33 @@
-<button (click)="input.focus()" #buttons>
-    <fa-icon [icon]="icons.faBarcode"></fa-icon>
-    <span id="space"></span>
-    <input #input type="text" placeholder="Digite o código de barras do produto (Digite Enter ao finalizar)">
-    <button #search class="search-button">Buscar</button>
+<div class="scanner-container" [class.manual-mode]="manualControl">
+    <div class="scanner-box" (click)="!manualControl && input.nativeElement.focus()">
+        <fa-icon [icon]="icons.faBarcode"></fa-icon>
+        <span *ngIf="!manualControl" class="scanner-text">Aguardando leitura do scanner...</span>
+        <div *ngIf="manualControl" class="manual-input-container">
+            <input #input type="text" placeholder="Digite o código de barras" (keyup.enter)="handleManualSearch()">
+            <button class="search-button" (click)="handleManualSearch()">Buscar</button>
+        </div>
+    </div>
+</div>
 
-    Escanear Entrada
-</button>
-<button (click)="manualController()">
-    <span *ngIf="manualControl == false">Digitar manualmente</span>
-    <span *ngIf="manualControl == true">Usar Scanner</span>
-</button>
+<div class="toggle-container">
+    <button class="toggle-button" (click)="manualController()">
+        <span *ngIf="!manualControl">Digitar código manualmente</span>
+        <span *ngIf="manualControl">Usar leitor de scanner</span>
+    </button>
+</div>
+
 
 <div *ngIf="batchView" class="form-container">
     <app-form-template
     [formTitle]="'Registrar Lote'"
     [formGroup]="form"
     [submitText]="'Salvar'"
-    [cancelText]="'Cancelar'"
+    [cancelText]="'Cancelar / Novo Scan'"
     (formSubmit)="onSubmit()"
+    (cancel)="resetProcess()" 
 >
+<h3>Produto: {{product?.description}}</h3>
 
-    <!-- Campo para o Lote -->
     <app-input
         [control]="getControl('batch')"
         type="text"
@@ -28,7 +35,6 @@
         placeholder="Digite o lote do produto"
     ></app-input>
 
-    <!-- Campo para a Quantidade -->
     <app-input
         [control]="getControl('quantity')"
         type="number"
@@ -36,7 +42,6 @@
         placeholder="Digite a quantidade"
     ></app-input>
 
-    <!--Campo para o tipo de origem-->
     <app-input
         [control]="getControl('sourceType')"
         type="select"
@@ -45,7 +50,13 @@
         placeholder="Selecione o tipo de origem">
     </app-input>
 
-    <!-- Campo para o Preço -->
+    <app-input
+        [control]="getControl('sourceDetails')"
+        type="text"
+        label="Detalhes da Origem"
+        placeholder="Ex: Nome do Fornecedor, Nota Fiscal"
+    ></app-input>
+
     <app-input 
         [control]="getControl('price')"
         type="number"
@@ -57,3 +68,9 @@
 </app-form-template>
 
 </div>
+
+<app-modal>
+    <div class="modal-content">
+        <p>{{ modalMessage }}</p>
+    </div>
+</app-modal>

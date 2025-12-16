@@ -11,6 +11,10 @@
 npm-debug.log
 yarn-error.log
 
+#env
+.env
+./Estoque_WebApp/src/environments/environment.ts
+
 # IDEs and editors
 .idea/
 .project

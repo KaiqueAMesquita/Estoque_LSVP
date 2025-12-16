@@ -9,8 +9,8 @@ import { FormGroup } from '@angular/forms';
 })
 export class AuthenticationService {
   //define a URL para o endpoint de login
-   private url: string = environment.API_URL+"/auth/login"
-   private refreshUrl: string = environment.API_URL + "/auth/refresh";
+   private url: string = environment.api_url+"/auth/login"
+   private refreshUrl: string = environment.api_url + "/auth/refresh";
    
 
   constructor(private router: Router, private http: HttpClient) { }
@@ -49,7 +49,7 @@ export class AuthenticationService {
   logout(): void{
     localStorage.removeItem('accessToken');  // remove item do storage da navegação
     this.router.navigate(['/login']);
-    this.http.post(environment.API_URL+'/auth/logout', {}, {withCredentials: true})
+    this.http.post(environment.api_url+'/auth/logout', {}, {withCredentials: true})
     .subscribe(() =>{
       this.router.navigate(['/login']); // navega para a tela de login
 
@@ -88,6 +88,11 @@ export class AuthenticationService {
       if (!token) return '';
     const payload = JSON.parse(atob(token.split('.')[1]));
     return payload.sub || '';
-    // não sei se existe uma maneira melhor de fazer isso.
+  }
+  getUserRole(): string {
+    const token = this.getToken();
+      if (!token) return '';
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.role || '';
   }
 }

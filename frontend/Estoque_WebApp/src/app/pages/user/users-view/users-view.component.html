@@ -1,7 +1,7 @@
 <app-view-template createText="Novo Usuário" (createNewEvent)="router.navigate(['manage/create/user'])"
   [isPagedView]="pagedView" [pageNumber]="pageNumber" [totalPages]="totalPages" (pageChangeEvent)="onPageChange($event)">
   <app-p-table [showSearch]="true" (onDelete)="DeleteUser($event.id)" (onEdit)="EditUser($event.id)" (searchEvent)="onSearch($event)" [data]="users"
-    [delete]="true" [edit]="true" [view]="true"></app-p-table>
+    [delete]="true" [edit]="true" [view]="false"></app-p-table>
 </app-view-template>
 <app-modal #exceptionUser>
         <h4 class="modal-title">Erro de operação</h4>

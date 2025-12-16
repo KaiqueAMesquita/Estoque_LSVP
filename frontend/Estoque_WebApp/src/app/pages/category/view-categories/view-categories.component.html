@@ -1,13 +1,24 @@
-<app-view-template createText="Nova Categoria" (createNewEvent)=" router.navigate(['manage/create/category']) "
-  [isPagedView]="pagedView" [pageNumber]="pageNumber" [totalPages]="totalPages" (pageChangeEvent)="onPageChange($event)">
-<app-p-table 
-    [showSearch]="true" 
-    (onDelete)="DeleteCategory($event.id)" 
-    (onEdit)="EditCategory($event.id)"
-    (searchEvent)="onSearch($event)" 
-    [data]="categories" [delete]="true" 
-    [edit]="true" 
-    [view]="true"
-    >
-</app-p-table>
+<app-view-template 
+    createText="Nova Categoria" 
+    (createNewEvent)="router.navigate(['manage/create/category'])"
+    [isPagedView]="pagedView" 
+    [pageNumber]="pageNumber" 
+    [totalPages]="totalPages" 
+    (pageChangeEvent)="onPageChange($event)">
+
+    <app-p-table 
+        [showSearch]="true" 
+        [data]="categories" 
+        [delete]="true" 
+        [edit]="true" 
+        [view]="true"
+        
+        (onDelete)="DeleteCategory($event.id)" 
+        (onEdit)="EditCategory($event.id)"
+        (onView)="ViewCategory($event.id)"
+        (searchEvent)="onSearch($event)" 
+        
+        (onSort)="handleSort($event)">
+    </app-p-table>
+
 </app-view-template>

@@ -1,0 +1,81 @@
+<app-view-template
+  createText="Cria nova categoria"
+  (createNewEvent)="router.navigate(['manage/create/category'])"
+>
+
+  <div class="category-details">
+    <h2 class="title">Categoria: {{category?.description}}</h2>
+
+    <!-- Grid de Informações -->
+    <div class="info-grid">
+      <div class="info-card">
+        <span class="label">Tipo Alimentício</span>
+        <span class="value">{{ category?.foodType }}</span>
+      </div>
+
+      <div class="info-card">
+        <span class="label">Estoque Mínimo</span>
+        <span class="value">{{ category?.min_quantity }}</span>
+      </div>
+
+      <div class="info-card">
+        <span class="label">Estoque Máximo</span>
+        <span class="value">{{ category?.max_quantity }}</span>
+      </div>
+
+      <div class="info-card highlight-card">
+        <span class="label">Estoque Atual</span>
+        <div class="stock-display">
+            <span class="value main-value">{{ currentStock !== null ? currentStock : '-' }}</span>
+            <span class="status-badge" [ngClass]="stockStatus.cssClass">
+                {{ stockStatus.label }}
+            </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRÁFICO 1: Preço Médio -->
+    <div style="margin-top: 2rem;">
+        <app-grafic 
+            title="Histórico de Preço Médio (12 Meses)"
+            type="LINHA" 
+            [data]="chartDataPrice" 
+            [collapsible]="true"
+            [colors]="['#0ea5e9']"> 
+        </app-grafic>
+    </div>
+
+    <!-- GRÁFICO 2: Fluxo de Estoque (Novo) -->
+    <div style="margin-top: 2rem;">
+        <app-grafic 
+            title="Fluxo de Movimentação: Entrada vs Saída"
+            type="LINHA" 
+            [data]="chartDataFlow" 
+            [collapsible]="true"
+            [colors]="['#10b981', '#ef4444']"> <!-- Verde para Entrada, Vermelho para Saída -->
+        </app-grafic>
+
+        <!-- BADGES DE SALDO LÍQUIDO -->
+        <div class="net-change-container" *ngIf="flowDetails.length > 0">
+            <h4 class="net-change-title">Saldo Líquido Mensal</h4>
+            
+            <div class="badges-scroll">
+                <div class="badge-item" *ngFor="let item of flowDetails">
+                    <span class="badge-date">{{ item.label }}</span>
+                    
+                    <span class="net-badge" 
+                        [ngClass]="{
+                            'positive': item.netChange > 0,
+                            'negative': item.netChange < 0,
+                            'neutral': item.netChange === 0
+                        }">
+                        {{ item.netChange > 0 ? '+' : '' }}{{ item.netChange }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  </div>
+
+</app-view-template>

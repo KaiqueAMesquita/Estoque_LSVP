@@ -1,0 +1,98 @@
+/* Layout Geral */
+.content-wrapper { max-width: 1200px; margin: 0 auto; padding: 1rem; }
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+.header-left { display: flex; align-items: center; gap: 1rem; }
+.header-info { background: #f8f9fa; padding: 0.8rem; border-radius: 8px; border: 1px solid #dee2e6; display: flex; gap: 1rem; font-size: 0.9rem;}
+
+/* Cards das Seções */
+.destination-card, .items-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  border: 1px solid #e9ecef;
+  margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 1.1rem;
+    color: #444;
+    border-bottom: 2px solid #f1f1f1;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* --- TABELA PEQUENA (P-Table Wrapper) --- */
+.small-table-wrapper {
+    max-height: 450px; /* Limita a altura se houver muitos itens */
+    overflow-y: auto;  /* Scroll interno se necessário */
+    border: 1px solid #eee;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+/* Input Visual do Selecionado */
+.selected-display {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.selected-display label { font-weight: bold; font-size: 0.85rem; color: #666; margin-bottom: 4px; }
+.selected-display input {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    color: #888;
+    cursor: default;
+}
+
+.selected-display.has-value input {
+    background-color: #e8f5e9; /* Verde bem claro */
+    border-color: #28a745;
+    color: #155724;
+}
+
+.selected-display input.invalid {
+    border-color: #dc3545;
+    background-color: #fff8f8;
+}
+
+/* Paginação (Copiado do seu KitchenOrder) */
+.pagination { display: flex; justify-content: center; list-style: none; padding: 0; margin-top: 1rem; }
+.pagination .list-item { margin: 0 0.5rem; cursor: pointer; color: #919191; font-size: 1rem; }
+.pagination .list-item:hover { color: #333; }
+.pagination #page-number { font-weight: bold; color: black; cursor: default; }
+
+/* Tabela de Itens (Conferência) */
+.table-container { overflow-x: auto; border: 1px solid #dee2e6; border-radius: 4px; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #dee2e6; vertical-align: middle; }
+th { background: #f8f9fa; font-weight: 600; color: #666; font-size: 0.9rem; }
+.qty-input { width: 80px; padding: 8px; text-align: center; border: 1px solid #ced4da; border-radius: 4px; font-weight: bold;}
+.qty-input.error { border-color: #dc3545; background: #fff5f5; }
+.badge-batch { background: #e3f2fd; color: #0d47a1; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; }
+.text-danger { color: #dc3545; }
+.text-warning { color: #ffc107; }
+.text-success { color: #28a745; }
+.error-msg { color: #dc3545; font-size: 0.75rem; display: block; margin-top: 4px; }
+.empty-msg { text-align: center; color: #777; padding: 2rem; font-style: italic; }
+
+/* Botões */
+.form-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem; }
+.btn-back { background: none; border: none; cursor: pointer; font-weight: 600; color: #6c757d; }
+.btn-cancel { background: white; border: 1px solid #ccc; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: 600; }
+.btn-confirm { background: #28a745; color: white; border: none; padding: 10px 25px; border-radius: 4px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.btn-confirm:disabled { background: #94d3a2; cursor: not-allowed; }
+.loading-container { text-align: center; padding: 4rem; color: #666; }
+.btn-modal { background: #007bff; color: white; border: none; padding: 8px 24px; border-radius: 4px; cursor: pointer; margin-top: 1rem; }
+
+/* Responsivo */
+@media(max-width: 768px) {
+    .header-info { display: none; }
+    td, th { padding: 0.5rem; }
+}

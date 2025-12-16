@@ -1,0 +1,134 @@
+package com.lsvp.InventoryManagement.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.lsvp.InventoryManagement.dto.Category.CategoryTotalStockDTO;
+import com.lsvp.InventoryManagement.dto.Dashboard.ExpiringProductsTotalDTO;
+import com.lsvp.InventoryManagement.dto.Dashboard.TotalStockDTO;
+import com.lsvp.InventoryManagement.dto.Report.AveragePriceDTO;
+import com.lsvp.InventoryManagement.dto.Report.ExpiringLotDTO;
+import com.lsvp.InventoryManagement.dto.Report.MonthlyStockFlowDTO;
+import com.lsvp.InventoryManagement.dto.Report.TotalSpentDTO;
+import com.lsvp.InventoryManagement.service.Report.ReportService;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@RestController
+@Tag(name = "Relatórios", description = "Relatórios e analytics do sistema")
+@RequestMapping("api/reports")
+public class ReportController {
+
+    @Autowired
+    private ReportService reportService;
+
+    /**
+     * GET /api/reports/expiring-lots
+     * Retorna lotes em estoque próximos de vencer, de forma paginada.
+     */
+    @GetMapping("/expiring-lots")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
+    public ResponseEntity<Page<ExpiringLotDTO>> getExpiringLots(
+            @RequestParam(defaultValue = "30") int daysUntilExpiry,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit
+    ) {
+        Page<ExpiringLotDTO> result = reportService.getExpiringLots(daysUntilExpiry, page, limit);
+        return ResponseEntity.ok(result);
+    }
+
+    /**
+     * GET /api/reports/total-spent
+     * Retorna valor total gasto (em centavos) em compras em um determinado mês/ano.
+     */
+    @GetMapping("/total-spent")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
+    public ResponseEntity<TotalSpentDTO> getTotalSpent(
+            @RequestParam int month,
+            @RequestParam int year
+    ) {
+        TotalSpentDTO result = reportService.getTotalSpentByMonth(month, year);
+        return ResponseEntity.ok(result);
+    }
+
+    /**
+     * GET /api/reports/average-price
+     * Retorna preço médio ponderado por categoria, mensal.
+     */
+    @GetMapping("/average-price")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
+    public ResponseEntity<List<AveragePriceDTO>> getAveragePrice(
+            @RequestParam Long categoryId,
+            @RequestParam int startMonth,
+            @RequestParam int startYear,
+            @RequestParam int endMonth,
+            @RequestParam int endYear
+    ) {
+        List<AveragePriceDTO> result = reportService.getAveragePriceByCategory(categoryId, startMonth, startYear, endMonth, endYear);
+        return ResponseEntity.ok(result);
+    }
+
+    /**
+     * GET /api/reports/stock-flow
+     * Retorna o fluxo de estoque (Entrada/Saída) por categoria, mensal.
+     * (Alternativa ao "Estoque Médio")
+     */
+    @GetMapping("/stock-flow")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
+    public ResponseEntity<List<MonthlyStockFlowDTO>> getStockFlow(
+            @RequestParam Long categoryId,
+            @RequestParam int startMonth,
+            @RequestParam int startYear,
+            @RequestParam int endMonth,
+            @RequestParam int endYear
+    ) {
+        List<MonthlyStockFlowDTO> result = reportService.getMonthlyStockFlow(categoryId, startMonth, startYear, endMonth, endYear);
+        return ResponseEntity.ok(result);
+    }
+
+
+    /**
+     * GET /api/reports/stock-total
+     * Retorna a quantidade total de itens físicos armazenados no estoque principal.
+     */
+    @GetMapping("/stock-total")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
+    public ResponseEntity<TotalStockDTO> getTotalStock() {
+        TotalStockDTO result = reportService.getTotalStockInStorage();
+        return ResponseEntity.ok(result);
+    }
+
+    /**
+     * GET /api/reports/expiring-total
+     * Retorna a quantidade total de itens que vão vencer nos próximos X dias.
+     */
+    @GetMapping("/expiring-total")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
+    public ResponseEntity<ExpiringProductsTotalDTO> getTotalExpiring(
+            @RequestParam(defaultValue = "30") int days
+    ) {
+        ExpiringProductsTotalDTO result = reportService.getTotalExpiringSoon(days);
+        return ResponseEntity.ok(result);
+    }
+
+    /**
+     * GET /api/reports/category-total
+     * Retorna a quantidade total de uma categoria (Estoque + Cozinha).
+     */
+    @GetMapping("/category-total")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
+    public ResponseEntity<CategoryTotalStockDTO> getCategoryTotalStock(
+            @RequestParam Long categoryId
+    ) {
+        CategoryTotalStockDTO result = reportService.getTotalStockByCategory(categoryId);
+        return ResponseEntity.ok(result);
+    }
+}

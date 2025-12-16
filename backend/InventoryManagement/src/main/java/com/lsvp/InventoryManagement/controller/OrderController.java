@@ -5,14 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lsvp.InventoryManagement.dto.Fulfillment.FulfillmentRequestDTO;
+import com.lsvp.InventoryManagement.dto.Fulfillment.FulfillmentSuggestionDTO;
 import com.lsvp.InventoryManagement.dto.Order.OrderCreateDTO;
 import com.lsvp.InventoryManagement.dto.Order.OrderDTO;
 import com.lsvp.InventoryManagement.service.OrderService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
@@ -33,18 +36,21 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'COZINHEIRO', 'ESTOQUISTA')")
     public ResponseEntity<OrderDTO> createOrder(@Valid @RequestBody OrderCreateDTO dto) {
 
         return ResponseEntity.ok(orderService.createOrder(dto));
     }
 
     @PostMapping("/{id}/fulfill")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
     public ResponseEntity<Void> fulfillOrder(@PathVariable Long id, @Valid @RequestBody FulfillmentRequestDTO dto) {
         orderService.fulfillOrder(id, dto);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/pending")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
     public ResponseEntity<Page<OrderDTO>> getPendingOrders(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int limit) {
@@ -52,7 +58,8 @@ public class OrderController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping 
+    @GetMapping
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA', 'COZINHEIRO')") 
     public ResponseEntity<Page<OrderDTO>> getAllOrders(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int limit,
@@ -61,6 +68,14 @@ public class OrderController {
         
         Page<OrderDTO> result = orderService.getAllOrdersSorted(page, limit, sort);
         return ResponseEntity.ok(result);
+    }
+
+    @Operation(summary = "Obter sugestões de atendimento", description = "Retorna quais unidades usar baseando-se na validade (FEFO)")
+    @GetMapping("/{id}/fulfillment-suggestions")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
+    public ResponseEntity<List<FulfillmentSuggestionDTO>> getFulfillmentSuggestions(@PathVariable Long id) {
+        List<FulfillmentSuggestionDTO> suggestions = orderService.getFulfillmentSuggestions(id);
+        return ResponseEntity.ok(suggestions);
     }
 
 

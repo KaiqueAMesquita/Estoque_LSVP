@@ -1,56 +1,141 @@
 <app-nav-bar></app-nav-bar>
 
 <div class="container">
+    
     <div class="form-section">
         <app-form-template
-        formTitle="Adicionar ao pedido"
-        [formGroup]="form"
-        submitText="Adicionar"
-        cancelText="Cancelar"
-        (formSubmit)="addItem()"
-        
+            formTitle="Montar Pedido"
+            [formGroup]="form"
+            submitText="Incluir Item"
+            cancelText="Cancelar Item"
+            (formSubmit)="addItem()"
         >
             <app-p-table
-            [data]="products"
-            [select]="true"
-            (onSelect)="handleProductSelection($event)"
-            title="Selecione um produto"
+                [data]="categories"
+                [select]="true"
+                (onSelect)="handleCategorySelection($event)"
+                title="Selecione um produto"
+                [showSearch]="true" 
+                (searchEvent)="onSearch($event)"
             >
-        
             </app-p-table>
-        
+
+            <div *ngIf="totalPages > 1">
+                <ul class="pagination">
+                    <li class="list-item" (click)="changePage(0)">
+                        <fa-icon [icon]="icons.faBackwardFast"></fa-icon>
+                    </li>
+                    <li class="list-item" (click)="changePage(pageNumber - 1)">
+                        <fa-icon [icon]="icons.faBackward"></fa-icon>
+                    </li>
+                    <li class="list-item" id="page-number">
+                        {{ pageNumber + 1 }}
+                    </li>
+                    <li class="list-item" (click)="changePage(pageNumber + 1)">
+                        <fa-icon [icon]="icons.faForward"></fa-icon>
+                    </li>
+                    <li class="list-item" (click)="changePage(totalPages - 1)">
+                        <fa-icon [icon]="icons.faForwardFast"></fa-icon>
+                    </li>
+                </ul>
+            </div>
+
             <app-input
-            [control]="getControl('productName')"
-            type="text"
-            label="Nome do Produto"
-            placeholder="Selecione um produto na tabela"
-            [disable]="true"
+                [control]="getControl('categoryName')"
+                type="text"
+                label="Item Selecionado"
+                placeholder="Clique na tabela acima"
+                [disable]="true"
             ></app-input>
-        
+
             <app-input
-            [control]="getControl('productGtin')"
-            type="text"
-            label="GTIN do Produto"
-            placeholder="Selecione um produto na tabela"
-            [disable]="true"
+                [control]="getControl('quantityRequested')"
+                type="number"
+                label="Quantidade"
+                placeholder="Ex: 1, 2, 5..."
             ></app-input>
-        
-            <app-input
-            [control]="getControl('quantityRequested')"
-            type="number"
-            label="Quantidade Solicitada"
-            placeholder="Insira a quantidade"
-            
-            ></app-input>
-        
+
         </app-form-template>
     </div>
-    <div class="order-paper">
-        <h3>Itens do Pedido</h3>
-        <ul class="order-items">
-            <li *ngFor="let item of orderItems"><span>{{item.productName}} - <span class="quantity">{{item.quantityRequested}}</span></span> <fa-icon (click)="removeItem(item)" [icon]="icons.faXmark" class="x"></fa-icon></li>
-        </ul>
+
+    <div class="order-paper-container">
+        <div class="order-paper">
+            <h3>ITENS DO PEDIDO</h3>
+            
+            <ul class="order-items">
+                <li *ngIf="orderView.length === 0" style="color: #999; justify-content: center; font-style: italic; border: none;">
+                    A folha está em branco...
+                </li>
+
+                <li *ngFor="let item of orderView">
+                    <span>{{item.categoryName}}</span> 
+                    <div style="display: flex; align-items: center;">
+                        <span class="quantity">x{{item.quantityRequested}}</span>
+                        <fa-icon (click)="removeItem(item)" [icon]="icons.faXmark" class="x" title="Remover item"></fa-icon>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="paper-footer">
+                <div class="total-info">
+                    Total: {{ orderView.length }} itens
+                </div>
+                
+                <div class="paper-actions">
+                    <button 
+                        class="btn-clear" 
+                        (click)="resetOrder()"
+                        [disabled]="orderView.length === 0 || isSubmitting"
+                        type="button">
+                        Limpar
+                    </button>
+
+                    <button 
+                        class="btn-confirm" 
+                        (click)="submitOrder()"
+                        [disabled]="orderView.length === 0 || isSubmitting"
+                        type="button">
+                        
+                        <span *ngIf="!isSubmitting">FECHAR PEDIDO</span>
+                        <span *ngIf="isSubmitting">Enviando...</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
+
 </div>
 
->
+<app-modal>
+    <div class="modal-content-wrapper" style="text-align: center; padding: 10px;">
+        
+        <fa-icon *ngIf="isConfirmation" [icon]="icons.faTriangleExclamation" style="color: #ff9800; font-size: 2rem; margin-bottom: 10px;"></fa-icon>
+        <fa-icon *ngIf="!isConfirmation" [icon]="icons.faCircleInfo" style="color: #2196F3; font-size: 2rem; margin-bottom: 10px;"></fa-icon>
+
+        <p style="font-size: 1.1rem; color: #333; margin-bottom: 20px;">
+            {{ modalMessage }}
+        </p>
+
+        <div *ngIf="isConfirmation" style="display: flex; justify-content: center; gap: 15px;">
+            <button 
+                (click)="onModalConfirm()" 
+                style="background-color: #d32f2f; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                Limpar
+            </button>
+            <button 
+                (click)="modal.toggle()" 
+                style="background-color: #00b10c; color: #ffffff; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer;">
+                Cancelar
+            </button>
+        </div>
+
+        <div *ngIf="!isConfirmation">
+            <button 
+                (click)="modal.toggle()" 
+                style="background-color: #2fd306; color: white; border: none; padding: 8px 25px; border-radius: 4px; cursor: pointer;">
+                OK
+            </button>
+        </div>
+
+    </div>
+</app-modal>

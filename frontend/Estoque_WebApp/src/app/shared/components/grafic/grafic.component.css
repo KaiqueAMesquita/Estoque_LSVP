@@ -1,0 +1,49 @@
+.grafic-container {
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+  padding: 1rem;
+  margin: 1rem 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.grafic-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #f1f3f5;
+  cursor: default;
+  flex: 0 0 auto;
+}
+
+.grafic-header.clickable {
+  cursor: pointer;
+}
+
+.grafic-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.arrow {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease;
+  opacity: 0.7;
+}
+
+.arrow.open {
+  transform: rotate(0deg);
+}
+
+/* --- AQUI ESTÁ A CORREÇÃO PRINCIPAL --- */
+.grafic-content {
+  margin-top: 1rem;
+  height: 400px; /* OBRIGATÓRIO: Define a altura do gráfico */
+  width: 100%;   /* Ocupa a largura disponível */
+  display: flex; /* Garante que o ngx-charts expanda */
+}

@@ -28,6 +28,11 @@ import { KitchenOrderComponent } from './pages/request/kitchen-order/kitchen-ord
 import { ViewUnitComponent } from './pages/units/view-unit/view-unit.component';
 import { EditUnitComponent } from './pages/units/edit-unit/edit-unit.component';
 import { ViewMovementsComponent } from './pages/movements/view/view-movements.component';
+import { ViewCategoryComponent } from './pages/category/view-category/view-category.component';
+import { PedingOrdersComponent } from './pages/request/peding-orders/peding-orders.component';
+import { ViewKitchenUnitsComponent } from './pages/kitchen/view-kitchen-units/view-kitchen-units.component';
+import { FinishOrderComponent } from './pages/request/finish-order/finish-order.component';
+import { ReportComponent } from './pages/report/report.component';
 
 export const routes: Routes = [
     //[adminGuard] Permite Somente o Acesso a Administradores dessas Funcionalidades
@@ -38,7 +43,11 @@ export const routes: Routes = [
    {path: '', redirectTo: 'dashboard/stock', pathMatch: 'full', /*canActivate:[loginGuard]*/ }, //rota padrão redireciona para o dashboard
    {path: 'dashboard/stock', component: DashboardComponent, pathMatch: 'full', canActivate:[authGuard] }, // }, //rota do dashboard
    {path: 'dashboard/cook', component: CookDashboardComponent, pathMatch: 'full', canActivate:[authGuard] },
-
+   {path: 'kitchen/request', component: KitchenOrderComponent, pathMatch: 'full' },
+   {path: 'kitchen/pending', component: PedingOrdersComponent, pathMatch: 'full' },
+   {path: 'kitchen/units/view', component: ViewKitchenUnitsComponent, pathMatch: 'full', canActivate:[authGuard] },
+   {path: 'fulfill/order/:id', component: FinishOrderComponent, pathMatch: 'full' },
+    {path: 'reports', component:ReportComponent, pathMatch:'full'},
    //rotas de gerenciamento 
    { path: 'manage', component: ManageLayoutComponent,
     //filhos da rota de gerenciamento
@@ -61,6 +70,7 @@ export const routes: Routes = [
             {path: 'create/container', component: CreateContainerComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
             {path: 'edit/container/:id', component: EditContainerComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
 
+            {path: 'view/category/:id', component: ViewCategoryComponent, pathMatch: 'full', /*canActivate: [authGuard]*/},
             {path: 'view/categories', component: ViewCategoriesComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
             {path: 'create/category', component: CreateCategoryComponent, pathMatch: 'full', /*canActivate:[authGuard]*/ },
             {path: 'edit/category/:id', component: EditCategoryComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
@@ -72,7 +82,10 @@ export const routes: Routes = [
             {path: 'edit/unit/:id', component:EditUnitComponent, pathMatch: 'full'},
             {path: 'view/movements', component: ViewMovementsComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
             {path: 'movements/scan', component: ScannerInputComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
-            {path: 'movements/input', component: MovementInputComponent, pathMatch: 'full', /*canActivate:[authGuard]*/}
+            {path: 'movements/input', component: MovementInputComponent, pathMatch: 'full', /*canActivate:[authGuard]*/},
+
+        
+
 
         ], /*//*/
      },

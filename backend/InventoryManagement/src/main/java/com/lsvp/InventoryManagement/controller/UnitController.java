@@ -7,10 +7,9 @@ import jakarta.validation.Valid;
 
 import java.util.List;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,34 +28,39 @@ public class UnitController {
     // }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'COZINHEIRO', 'ESTOQUISTA')")
     public ResponseEntity<Page<UnitDTO>> getAllUnits(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int limit,
             @RequestParam(defaultValue = "id,desc") String sort,
             @RequestParam(required = false) Long productId,
-            @RequestParam(required = false) String batch
-    ){
-        Page<UnitDTO> result = unitService.getAllUnitsSorted(page, limit, sort, productId, batch);
+            @RequestParam(required = false) Long containerId 
+    ) {
+        Page<UnitDTO> result = unitService.getAllUnitsSorted(page, limit, sort, productId, containerId);
         return ResponseEntity.ok(result);
     }
     
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
     public ResponseEntity<UnitDTO> getUnitById(@PathVariable Long id){
         return ResponseEntity.ok(unitService.getUnitById(id));
     }
 
     @GetMapping("/batch/{batch}")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
     public ResponseEntity<UnitDTO> getUnitByBatch(@PathVariable String batch){
         return ResponseEntity.ok(unitService.getUnitByBatch(batch));
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
     public ResponseEntity<UnitDTO> updateUnit(@PathVariable Long id, @Valid @RequestBody UnitUpdateDTO dto){
 
         return ResponseEntity.ok(unitService.updateUnit(id, dto));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
     public ResponseEntity<Void> deleteUnit(@PathVariable Long id){
 
         unitService.deleteUnit(id);

@@ -1,0 +1,139 @@
+.category-details {
+  padding: 1rem;
+}
+
+.title {
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: #343a40;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.info-card {
+  padding: 1rem;
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  display: block;
+  font-size: 0.8rem;
+  color: #6c757d;
+  margin-bottom: 0.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.value {
+  font-size: 1.2rem;
+  color: #212529;
+  font-weight: 500;
+}
+
+/* Status do Estoque */
+.stock-display {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+}
+
+.status-badge {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status-critical { background-color: #ffe3e3; color: #c92a2a; border: 1px solid #ffc9c9; }
+.status-good { background-color: #d3f9d8; color: #2b8a3e; border: 1px solid #b2f2bb; }
+.status-warning { background-color: #fff3bf; color: #f08c00; border: 1px solid #ffec99; }
+.status-loading { background-color: #f1f3f5; color: #adb5bd; }
+
+
+/* --- ESTILOS DO NOVO PAINEL DE SALDO (Net Change) --- */
+
+.net-change-container {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.net-change-title {
+    margin: 0 0 10px 0;
+    font-size: 0.95rem;
+    color: #495057;
+    font-weight: 600;
+}
+
+.badges-scroll {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 5px; /* Espaço para scrollbar se necessário */
+}
+
+/* Scrollbar fina */
+.badges-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+.badges-scroll::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+}
+
+.badge-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 60px;
+    gap: 4px;
+}
+
+.badge-date {
+    font-size: 0.75rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.net-badge {
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    min-width: 40px;
+    text-align: center;
+}
+
+/* Cores das Badges de Saldo */
+.net-badge.positive {
+    background-color: #d1fae5;
+    color: #059669;
+    border: 1px solid #a7f3d0;
+}
+
+.net-badge.negative {
+    background-color: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+.net-badge.neutral {
+    background-color: #e5e7eb;
+    color: #6b7280;
+    border: 1px solid #d1d5db;
+}

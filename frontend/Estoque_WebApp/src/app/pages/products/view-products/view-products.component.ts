@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { NavigationWatcherService } from '../../../core/services/navigation-watcher.service';
 import { ViewTemplateComponent } from '../../../shared/components/view-template/view-template.component';
 import { Page } from '../../../shared/models/page';
+
 @Component({
   selector: 'app-view-products',
   imports: [PTableComponent, CommonModule, ViewTemplateComponent],
@@ -22,6 +23,9 @@ export class ViewProductsComponent implements OnInit, OnDestroy {
   pageNumber: number = 0;
   totalPages: number = 0;
   private searchTerm: string = '';
+  
+  // NOVA PROPRIEDADE: Define a ordenação padrão
+  private currentSort: string = 'id,desc'; 
 
   constructor(
     private productService: ProductService,
@@ -33,7 +37,7 @@ export class ViewProductsComponent implements OnInit, OnDestroy {
     this.loadProducts(this.pageNumber);
 
     this.navigationSub = this.navigationWatcher.navigation$.subscribe(() => {
-      if (this.router.url.startsWith('/products')) { // ajuste conforme sua rota
+      if (this.router.url.startsWith('/manage/view/products')) {
         this.loadProducts(this.pageNumber);
       }
     });
@@ -44,16 +48,20 @@ export class ViewProductsComponent implements OnInit, OnDestroy {
   }
 
   private loadProducts(page: number = 0, gtin?: string): void {
-    this.productService.getAllProducts(page, 20, 'id,desc', gtin).subscribe({
-      next: (data: Page<Product> ) => {
-        data.totalPages > 1 ? this.pagedView = true : this.pagedView = false;
-        this.pageNumber = data.number;
-        this.totalPages = data.totalPages;
-        this.products = data.content;
-        //delete filed createdAt and updatedAt from products
-      this.products?.forEach(product => {
-        delete product.created_at;
-        delete product.updated_at;
+    this.productService.getAllProducts(page, 20, this.currentSort, gtin).subscribe({
+      next: (products) => {        
+        products.totalPages > 1 ? this.pagedView = true : this.pagedView = false;
+        this.pageNumber = products.number;
+        this.totalPages = products.totalPages;
+        
+        this.products = products.content.map((product: Product) => {
+         
+          const processedProduct = { ...product };
+          processedProduct.createdAt  && (processedProduct.createdAt = new Date(processedProduct.createdAt!));
+          processedProduct.updatedAt && (processedProduct.updatedAt = new Date(processedProduct.updatedAt!));
+         
+       
+          return processedProduct;
         });
       },
       error: (error) => {
@@ -62,10 +70,16 @@ export class ViewProductsComponent implements OnInit, OnDestroy {
     });
   }
 
+  handleSort(sortString: string): void {
+    this.currentSort = sortString;
+    this.loadProducts(0, this.searchTerm); 
+  }
+
   DeleteProduct(gtin: string): void {
     try {
       this.productService.deleteProduct(gtin).subscribe({
         next: () => {
+          // Recarrega mantendo a página e a ordenação atual
           this.loadProducts(this.pageNumber, this.searchTerm);
         },
         error: (error) => console.error('Erro ao deletar product:', error)
@@ -81,7 +95,7 @@ export class ViewProductsComponent implements OnInit, OnDestroy {
 
   onPageChange(page: number): void {
     this.pageNumber = page;
-    this.loadProducts(page);
+    this.loadProducts(page, this.searchTerm);
   }
 
   onSearch(term: string): void {

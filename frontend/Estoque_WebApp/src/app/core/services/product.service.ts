@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../../shared/models/product';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { ProductCreate } from '../../shared/models/product-create';
 import { Category } from './../../shared/models/category';
@@ -12,7 +12,7 @@ import { Page } from '../../shared/models/page';
 export class ProductService {
   productLink: string = '';
   constructor(private http: HttpClient) { 
-    this.productLink = environment.API_URL+"/product"
+    this.productLink = environment.api_url + "/product"
   }
   
   //Método para registrar um Produto
@@ -50,8 +50,8 @@ export class ProductService {
   }
 
   //Método para atualizar um Produto
-  public updateProduct(productId: number, product: Partial<Product>): Observable<Partial<Product>> { 
-     return this.http.put<Product>(this.productLink + "/" + productId, product);
+  public updateProduct(productId: number, product: ProductCreate): Observable<ProductCreate> { 
+     return this.http.put<ProductCreate>(this.productLink + "/" + productId, product);
   }
     //Método para deletar um Produto
   public deleteProduct(productId: string): Observable<void> {	

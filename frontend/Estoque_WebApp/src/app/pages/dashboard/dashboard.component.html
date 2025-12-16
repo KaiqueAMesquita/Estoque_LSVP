@@ -6,7 +6,7 @@
         <!-- Cartões do dashboard -->
          <div class="cards-row">
         <app-dashboard-cards
-        [icon]="icons.faBox" headerValue="1500" bodyText="Total de Produtos"
+        [icon]="icons.faBox" [headerValue]="stockTotalQuantity? stockTotalQuantity : '0'" bodyText="Total de Produtos"
         background="#e3f2fd" color="#0d47a1"
         hoverBackground="#0d47a1" hoverColor="#ffffff"
        
@@ -16,26 +16,29 @@
         [icon]="icons.faClock"
         background="#f5c1c1" color="#e60000"
         hoverBackground="#e60000" hoverColor="#ffffff"
-        headerValue="7"
-        bodyText="Lotes com validades próximas"
+        [headerValue]="expiringProducts ? expiringProducts.totalQuantity : '0'"
+        bodyText="Produtos com validade próxima ({{expiringProducts?.daysThreshold}} dias)"
 
         ></app-dashboard-cards>
         <app-dashboard-cards
             [icon]="icons.faCoins"
             background="#fff9c4" color="#f57f17"
             hoverBackground="#fbc02d" hoverColor="#ffffff"
-            headerValue="R$ 250,00"
+            [headerValue]="totalSpentMonth 
+            ? ((totalSpentMonth.totalSpent | currency:'BRL':'symbol':'1.2-2') ?? '0') 
+            : 'N/A'"
             bodyText="Valor total em estoque"
         >
         </app-dashboard-cards>
 
         </div>
         
-        <!-- Tabela de lotes com validades próximas -->
-        <app-p-table title="Lotes com validades próximas" [data]="expirationBatches" [view]="true"></app-p-table>
+        <!-- Tabela de produtos com validades próximas -->
+        <app-p-table title="Produtos com validades próximas" [data]="expiringBatches" [view]="false"></app-p-table>
         
         <!-- Tabela das últimas movimentações -->
-        <app-p-table title="Últimas movimentações" [data]="lastMovements" [view]="true"></app-p-table>
+        <app-p-table title="Últimas movimentações" [data]="lastMovements" [view]="false"></app-p-table>
+        
     </div>
     
     <!-- Ações do dashboard -->
@@ -47,22 +50,21 @@
                     <span class="item-icon"><fa-icon id="plus" [icon]="icons.faPlus"></fa-icon></span>
                     <span class="item-text">Registrar Entrada</span>
                 </div>
-                <div class="list-item">
-                    <!--ação de registrar saída-->
+                <!-- <div class="list-item" (click)="navigateTo('manage/movements/outputs')">
                     <span class="item-icon"><fa-icon id="minus" [icon]="icons.faMinus"></fa-icon></span>
                     <span class="item-text">Registrar Saída</span>
-                </div>
-                <div class="list-item">
+                </div> -->
+                <div class="list-item" (click)="navigateTo('manage/view/products')">
                     <!--ação de visualizar produtos-->
                     <span class="item-icon"><fa-icon id="box" [icon]="icons.faBox"></fa-icon></span>
                     <span class="item-text">Ver Produtos</span>
                 </div>
-                <div class="list-item">
+                <div class="list-item" (click)="navigateTo('manage/view/units')">
                     <!--ação de visualizar unidades-->
                     <span class="item-icon"><fa-icon id="lock" [icon]="icons.faLock"></fa-icon></span>
                     <span class="item-text">Ver Unidades</span>
                 </div>
-                <div class="list-item">
+                <div class="list-item" (click)="navigateTo('reports')">
                     <!--ação de gerar relatórios-->
                     <span class="item-icon"><fa-icon id="file" [icon]="icons.faFileAlt"></fa-icon></span>
                     <span class="item-text">Gerar Relatórios</span>

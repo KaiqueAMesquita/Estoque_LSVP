@@ -9,11 +9,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @Tag(name = "Categorias", description = "Gerenciamento de Categorias")
@@ -24,6 +24,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
     public ResponseEntity<CategoryDTO> createCategory (@Valid @RequestBody CategoryCreateDTO dto)
     {
         return ResponseEntity.ok(categoryService.createCategory(dto));
@@ -54,12 +55,14 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
     public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id, CategoryUpdateDTO dto)
     {
         return ResponseEntity.ok(categoryService.updateCategory(id, dto));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id)
     {
         categoryService.deleteCategory(id);
