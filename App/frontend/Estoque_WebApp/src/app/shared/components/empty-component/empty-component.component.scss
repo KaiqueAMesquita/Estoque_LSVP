@@ -1,0 +1,43 @@
+.empty-stationary {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0; // Espaço vertical
+
+  .empty-content {
+    display: flex;
+    flex-direction: column; // Ícone em cima do texto
+    align-items: center;
+    justify-content: center;
+    
+    width: 100%;
+    max-width: 500px; // Evita que fique muito largo em telas grandes
+    padding: 3rem 2rem;
+    
+    background-color: #f8f9fc; // Fundo muito suave (quase branco)
+    border: 2px dashed #cbd5e1; // Cinza azulado suave
+    border-radius: 12px; // Cantos arredondados modernos
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: #a3c9fe; // Muda a cor da borda ao passar o mouse
+      background-color: #f0f7ff;
+    }
+  }
+
+  .empty-icon {
+    color: #5d87ff; // Azul moderno
+    margin-bottom: 1.5rem;
+    opacity: 0.8;
+  }
+
+  .empty-message {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #64748b; // Cinza ardósia para texto (melhor leitura)
+    margin: 0;
+    text-align: center;
+    line-height: 1.5;
+  }
+}

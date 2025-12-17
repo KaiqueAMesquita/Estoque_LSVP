@@ -1,0 +1,123 @@
+<div class="table-container" [style.--scale-factor]="scale">
+  <input
+    *ngIf="showSearch"
+    type="text"
+    class="search"
+    placeholder="Pesquisar..."
+    (input)="onSearchInputChange($event)"
+  />
+  <app-empty-component *ngIf="data.length === 0"></app-empty-component>
+
+  <table *ngIf="data.length > 0">
+    <caption *ngIf="title != ''">{{title}}</caption>
+    
+    <thead>
+      <tr>
+        <th *ngFor="let column of columns" (click)="orderBy(column)">{{ column | translation }} 
+          <span class="triangle" [ngClass]="{
+            'triangle-up': sortDirection[column] === 'asc',
+            'triangle-down': sortDirection[column] === 'desc'
+          }"></span>
+        </th>
+        <th *ngIf="view">Visualizar</th>
+        <th *ngIf="edit">Editar</th>
+        <th *ngIf="delete">Deletar</th>
+        <th *ngIf="actions?.length">Ações</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <!-- Removido o evento de click onView.emit da linha (tr), mantendo apenas a seleção -->
+      <tr *ngFor="let row of data" (click)="toggleSelected(row)" [class.selected]="rowSelected === row">
+        
+        <td *ngFor="let column of columns" [attr.data-label]="column">
+          <span *ngIf="row[column] && row[column].constructor.name === 'Date'; else other">{{ row[column] | date: 'dd/MM/yyyy' }}</span>
+          <ng-template #other>{{ row[column] }}</ng-template>
+        </td>
+
+        <!-- Novo botão de Visualizar -->
+        <td *ngIf="view" data-label="Visualizar">
+          <button class="view-btn" (click)="$event.stopPropagation(); onView.emit(row)" title="Visualizar">
+            <fa-icon [icon]="icons.faEye"></fa-icon>
+          </button>
+        </td>
+
+        <td *ngIf="edit" data-label="Editar">
+          <button class="edit-btn" (click)="$event.stopPropagation(); onEdit.emit(row)" title="Editar">
+            <fa-icon [icon]="icons.faPenToSquare"></fa-icon>
+          </button>
+        </td>
+
+        <td *ngIf="delete" data-label="Deletar">
+          <!-- Botão de deletar -->
+          <button class="delete-btn" (click)="$event.stopPropagation(); modal.toggle()" title="Excluir">
+            <fa-icon [icon]="icons.faTrash"></fa-icon>
+          </button>
+        </td>
+
+        <td *ngIf="actions?.length" data-label="Ações">
+          <ng-container *ngFor="let action of actions">
+            <button
+              class="action-btn"
+              (click)="$event.stopPropagation(); onAction.emit({ key: action.key, row: row })"
+              [title]="action.title || action.key"
+              [ngStyle]="{
+                'background-color': '#ffffff',
+                'color': action.color || 'var(--secondary-color)',
+                'border': action.color ? ('1px solid ' + action.color) : '1px solid var(--border-color)'
+              }"
+            >
+              <fa-icon [icon]="icons[action.icon]"></fa-icon>
+            </button>
+          </ng-container>
+        </td>
+
+        
+
+          <!-- Modal de confirmação de exclusão (Dentro do escopo da linha) -->
+          <app-modal #modal>
+            <div style="text-align: center;">
+                <fa-icon [icon]="icons.faTriangleExclamation" style="color: #dc3545; font-size: 3rem; margin-bottom: 1rem; display: block;"></fa-icon>
+                
+                <h2>Excluir Registro?</h2>
+                <p>
+                  Você tem certeza de que deseja excluir <strong>{{ row[columns[1]] || 'este item' }}</strong>?<br>
+                  Essa ação não poderá ser desfeita.
+                </p>
+                
+                <div style="display: flex; justify-content: center; gap: 10px;">
+                    <button
+                      (click)="deleteItem(row); modal.toggle();"
+                      class="modal-btn exclude-btn">
+                      <fa-icon [icon]="icons.faTrash"></fa-icon> Excluir
+                    </button>
+                    
+                    <button
+                      (click)="modal.toggle()"
+                      class="modal-btn cancel-btn">
+                      <fa-icon [icon]="icons.faXmark"></fa-icon> Cancelar
+                    </button>
+                </div>
+            </div>
+          </app-modal>
+
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal de sucesso após exclusão -->
+<app-modal #excluido>
+  <div style="text-align: center;">
+      <fa-icon [icon]="icons.faCheckCircle" style="color: #28a745; font-size: 3rem; margin-bottom: 1rem; display: block;"></fa-icon>
+      
+      <h2>Sucesso!</h2>
+      <p>O item foi excluído corretamente.</p>
+      
+      <button
+        (click)="excluido.toggle()"
+        class="modal-btn ok-btn">
+        <fa-icon [icon]="icons.faCheck"></fa-icon> OK
+      </button>
+  </div>
+</app-modal>

@@ -1,0 +1,54 @@
+<app-form-template
+  [formTitle]="'Editar Produto'"
+  [formGroup]="form"
+  [submitText]="'Confirmar'"
+  [cancelText]="'Cancelar'"
+  (formSubmit)="onSubmit()"
+>
+  <!-- GTIN -->
+  <app-input
+    [control]="getControl('gtin')"
+    type="text"
+    label="GTIN"
+    placeholder="Digite o GTIN do produto"
+    maskUse="0000000000000"
+  ></app-input>
+
+  <!-- Medida -->
+  <app-input
+    [control]="getControl('measure')"
+    type="number"
+    label="Medida"
+    placeholder="Digite a medida do produto"
+    maskUse="099"
+  ></app-input>
+
+  <!-- Tipo de Medida -->
+  <app-input
+    [control]="getControl('measureType')"
+    type="select"
+    label="Tipo de Medida"
+    placeholder="Selecione o tipo de medida"
+    [options]="measureOption"
+  ></app-input>
+
+  <!-- Categoria -->
+  <app-p-table
+    #categoryTable
+    [data]="categories"
+    [title]="'Selecione uma Categoria'"
+    [select]="true"
+    [showSearch]="true"
+    (onSelect)="handleCategorySelection($event)"
+    (searchEvent)="onCategorySearch($event)" >
+  </app-p-table>
+  <div *ngIf="isCategoryPaged">
+    <ul class="pagination">
+     <li class="list-item" id="first" (click)="onCategoryPageChange(0)"><fa-icon [icon] = "icons.faBackwardFast"></fa-icon></li>
+     <li class="listitem" id="previous" (click)="onCategoryPageChange(categoryPageNumber - 1)"><fa-icon [icon] = "icons.faBackward"></fa-icon></li>
+     <li class="list-item" id="page-number">{{categoryPageNumber + 1}}</li>
+     <li class="list-item" id="next" (click)="onCategoryPageChange(categoryPageNumber + 1)"><fa-icon [icon] = "icons.faForward"></fa-icon></li>
+     <li class="list-item" id="last" (click)="onCategoryPageChange(categoryTotalPages - 1)"><fa-icon [icon] = "icons.faForwardFast"></fa-icon></li>
+    </ul>
+  </div>
+</app-form-template>
