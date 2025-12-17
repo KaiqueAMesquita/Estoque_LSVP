@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +29,8 @@ import org.springframework.data.domain.Sort;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.lsvp.InventoryManagement.enums.ContainerType;
 
 @Service
 public class UnitService {
@@ -167,7 +170,7 @@ public class UnitService {
         LocalDate today = LocalDate.now();
 
         // Busca vencidos que ainda têm quantidade > 0
-        Page<Unit> pageResult = repository.findByExpirationDateBeforeAndQuantityGreaterThan(today, 0, pageable);
+        Page<Unit> pageResult = repository.findByExpirationDateBeforeAndQuantityGreaterThanAndContainer_TypeNot(today, 0, ContainerType.DESCARTE, pageable);
 
         List<UnitDTO> dtos = pageResult.stream().map(mapper::toDTO).collect(Collectors.toList());
         return new PageImpl<>(dtos, pageable, pageResult.getTotalElements());

@@ -112,7 +112,7 @@ public interface IUnitRepository extends JpaRepository<Unit, Long>  {
     );
     
     // Busca itens vencidos (data menor que a data passada) e que ainda tenham quantidade no estoque
-     Page<Unit> findByExpirationDateBeforeAndQuantityGreaterThan(LocalDate date, int quantity, Pageable pageable);
+     Page<Unit> findByExpirationDateBeforeAndQuantityGreaterThanAndContainer_TypeNot(LocalDate date, int quantity, ContainerType typeToExclude, Pageable pageable);
 
      // Busca uma unidade específica por Produto + Lote + Container
     Optional<Unit> findByProductIdAndBatchAndContainerId(Long productId, String batch, Long containerId);

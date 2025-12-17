@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Unit } from '../../shared/models/unit';
 import { Page } from '../../shared/models/page';
 import { Transfer } from './../../shared/models/transfer';
+import { ExpiredUnit } from '../../shared/models/expired-unit';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,16 @@ export class UnitService {
   public transferUnit(transfer: Transfer): Observable<Unit> {
    
     return this.http.post<Unit>(`${environment.api_url}/movement/transfers`, transfer);
+  }
+
+  public getExpiredUnits(page : number = 0, limit: number = 20, sort: string = 'expirationDate,asc'): Observable<Page<ExpiredUnit>> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString())
+      .set('sort', sort.toString());
+    
+    return this.http.get<Page<ExpiredUnit>>(this.unitLink+"/expired", { params });
+
   }
 
 

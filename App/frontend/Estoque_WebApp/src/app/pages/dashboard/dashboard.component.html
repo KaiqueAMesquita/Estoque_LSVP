@@ -73,3 +73,15 @@
         </div>
     </div>
 </div>
+
+<app-modal #expiredModal>
+    <div class="modal-body text-center">
+        <fa-icon [icon]="icons.faTriangleExclamation" style="color: #dc3545;" size="3x" class="mb-3 d-block"></fa-icon>
+        <h3>Atenção</h3>
+        <p>Existem <strong>{{ expiredCount }}</strong> unidades com validade expirada. Deseja revisar agora?</p>
+        <div style="display:flex; gap:10px; justify-content:center; margin-top:1rem;">
+            <button class="btn-modal" (click)="goToExpiredUnits()">Ir para Expirados</button>
+            <button class="btn-modal btn-cancel" (click)="expiredModal.toggle()" aria-label="Fechar aviso">Fechar</button>
+        </div>
+    </div>
+</app-modal>

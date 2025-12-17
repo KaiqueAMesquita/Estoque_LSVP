@@ -1,18 +1,18 @@
-/* Layout principal com Flexbox */
+
 .container {
     display: flex;
-    flex-wrap: wrap; /* Permite que os itens quebrem para a próxima linha em telas menores */
-    gap: 20px; /* Espaçamento entre o conteúdo principal e as ações */
+    flex-wrap: wrap;
+    gap: 20px; 
     padding: 20px;
 }
 
 .main-content {
-    flex: 3; /* Ocupa a maior parte do espaço */
-    min-width: 300px; /* Largura mínima para evitar que fique muito espremido */
+    flex: 3; 
+    min-width: 300px; 
 }
 
 .dashboard-actions {
-    flex: 1; /* Ocupa o espaço restante */
+    flex: 1; 
     min-width: 250px;
 }
 .cards-row {
@@ -21,7 +21,6 @@
     margin-bottom: 20px;
 }
 
-/* Estilo para a lista de ações */
 .list-container {
     background-color: #ffffff;
     border-radius: 8px;
@@ -51,7 +50,7 @@
 .list-actions .item-icon {
     margin-right: 15px;
     font-size: 1.2em;
-    width: 24px; /* Alinhamento dos ícones */
+    width: 24px; 
     text-align: center;
 }
 
@@ -60,17 +59,84 @@
     font-weight: 500;
 }
 
-/* Cores específicas para os ícones */
 #plus { color: #4caf50; }
 #minus { color: #f44336; }
 #lock { color: #ff9800; }
 #file { color: #607d8b; }
 
-/* A cor do ícone #box já é herdada do card, mas podemos definir aqui se necessário */
 
-/* Responsividade */
 @media (max-width: 992px) {
     .container {
         flex-direction: column;
     }
+}
+
+
+.modal-body.text-center {
+    padding: 2rem;
+    text-align: center;
+}
+
+.modal-body div[style*="display:flex"] {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.btn-modal {
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 140px;
+    outline: none;
+}
+
+.btn-modal:not(.btn-cancel) {
+    background-color: #e22a2a; 
+    color: #ffffff;
+}
+
+.btn-modal:not(.btn-cancel):hover {
+    background-color: #820a0a;
+    transform: translateY(-1px);
+}
+
+.btn-modal:not(.btn-cancel):active {
+    transform: translateY(0);
+}
+
+.btn-modal.btn-cancel {
+    background-color: #e9ecef;
+    color: #495057;
+    border: 1px solid #dee2e6;
+}
+
+.btn-modal.btn-cancel:hover {
+    background-color: #dee2e6;
+    color: #212529;
+}
+
+.mb-3.d-block {
+    margin-bottom: 1.25rem !important;
+    display: block;
+}
+
+.modal-body h3 {
+    color: #2c3e50;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.modal-body p {
+    color: #607d8b;
+    line-height: 1.5;
+    margin: 0;
 }

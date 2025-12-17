@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavBarComponent } from '../../shared/components/nav-bar/nav-bar.component';
 import { DashboardCardsComponent } from '../../shared/components/dashboard/dashboard-cards/dashboard-cards.component';
 import { PTableComponent } from '../../shared/components/p-table/p-table.component';
@@ -6,6 +6,8 @@ import { ExpirationBatches } from '../../shared/models/expiration-batches';
 import { LastMovements } from '../../shared/models/last-movements';
 import { IconModule, icons } from '../../shared/modules/icon/icon.module';
 import { Router } from '@angular/router';
+import { UnitService } from '../../core/services/unit.service';
+import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { DashboardService } from '../../core/services/dashboard.service';
 import { ExpiringProducts } from '../../shared/models/expiring-products';
 import { TotalSpent } from '../../shared/models/total-spent';
@@ -13,11 +15,13 @@ import { CurrencyPipe } from '@angular/common';
 import { ExpiringBatchs } from '../../shared/models/expiring-batchs';
 import { Movement } from '../../shared/models/movement';
 import { MovementService } from '../../core/services/movement.service';
+import { ModalModule } from './../../shared/modules/modal/modal.module';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [NavBarComponent, DashboardCardsComponent, IconModule, PTableComponent, CurrencyPipe],
-  templateUrl: './dashboard.component.html',
+  imports: [NavBarComponent, DashboardCardsComponent, IconModule, PTableComponent, CurrencyPipe, ModalModule],
+
+templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
@@ -27,8 +31,15 @@ export class DashboardComponent implements OnInit {
   stockTotalQuantity: number | undefined;
   expiringBatches: Partial<ExpiringBatchs>[] = []
   lastMovements: Partial<Movement>[] = []
+  expiredCount: number = 0;
+  @ViewChild('expiredModal') expiredModal!: ModalComponent;
 
-  constructor(private router: Router, private dashboardService: DashboardService, private movementService: MovementService) {}
+  constructor(
+    private router: Router,
+    private dashboardService: DashboardService,
+    private movementService: MovementService,
+    private unitService: UnitService
+  ) {}
   
   ngOnInit(): void {
     let date = new Date();
@@ -37,7 +48,27 @@ export class DashboardComponent implements OnInit {
     this.totalStock();
     this.getExpiringBatchs(7, 0,10);
     this.getLastMovements(1, 10);
+    this.checkExpiredUnits();
 
+  }
+
+  private checkExpiredUnits(): void {
+    this.unitService.getExpiredUnits(0, 1).subscribe({
+      next: (page) => {
+        const total = (page && typeof page.totalElements === 'number') ? page.totalElements : 0;
+        if (total > 0) {
+          this.expiredCount = total;
+          // open modal shortly after to ensure ViewChild is available
+          setTimeout(() => { try { if (this.expiredModal) this.expiredModal.toggle(); } catch (e) {} }, 50);
+        }
+      },
+      error: (err) => console.error('Erro ao verificar expired units:', err)
+    });
+  }
+
+  goToExpiredUnits(): void {
+    try { this.expiredModal.toggle(); } catch {}
+    this.router.navigate(['/expired-units']);
   }
 
      
