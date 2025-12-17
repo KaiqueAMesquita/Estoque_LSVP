@@ -24,18 +24,7 @@ O sistema foi projetado para resolver problemas complexos de logística interna,
 
 ---
 
-##  Sumário
 
-- [Equipe de Desenvolvimento](#-equipe-de-desenvolvimento)
-- [Tecnologias Utilizadas](#-tecnologias-utilizadas)
-- [Arquitetura do Sistema](#-arquitetura-do-sistema)
-- [Lógica de Negócio e Estrutura de Dados](#-lógica-de-negócio-e-estrutura-de-dados)
-- [Funcionalidades Principais](#-funcionalidades-principais)
-- [Como Executar o Projeto](#-como-executar-o-projeto)
-- [Como Contribuir](#-como-contribuir)
-- [Licença](#-licença)
-
----
 
 ##  Equipe de Desenvolvimento
 
@@ -52,7 +41,7 @@ Projeto acadêmico desenvolvido por:
 
 ---
 
-## 🛠 Tecnologias Utilizadas
+##  Tecnologias Utilizadas
 
 O sistema adota uma arquitetura moderna, com **separação total entre Backend e Frontend**, facilitando manutenção, escalabilidade e evolução do projeto.
 
