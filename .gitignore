@@ -1,0 +1,4 @@
+# Ignore environment files and local secrets
+.env
+.env.local
+env/

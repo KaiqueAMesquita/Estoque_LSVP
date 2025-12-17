@@ -8,6 +8,18 @@ O sistema foi projetado para resolver problemas complexos de logística interna,
 - Controle rigoroso de **validade de alimentos**
 - Distinção clara entre itens **comprados** e **doados**
 - Rastreabilidade completa de **lotes físicos**
+
+
+# Sistema de Controle de Estoque  
+## Lar São Vicente de Paulo
+
+Este repositório contém o código-fonte de um **Sistema de Controle de Estoque** desenvolvido como **Projeto Integrador da FATEC**, com foco nas necessidades reais do *Lar São Vicente de Paulo*.
+
+O sistema foi projetado para resolver problemas complexos de logística interna, como:
+
+- Controle rigoroso de **validade de alimentos**
+- Distinção clara entre itens **comprados** e **doados**
+- Rastreabilidade completa de **lotes físicos**
 - Movimentação segura entre **Estoque Central** e **Cozinha**
 
 ---
@@ -184,7 +196,6 @@ Backend disponível em:
 
 ---
 
-
 Swagger do backend disponível em:  
 - http://localhost:8080/swagger-ui/index.html
 
@@ -209,5 +220,14 @@ Frontend disponível em:
 👉 http://localhost:4200
 
 ---
+
+
+
+## Licença
+
+Projeto acadêmico sem licença específica.
+
+Este repositório foi desenvolvido como atividade acadêmica na FATEC e, no momento, não possui uma licença de código aberto aplicada. Os autores não concederam autorização explícita para reutilização, modificação ou distribuição; portanto, considere que todos os direitos estão reservados aos autores até que uma licença seja adicionada.
+
 
 
