@@ -38,8 +38,8 @@ public class SecurityConfig {
 //            Parte que chama autenticação comentada durante desenvolvimento
                  .requestMatchers("/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
 //                        .requestMatchers(HttpMethod.POST, "/api/user").permitAll()
-                .requestMatchers("/api/user/**").hasRole("ADMINISTRADOR")
-                .anyRequest().authenticated()
+                 .requestMatchers("/api/user/**").hasRole("ADMINISTRADOR")
+                 .anyRequest().authenticated()
                 )
                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
