@@ -30,11 +30,11 @@ O sistema foi projetado para resolver problemas complexos de logística interna,
 
 Projeto acadêmico desenvolvido por:
 
-- Gustavo Germano Lemos Pereira  
-- José Roberto Lisboa da Silva Filho
-- Kaique Alves Mesquita 
-- Lucas Feitosa  
-- Luiz Filipe de Camargo  
+- Gustavo Germano Lemos Pereira  - gustavo.germanolemos@gmail.com
+- José Roberto Lisboa da Silva Filho - jlisboa600@gmail.com
+- Kaique Alves Mesquita - kaiquealvesmesquita@gmail.com
+- Lucas Feitosa Almeida Rocha - lucasfarocha44@gmail.com
+- Luiz Filipe de Camargo - luizfilipedecamargo@gmail.com
 
  **Instituição:** FATEC  
  **Disciplina:** Projeto Integrador  
