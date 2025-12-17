@@ -67,5 +67,16 @@ public class UnitController {
 
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/expired")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'ESTOQUISTA')") // Se quiser proteger
+    public ResponseEntity<Page<UnitDTO>> getExpiredUnits(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit,
+            @RequestParam(defaultValue = "expirationDate,asc") String sort
+    ) {
+        Page<UnitDTO> result = unitService.getExpiredUnits(page, limit, sort);
+        return ResponseEntity.ok(result);
+    }
     
 }

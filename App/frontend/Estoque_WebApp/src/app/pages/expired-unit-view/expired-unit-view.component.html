@@ -1,0 +1,87 @@
+<app-nav-bar></app-nav-bar>
+<app-view-template  createText="Cria nova unidade"
+  (createNewEvent)="router.navigate(['manage/create/unit'])">
+    <app-p-table
+        [showSearch]="true"
+        [data]="expiredUnits"
+        [delete]="false"
+        [edit]="false"
+        [view]="false"
+        [actions]="unitActions"
+        (onAction)="onTableAction($event)">
+    </app-p-table>
+</app-view-template>
+
+<app-modal #transferModal>
+    <div class="modal-body-custom" *ngIf="selectedUnit">
+
+        <div class="modal-header">
+            <h2>Descarte de Unidade Expirada</h2>
+            <p class="subtitle">Mova este item para um container de descarte apropriado.</p>
+        </div>
+
+        <div class="item-info-card">
+            <div class="info-row">
+                <span class="label">ID da Unidade:</span>
+                <span class="value">#{{ selectedUnit.id }}</span>
+            </div>
+            <div class="info-row" *ngIf="selectedUnit.gtin">
+                <span class="label">GTIN/Código:</span>
+                <span class="value">{{ selectedUnit.gtin }}</span>
+            </div>
+            <div class="info-row highlight">
+                <span class="label">Estoque a Descartar:</span>
+                <span class="value">{{ selectedUnit.quantity }} un.</span>
+            </div>
+        </div>
+
+        <form [formGroup]="transferForm" (ngSubmit)="confirmTransfer()" class="transfer-form">
+
+            <div class="form-group">
+                <label for="containerSelect">Container de Descarte (Destino):</label>
+                <select id="containerSelect" formControlName="destinyContainerId" 
+                        [class.input-error]="transferForm.get('destinyContainerId')?.invalid && transferForm.get('destinyContainerId')?.touched">
+                    <option [ngValue]="null">Selecione um local de descarte...</option>
+                    <option *ngFor="let c of containers" [value]="c.id">
+                        {{ c.code }} - {{ c.description }}
+                    </option>
+                </select>
+                <div class="error-container">
+                    <small *ngIf="transferForm.get('destinyContainerId')?.touched && transferForm.get('destinyContainerId')?.errors?.['required']">
+                        O local de descarte é obrigatório.
+                    </small>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="qtdInput">Quantidade:</label>
+                <input
+                    id="qtdInput"
+                    type="number"
+                    formControlName="quantity"
+                    placeholder="0.00"
+                    step="0.01"
+                    [class.input-error]="transferForm.get('quantity')?.invalid && transferForm.get('quantity')?.touched"
+                />
+                <div class="error-container">
+                    <small *ngIf="transferForm.get('quantity')?.touched && transferForm.get('quantity')?.errors?.['required']">Informe a quantidade.</small>
+                    <small *ngIf="transferForm.get('quantity')?.errors?.['max']">Máximo permitido: {{ selectedUnit.quantity }}</small>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" (click)="transferModal.toggle()">Cancelar</button>
+                <button type="submit" class="btn-confirm" [disabled]="transferForm.invalid">Confirmar Descarte</button>
+            </div>
+        </form>
+    </div>
+</app-modal>
+
+<app-modal #successTransferModal>
+    <div class="success-content">
+        <div class="success-icon">✓</div>
+        <h2>Descarte Concluído!</h2>
+        <p>A unidade foi movida com sucesso para o container de destino.</p>
+        <button (click)="successTransferModal.toggle()" class="btn-ok">Entendido</button>
+    </div>
+</app-modal>

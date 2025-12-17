@@ -1,0 +1,217 @@
+/* =========================================
+   Estrutura do Modal (Transferência)
+   ========================================= */
+
+/* Corpo principal do modal */
+.modal-body-custom {
+    padding: 1.5rem;
+    min-width: 400px; /* Um pouco mais largo para acomodar o select */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+/* Cabeçalho */
+.modal-header {
+    margin-bottom: 1rem;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.subtitle {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-top: 5px;
+    margin-bottom: 1.5rem;
+}
+
+/* =========================================
+   Card de Informações do Item
+   ========================================= */
+.item-info-card {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed #dee2e6;
+    padding-bottom: 8px;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.info-row .label {
+    color: #555;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.info-row .value {
+    font-weight: 700;
+    color: #222;
+}
+
+.info-row.highlight .value {
+    color: #007bff; /* Azul destaque para o estoque */
+    font-size: 1.1rem;
+}
+
+/* =========================================
+   Formulário de Transferência
+   ========================================= */
+.transfer-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #495057;
+    font-size: 0.9rem;
+}
+
+/* Estilo para Inputs e Selects */
+.form-group input,
+.form-group select {
+    padding: 10px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #fff;
+    width: 100%;
+    box-sizing: border-box; /* Garante que o padding não estoure a largura */
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+/* Foco nos campos */
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Validação de Erro */
+.form-group input.input-error,
+.form-group select.ng-invalid.ng-touched {
+    border-color: #dc3545;
+    background-color: #fffcfc;
+}
+
+.error-container {
+    min-height: 20px; /* Evita pulo de layout quando o erro aparece */
+}
+
+.error-container small {
+    color: #dc3545;
+    font-size: 0.8rem;
+    margin-top: 4px;
+    display: block;
+}
+
+/* =========================================
+   Botões e Rodapé
+   ========================================= */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.btn-cancel {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-cancel:hover {
+    background-color: #5a6268;
+}
+
+.btn-confirm {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-confirm:hover:not(:disabled) {
+    background-color: #218838;
+}
+
+.btn-confirm:disabled {
+    background-color: #94d3a2;
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+/* =========================================
+   Modal de Sucesso
+   ========================================= */
+.success-content {
+    text-align: center;
+    padding: 30px 20px;
+}
+
+.success-icon {
+    font-size: 3.5rem;
+    color: #28a745;
+    margin-bottom: 15px;
+    line-height: 1;
+}
+
+.success-content h2 {
+    margin: 10px 0;
+    color: #28a745;
+}
+
+.btn-ok {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 4px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-ok:hover {
+    background-color: #0069d9;
+}

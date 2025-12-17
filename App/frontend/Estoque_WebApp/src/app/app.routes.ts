@@ -33,6 +33,7 @@ import { PedingOrdersComponent } from './pages/request/peding-orders/peding-orde
 import { ViewKitchenUnitsComponent } from './pages/kitchen/view-kitchen-units/view-kitchen-units.component';
 import { FinishOrderComponent } from './pages/request/finish-order/finish-order.component';
 import { ReportComponent } from './pages/report/report.component';
+import { ExpiredUnitViewComponent } from './pages/expired-unit-view/expired-unit-view.component';
 
 export const routes: Routes = [
     //[adminGuard] Permite Somente o Acesso a Administradores dessas Funcionalidades
@@ -48,6 +49,7 @@ export const routes: Routes = [
    {path: 'kitchen/units/view', component: ViewKitchenUnitsComponent, pathMatch: 'full', canActivate:[authGuard] },
    {path: 'fulfill/order/:id', component: FinishOrderComponent, pathMatch: 'full' },
     {path: 'reports', component:ReportComponent, pathMatch:'full'},
+    {path: 'expired-units', component: ExpiredUnitViewComponent, pathMatch: 'full', canActivate:[authGuard] },
    //rotas de gerenciamento 
    { path: 'manage', component: ManageLayoutComponent,
     //filhos da rota de gerenciamento

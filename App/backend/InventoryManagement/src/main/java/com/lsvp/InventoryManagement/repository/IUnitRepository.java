@@ -102,6 +102,7 @@ public interface IUnitRepository extends JpaRepository<Unit, Long>  {
 
     // Query robusta para filtrar por tudo ao mesmo tempo (ou nada)
     @Query("SELECT u FROM Unit u WHERE " +
+           "u.quantity > 0 AND " + 
            "(:productId IS NULL OR u.product.id = :productId) AND " +
            "(:containerId IS NULL OR u.container.id = :containerId)")
     Page<Unit> searchUnits(
@@ -109,6 +110,13 @@ public interface IUnitRepository extends JpaRepository<Unit, Long>  {
             @Param("containerId") Long containerId,
             Pageable pageable
     );
+    
+    // Busca itens vencidos (data menor que a data passada) e que ainda tenham quantidade no estoque
+     Page<Unit> findByExpirationDateBeforeAndQuantityGreaterThanAndContainer_TypeNot(LocalDate date, int quantity, ContainerType typeToExclude, Pageable pageable);
+
+     // Busca uma unidade específica por Produto + Lote + Container
+    Optional<Unit> findByProductIdAndBatchAndContainerId(Long productId, String batch, Long containerId);
+
     
     boolean existsByCode(String code);
 

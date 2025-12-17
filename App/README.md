@@ -1,4 +1,4 @@
-﻿# Sistema de Controle de Estoque  
+# Sistema de Controle de Estoque  
 ## Lar São Vicente de Paulo
 
 Este repositório contém o código-fonte de um **Sistema de Controle de Estoque** desenvolvido como **Projeto Integrador da FATEC**, com foco nas necessidades reais do *Lar São Vicente de Paulo*.
