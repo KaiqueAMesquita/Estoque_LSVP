@@ -14,6 +14,7 @@ import com.lsvp.InventoryManagement.repository.IUnitRepository;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -147,7 +148,41 @@ public class UnitService {
         return new PageImpl<>(dtos, pageable, pageResult.getTotalElements());
     }
 
+    @Transactional(readOnly = true)
+    public Page<UnitDTO> getExpiredUnits(int page, int limit, String sortParam) {
+        if (page < 1) page = 1;
+
+        String[] sortParts = (sortParam != null && !sortParam.isBlank()) ? sortParam.split(",") : new String[]{"expirationDate","asc"};
+        String property = sortParts[0];
+        
+        // Ajuste camelCase caso venha snake_case
+        if ("expiration_date".equals(property)) property = "expirationDate";
+
+        Sort.Direction direction = (sortParts.length > 1 && sortParts[1].equalsIgnoreCase("desc"))
+                ? Sort.Direction.DESC : Sort.Direction.ASC;
+
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(direction, property));
+
+        // Data de hoje: Tudo que for ANTES de hoje está vencido
+        LocalDate today = LocalDate.now();
+
+        // Busca vencidos que ainda têm quantidade > 0
+        Page<Unit> pageResult = repository.findByExpirationDateBeforeAndQuantityGreaterThan(today, 0, pageable);
+
+        List<UnitDTO> dtos = pageResult.stream().map(mapper::toDTO).collect(Collectors.toList());
+        return new PageImpl<>(dtos, pageable, pageResult.getTotalElements());
+    }
+
     
+    @Transactional(readOnly = true) 
+    public String generateNewUniqueCode(Product product) {
+        String uniqueCode;
+        do {
+            uniqueCode = generateSmartCode(product);
+        } while (repository.existsByCode(uniqueCode));
+        return uniqueCode;
+    }
+
 
     @Transactional
     public UnitDTO updateUnit(Long id, UnitUpdateDTO dto){

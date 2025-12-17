@@ -68,6 +68,49 @@ public class MovementService {
     private IOrderItemRepository orderItemRepository;
 
 
+
+
+    // --- LÓGICA CENTRAL DE MOVIMENTAÇÃO (SPLIT) ---
+    // Este método privado faz a mágica de tirar de um lugar e colocar em outro
+    private Unit moveStock(Unit sourceUnit, Container destinationContainer, int quantityToMove) {
+        
+        // 1. Validar Estoque
+        if (sourceUnit.getQuantity() < quantityToMove) {
+            throw new BusinessException("Estoque insuficiente! Disponível: " + sourceUnit.getQuantity());
+        }
+
+        // 2. Decrementar da Origem
+        sourceUnit.setQuantity(sourceUnit.getQuantity() - quantityToMove);
+        unitRepository.save(sourceUnit); // Salva a origem com a nova quantidade reduzida
+
+        // 3. Incrementar ou Criar no Destino
+        // Verifica se já existe esse produto com esse lote no destino
+        return unitRepository.findByProductIdAndBatchAndContainerId(
+                sourceUnit.getProduct().getId(), 
+                sourceUnit.getBatch(), 
+                destinationContainer.getId()
+        ).map(existingDestUnit -> {
+            // Cenário A: Já existe um montinho lá. Só soma.
+            existingDestUnit.setQuantity(existingDestUnit.getQuantity() + quantityToMove);
+            return unitRepository.save(existingDestUnit);
+        }).orElseGet(() -> {
+            // Cenário B: Não existe. Cria um novo montinho (Nova Unit).
+            Unit newDestUnit = new Unit();
+            newDestUnit.setProduct(sourceUnit.getProduct());
+            newDestUnit.setBatch(sourceUnit.getBatch());
+            newDestUnit.setExpirationDate(sourceUnit.getExpirationDate());
+            newDestUnit.setPrice(sourceUnit.getPrice());
+            
+            newDestUnit.setCode(unitService.generateNewUniqueCode(sourceUnit.getProduct()));
+            
+            // Importante: Container e Quantidade novos
+            newDestUnit.setContainer(destinationContainer);
+            newDestUnit.setQuantity(quantityToMove);
+            return unitRepository.save(newDestUnit);
+        });
+    }
+
+
     //ENTRADA
 
     @Transactional
@@ -102,44 +145,41 @@ public class MovementService {
     @Transactional
     public MovementDTO createOutput(OutputCreateDTO dto){
 
-        Unit unit = unitRepository.findById(dto.getUnitId()).orElseThrow(() -> new ResourceNotFoundException("Unidade não encontrada!!"));
-        User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado!!"));
-        Container container = containerRepository.findById(dto.getDestinationContainerId()).orElseThrow(() -> new ResourceNotFoundException("Container de destino não encontrado!!"));
+        // 1. Validar dados básicos
+        Unit sourceUnit = unitRepository.findById(dto.getUnitId())
+                .orElseThrow(() -> new ResourceNotFoundException("Unidade de origem não encontrada!!"));
+        User user = userRepository.findById(dto.getUserId())
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado!!"));
+        Container destinationContainer = containerRepository.findById(dto.getDestinationContainerId())
+                .orElseThrow(() -> new ResourceNotFoundException("Container de destino não encontrado!!"));
 
-        if(unit.getQuantity() < dto.getQuantity()){
-            throw new BusinessException("Estoque insuficiente!!");
-        }
+        // Guarda o código da origem antes de mudar qualquer coisa
+        String originCode = (sourceUnit.getContainer() != null) ? sourceUnit.getContainer().getCode() : "Estoque Geral";
 
-        String origin = (unit.getContainer() != null) ? unit.getContainer().getCode() : "Estoque Geral";
+     
+        // Isso vai diminuir da sourceUnit e aumentar/criar na destinationUnit
+        Unit destinationUnit = moveStock(sourceUnit, destinationContainer, dto.getQuantity());
 
-        unit.setContainer(container);
-
-        unit.setQuantity(unit.getQuantity() - dto.getQuantity());
-        unitRepository.save(unit);
-
-        Movement movement = mapper.fromOutputDTO(dto, unit, user);
+     
+        // Geralmente registramos a movimentação linkada à unidade de Destino para rastreio, ou mantemos histórico.
+        // Aqui vou linkar ao destino para saber onde o item parou.
+        Movement movement = mapper.fromOutputDTO(dto, destinationUnit, user);
+        
         movement.setDate(LocalDateTime.now());
         movement.setType(MovementType.SAIDA);
-        movement.setOrigin(origin);
-        movement.setDestiny(container.getCode());
+        movement.setOrigin(originCode);
+        movement.setDestiny(destinationContainer.getCode());
         
-
-        //Logica para incrementar quantityFulfilled do Order Fulfill
+        // Lógica do Pedido (Order)
         if (dto.getOrderItemId() != null) {
-            
             OrderItem item = orderItemRepository.findById(dto.getOrderItemId())
-                .orElseThrow(() -> new ResourceNotFoundException("Item de pedido não encontrado! ID: " + dto.getOrderItemId()));
-           
-            int quantityNeeded = item.getQuantityRequested() - item.getQuantityFulfilled();
-
-                if (dto.getQuantity() > quantityNeeded) {
-                throw new BusinessException(
-                    "A quantidade a ser atendida (" + dto.getQuantity() + ") excede a quantidade restante do pedido (" + quantityNeeded + ")."
-                );
-                }
-
-            movement.setOrderItem(item);
+                .orElseThrow(() -> new ResourceNotFoundException("Item de pedido não encontrado!"));
             
+            int quantityNeeded = item.getQuantityRequested() - item.getQuantityFulfilled();
+            if (dto.getQuantity() > quantityNeeded) {
+                throw new BusinessException("Quantidade excede o solicitado no pedido.");
+            }
+            movement.setOrderItem(item);
             item.setQuantityFulfilled(item.getQuantityFulfilled() + dto.getQuantity());
             orderItemRepository.save(item); 
         }
@@ -154,19 +194,22 @@ public class MovementService {
     @Transactional
     public MovementDTO createTransfer(TransferCreateDTO dto){
         
-        Unit unit = unitRepository.findById(dto.getUnitId()).orElseThrow(() -> new ResourceNotFoundException("Unidade não encontrada!!!"));
-        Container destinationContainer = containerRepository.findById(dto.getDestinyContainerId()).orElseThrow(() -> new ResourceNotFoundException("Container de destino não encontrado!!!"));
-        User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado!!!"));
+        Unit sourceUnit = unitRepository.findById(dto.getUnitId())
+                .orElseThrow(() -> new ResourceNotFoundException("Unidade não encontrada!!!"));
+        Container destinationContainer = containerRepository.findById(dto.getDestinyContainerId())
+                .orElseThrow(() -> new ResourceNotFoundException("Container de destino não encontrado!!!"));
+        User user = userRepository.findById(dto.getUserId())
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado!!!"));
 
-        String origin = unit.getContainer().getCode();
+        String originCode = (sourceUnit.getContainer() != null) ? sourceUnit.getContainer().getCode() : "Estoque Geral";
 
-        unit.setContainer(destinationContainer);
-        unitRepository.save(unit);
+        // USA A MESMA LÓGICA DE SPLIT
+        Unit destinationUnit = moveStock(sourceUnit, destinationContainer, dto.getQuantity());
 
-        Movement movement = mapper.fromTransferDTO(dto, unit, user);
+        Movement movement = mapper.fromTransferDTO(dto, destinationUnit, user);
         movement.setDate(LocalDateTime.now());
         movement.setType(MovementType.TRANSFERENCIA);
-        movement.setOrigin(origin);
+        movement.setOrigin(originCode);
         movement.setDestiny(destinationContainer.getCode());
 
         return mapper.toDTO(repository.save(movement));
