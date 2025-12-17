@@ -156,7 +156,7 @@ O sistema permite múltiplas unidades do mesmo produto, cada uma com validade e 
 
 ---
 
-## ▶ Como Executar o Projeto
+##  Como Executar o Projeto
 
 ### 🔹 Pré-requisitos
 
@@ -206,7 +206,7 @@ ng serve
 ```
 
 Frontend disponível em:  
-👉 http://localhost:4200
+ http://localhost:4200
 
 ---
 
